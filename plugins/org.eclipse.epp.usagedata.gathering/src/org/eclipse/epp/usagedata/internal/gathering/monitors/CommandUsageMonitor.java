@@ -15,8 +15,10 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.epp.usagedata.internal.gathering.services.UsageDataService;
+import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.keys.IBindingService;
 
 /**
  * Instances of this class monitor invocations of commands in the workbench.
@@ -50,6 +52,8 @@ public class CommandUsageMonitor implements UsageMonitor {
 			}
 
 			public void postExecuteSuccess(String commandId, Object returnValue) {
+				IBindingService bindingService = (IBindingService) PlatformUI.getWorkbench().getService(IBindingService.class);
+				TriggerSequence[] sequences = bindingService.getActiveBindingsFor(commandId);
 				recordEvent(EXECUTED, usageDataService, commandId);				
 			}
 

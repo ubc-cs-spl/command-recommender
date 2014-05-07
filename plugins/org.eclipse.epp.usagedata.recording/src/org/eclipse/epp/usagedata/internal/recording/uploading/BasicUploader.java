@@ -25,12 +25,17 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.ListenerList;
@@ -184,46 +189,32 @@ public class BasicUploader extends AbstractUploader {
 		 * allows the insertion of compression technology. For now, we don't worry
 		 * about compressing our output; we can worry about that later.
 		 */
-		PostMethod post = new PostMethod(getSettings().getUploadUrl());
+		
+		File[] file = getUploadParameters().getFiles();
+		for(int i=0; i < file.length; i++){
+			HttpClient client = new DefaultHttpClient(); 
+			HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
 
-		post.setRequestHeader(HTTP_USERID, getSettings().getUserId());
-		post.setRequestHeader(HTTP_WORKSPACEID, getSettings().getWorkspaceId());
-		post.setRequestHeader(HTTP_TIME, String.valueOf(System.currentTimeMillis()));
-		post.setRequestHeader(USER_AGENT, getSettings().getUserAgent());
-
-		boolean loggingServerActivity = getSettings().isLoggingServerActivity();
-		if (loggingServerActivity) {
-			post.setRequestHeader("LOGGING", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		post.setRequestEntity(new MultipartRequestEntity(getFileParts(monitor), post.getParams()));
-		
-		// Configure the HttpClient to timeout after one minute.
-		HttpClientParams httpParameters = new HttpClientParams();
-		httpParameters.setSoTimeout(getSocketTimeout()); // "So" means "socket"; who knew?
-		
-		monitor.worked(1);
-		
-		int result = new HttpClient(httpParameters).executeMethod(post);
+			MultipartEntity entity = new MultipartEntity();
+			ContentBody body = new FileBody(file[0], "text/csv");
+			entity.addPart("csv", body);
+			
+			httpPost.setEntity(entity);
+			HttpEntity responseEntity = null;
+			try{
+				HttpResponse response = client.execute(httpPost);
+				responseEntity = response.getEntity();
+				if(response.getStatusLine().getStatusCode() != 200){
+					return new UploadResult(response.getStatusLine().getStatusCode());
+				}
+			}catch(IOException exp){
+				return new UploadResult(1);
+			}finally{
 				
-		handleServerResponse(post);
-		
-		monitor.worked(1);
-		
-		post.releaseConnection();
-		
-		// Check the result. HTTP return code of 200 means success.
-		if (result == 200) {
-			for (File file : getUploadParameters().getFiles()) {
-				// TODO what if file delete fails?
-				if (file.exists()) file.delete();
 			}
 		}
-		
-		monitor.worked(1);
-		
-		monitor.done();
-		
-		return new UploadResult(result);
+
+		return new UploadResult(200);
 	}
 
 	/**
@@ -238,13 +229,13 @@ public class BasicUploader extends AbstractUploader {
 		return getUploadParameters().getFiles().length * 60000;
 	}
 
-	void handleServerResponse(PostMethod post) {
+	void handleServerResponse(HttpPost post) {
 		// No point in doing any work if nobody's listening.
 		if (!shouldProcessServerResponse()) return;
 		
 		InputStream response = null;
 		try {
-			response = post.getResponseBodyAsStream();
+			//response = post.getResponseBodyAsStream();
 			handleServerResponse(new BufferedReader(new InputStreamReader(response)));
 		} catch (IOException e) {
 			UsageDataRecordingActivator.getDefault().log(IStatus.WARNING, e, "Exception raised while parsing the server response"); //$NON-NLS-1$
@@ -305,7 +296,7 @@ public class BasicUploader extends AbstractUploader {
 	private UploadSettings getSettings() {
 		return getUploadParameters().getSettings();
 	}
-
+/*
 	Part[] getFileParts(IProgressMonitor monitor) {
 		List<Part> fileParts = new ArrayList<Part>();
 		for (File file : getUploadParameters().getFiles()) {
@@ -356,7 +347,7 @@ public class BasicUploader extends AbstractUploader {
 				input.close();
 			}
 		}
-		
+		*/
 		/**
 		 * Return the length (size in bytes) of the data we're sending.
 		 * Since we're going to be (potentially) applying filters to the
@@ -365,12 +356,13 @@ public class BasicUploader extends AbstractUploader {
 		 * over the file, or keeping the content in memory; both options
 		 * have limited appeal.
 		 */
+	/*
 		@Override
 		public long length() throws IOException {
 			return -1;
 		}
 	}
-
+*/
 	public synchronized boolean isUploadInProgress() {
 		return uploadInProgress;
 	}	
