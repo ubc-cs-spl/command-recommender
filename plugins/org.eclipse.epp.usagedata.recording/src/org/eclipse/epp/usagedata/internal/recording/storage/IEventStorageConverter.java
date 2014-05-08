@@ -1,5 +1,8 @@
 package org.eclipse.epp.usagedata.internal.recording.storage;
 
+import java.io.File;
+import java.util.List;
+
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 
 /**
@@ -11,8 +14,10 @@ import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
  */
 public interface IEventStorageConverter {
 	
-	public abstract void writeEvent(UsageDataEvent event);
+	File getEventStorageFile();
 	
-	public abstract void readEvents();
+	void writeEvent(UsageDataEvent event);
+	
+	List<UsageDataEvent> readEvents();
 
 }
