@@ -25,7 +25,12 @@ import org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
 
 public class UsageDataRecorder implements UsageDataEventListener {
-	
+
+	/**
+	 * The file name for the current local data dump without extension
+	 */
+	public static final String USAGE_DATA_FILE_NAME = "usagedata";
+
 	/**
 	 * How many events do we queue up before we attempt to write them out to
 	 * disk?
@@ -44,7 +49,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 * of bytes, it is moved so that it can be uploaded.
 	 */
 	private static final long FILE_SIZE_THRESHOLD = 25000; 
-
+	
 	/**
 	 * This list holds events as they are received. Once the number of events in
 	 * this list exceeds a threshold ({@link #EVENT_COUNT_THRESHOLD}), the

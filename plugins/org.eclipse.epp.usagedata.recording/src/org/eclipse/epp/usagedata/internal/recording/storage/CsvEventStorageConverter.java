@@ -11,6 +11,8 @@ import java.io.Writer;
 import java.util.List;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+import org.eclipse.epp.usagedata.internal.recording.UsageDataRecorder;
+import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 
 /**
  * @author KeEr
@@ -18,10 +20,20 @@ import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
  */
 public class CsvEventStorageConverter implements IEventStorageConverter {
 
+	public static final String FORMAT_EXT = ".csv";
 
 	public File getEventStorageFile() {
+		return new File(getWorkingDirectory(), 
+				UsageDataRecorder.USAGE_DATA_FILE_NAME + FORMAT_EXT);
+	}
+	
+	private File getWorkingDirectory() {
+		return UsageDataRecordingActivator.getDefault().getStateLocation().toFile();
+	}
+
+	public void archive() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 	
 	public void writeEvent(UsageDataEvent event) {
@@ -207,4 +219,5 @@ public class CsvEventStorageConverter implements IEventStorageConverter {
 		}
 		strings.add(builder.toString());
 	}
+
 }

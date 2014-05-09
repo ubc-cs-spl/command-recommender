@@ -18,6 +18,8 @@ public interface IEventStorageConverter {
 	
 	void writeEvent(UsageDataEvent event);
 	
+	void archive();
+	
 	List<UsageDataEvent> readEvents();
 
 }
