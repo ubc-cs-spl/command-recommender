@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEventListener;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
-import org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader;
+import org.eclipse.epp.usagedata.internal.recording.uploading.CSVUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
 
 public class UsageDataRecorder implements UsageDataEventListener {
@@ -109,10 +109,11 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 * the receiver for upload. Preparing the data involves first making sure
 	 * that all the events that we've recorded up to this point are properly
 	 * recorded. Then, the file that we've been writing events to is renamed so
-	 * that it can be found by the {@link BasicUploader}. When the next
+	 * that it can be found by the {@link CSVUploader}. When the next
 	 * event comes in, a new file will be created.
 	 */
 	private synchronized void prepareForUpload() {
+		
 		if (getSettings() == null) return;
 		File file = getSettings().getEventFile();
 		

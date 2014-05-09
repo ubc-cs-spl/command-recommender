@@ -26,6 +26,7 @@ import org.eclipse.epp.usagedata.internal.recording.filtering.PreferencesBasedFi
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.usagedata.internal.recording.storage.AbstractStorageConverter;
 
 /**
  * This class provides a convenient location to find the settings
@@ -48,16 +49,18 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public static final String LOG_SERVER_ACTIVITY_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".log-server"; //$NON-NLS-1$
 	public static final String FILTER_ECLIPSE_BUNDLES_ONLY_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".filter-eclipse-only"; //$NON-NLS-1$
 	public static final String FILTER_PATTERNS_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".filter-patterns"; //$NON-NLS-1$
+	public static final String UPLOAD_TYPE_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload_type"; //$NON-NLS-1$
 	
 	static final String UPLOAD_URL_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload-url"; //$NON-NLS-1$
 	
 	public static final int PERIOD_REASONABLE_MINIMUM = 15 * 60 * 1000; // 15 minutes
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
 	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_files"; //$NON-NLS-1$
+	static final String UPLOAD_TYPE_DEFAULT = "basic";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
-
+	private AbstractStorageConverter storageConverter;
 	/**
 	 * First if the system property {@value #UPLOAD_PERIOD_KEY} has been set,
 	 * use that value. Next, check to see if there is a value stored (same key)
@@ -126,7 +129,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 			return false;
 		return System.currentTimeMillis() - getLastUploadTime() > getPeriodBetweenUploads();
 	}
-
+//TODO remove this once transition completed
 	/** 
 	 * This method returns the {@link File} where usage data events should be persisted.
 	 *  
@@ -135,7 +138,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public File getEventFile() {
 		return new File(getWorkingDirectory(), "usagedata.csv"); //$NON-NLS-1$
 	}
-
+//TODO remove this once transition completed
 	/**
 	 * When it's time to start uploading the usage data, the file that's used
 	 * to persist the data is moved (renamed) and a new file is created. The
@@ -199,20 +202,6 @@ public class UsageDataRecordingSettings implements UploadSettings {
 		return "true".equals(System.getProperty(LOG_SERVER_ACTIVITY_KEY)); //$NON-NLS-1$
 	}
 
-	/**
-	 * This method answers an array containing the files that are available
-	 * for uploading.
-	 * 
-	 * @return
-	 */
-	public File[] getUsageDataUploadFiles() {
-		return getWorkingDirectory().listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.startsWith(UPLOAD_FILE_PREFIX);
-			}
-
-		});
-	}
 
 	/**
 	 * This method sets the {@value #LAST_UPLOAD_KEY} property to the
@@ -385,6 +374,10 @@ public class UsageDataRecordingSettings implements UploadSettings {
 			return System.getProperty(UPLOAD_URL_KEY);
 		}
 		return UPLOAD_URL_DEFAULT;
+	}
+	
+	public AbstractStorageConverter getStorageConverter(){
+		return storageConverter;
 	}
 
 }

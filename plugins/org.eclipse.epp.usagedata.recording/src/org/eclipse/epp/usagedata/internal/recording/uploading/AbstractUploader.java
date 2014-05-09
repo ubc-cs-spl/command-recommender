@@ -10,14 +10,24 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import org.eclipse.core.runtime.ListenerList;
+import java.util.List;
 
-public abstract class AbstractUploader implements Uploader {
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
+import org.eclipse.usagedata.internal.recording.storage.AbstractStorageConverter;
+
+public abstract class AbstractUploader {
 
 	private ListenerList uploadListeners = new ListenerList();
 	private UploadParameters uploadParameters;
 
-	public AbstractUploader() {
+	
+	public static AbstractUploader createUploader(String type, UploadParameters uploadParameters){
+		if("basic".equals(type))
+			return (AbstractUploader) new CSVUploader(uploadParameters);
+		else
+			return (AbstractUploader) new CSVUploader(uploadParameters); 
 	}
 	
 	public void addUploadListener(UploadListener listener) {
@@ -45,4 +55,12 @@ public abstract class AbstractUploader implements Uploader {
 	protected void checkValues() {
 		if (uploadParameters == null) throw new RuntimeException("The UploadParameters must be set."); //$NON-NLS-1$
 	}
+	
+	protected AbstractStorageConverter getEventStorage(){
+		return UsageDataRecordingActivator.getDefault().getSettings().getStorageConverter();
+	}
+	
+	public abstract void startUpload();
+
+	public abstract boolean isUploadInProgress();
 }

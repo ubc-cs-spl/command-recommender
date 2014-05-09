@@ -17,23 +17,14 @@ import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
 
 public class UploadParameters {
 
-	private File[] files;
 	private UploadSettings settings;
 	
 	public void setSettings(UploadSettings settings) {
 		this.settings = settings;
 	}
 
-	public void setFiles(File[] files) {
-		this.files = files;
-	}
-
 	public UploadSettings getSettings() {
 		return settings;
-	}
-
-	public File[] getFiles() {
-		return files;
 	}
 
 	public UsageDataEventFilter getFilter() {

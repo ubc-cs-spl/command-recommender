@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.InputStreamBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -44,15 +47,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
+import org.eclipse.usagedata.internal.recording.storage.StorageConverterException;
 
 /**
- * Instances of the {@link BasicUploader} class are responsible for
+ * Instances of the {@link CSVUploader} class are responsible for
  * uploading a set of files to the server.
  * 
  * @author Wayne Beaton
  *
  */
-public class BasicUploader extends AbstractUploader {
+public class CSVUploader extends AbstractUploader {
 
 	/**
 	 * The HTTP_USERID constant is the key for the HTTP header
@@ -86,8 +90,7 @@ public class BasicUploader extends AbstractUploader {
 
 	private ListenerList responseListeners = new ListenerList();
 
-	public BasicUploader(UploadParameters uploadParameters) {
-		super();
+	public CSVUploader(UploadParameters uploadParameters) {
 		setUploadParameters(uploadParameters);
 	}
 	
@@ -100,6 +103,7 @@ public class BasicUploader extends AbstractUploader {
 	 * cannot be modified. The instance is <em>not</em> reusable.
 	 * </p>
 	 */
+	@Override
 	public synchronized void startUpload() {
 		checkValues();
 		if (uploadInProgress) return;
@@ -172,7 +176,7 @@ public class BasicUploader extends AbstractUploader {
 	 * @throws Exception 
 	 */
 	UploadResult doUpload(IProgressMonitor monitor) throws Exception {
-		monitor.beginTask("Upload", getUploadParameters().getFiles().length + 3); //$NON-NLS-1$
+		monitor.beginTask("Upload", 0); //$NON-NLS-1$
 		/*
 		 * The files that we have been provided with were determined while the recorder
 		 * was suspended. We should be safe to work with these files without worrying
@@ -190,31 +194,32 @@ public class BasicUploader extends AbstractUploader {
 		 * about compressing our output; we can worry about that later.
 		 */
 		
-		File[] file = getUploadParameters().getFiles();
-		for(int i=0; i < file.length; i++){
-			HttpClient client = new DefaultHttpClient(); 
-			HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
+		HttpClient client = new DefaultHttpClient(); 
+		HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
 
-			MultipartEntity entity = new MultipartEntity();
-			ContentBody body = new FileBody(file[0], "text/csv");
-			entity.addPart("csv", body);
-			
-			httpPost.setEntity(entity);
-			HttpEntity responseEntity = null;
-			try{
-				HttpResponse response = client.execute(httpPost);
-				responseEntity = response.getEntity();
-				if(response.getStatusLine().getStatusCode() != 200){
-					return new UploadResult(response.getStatusLine().getStatusCode());
-				}
-			}catch(IOException exp){
-				return new UploadResult(1);
-			}finally{
-				
+		MultipartEntity entity = new MultipartEntity();
+		String bodyContent = getContentBody();
+		//ContentBody body = new FileBody(file, "text/csv");
+		ContentBody body = new StringBody(bodyContent, "text/csv", Charset.defaultCharset());
+		entity.addPart("csv", body);
+		httpPost.setEntity(entity);
+		try{
+			HttpResponse response = client.execute(httpPost);
+			if(response.getStatusLine().getStatusCode() != 200){
+				return new UploadResult(response.getStatusLine().getStatusCode());
 			}
+		}catch(IOException exp){
+			return new UploadResult(1);
 		}
-
 		return new UploadResult(200);
+	}
+
+	private String getContentBody() throws StorageConverterException{
+		String content = "what,kind,bundleId,bundleVersion,description,time\n";
+		List<UsageDataEvent> events = getEventStorage().read();
+		for(UsageDataEvent event : events)
+			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + "," + event.description + "," + event.when + "\n"; 
+		return content;
 	}
 
 	/**
@@ -226,7 +231,7 @@ public class BasicUploader extends AbstractUploader {
 	 * @return int value specifying a reasonable timeout.
 	 */
 	int getSocketTimeout() {
-		return getUploadParameters().getFiles().length * 60000;
+		return 5 * 60000;
 	}
 
 	void handleServerResponse(HttpPost post) {
@@ -274,9 +279,9 @@ public class BasicUploader extends AbstractUploader {
 	}
 
 	void handleServerResponse(String key, String value) {
-		BasicUploaderServerResponse response = new BasicUploaderServerResponse(key, value);
+		UploaderServerResponse response = new UploaderServerResponse(key, value);
 		for(Object listener : responseListeners.getListeners()) {
-			((BasicUploaderResponseListener)listener).handleServerResponse(response);
+			((UploaderResponseListener)listener).handleServerResponse(response);
 		}
 	}
 
@@ -367,11 +372,11 @@ public class BasicUploader extends AbstractUploader {
 		return uploadInProgress;
 	}	
 	
-	public void addResponseListener(BasicUploaderResponseListener listener) {
+	public void addResponseListener(UploaderResponseListener listener) {
 		responseListeners.add(listener);
 	}
 
-	public void removeResponseListener(BasicUploaderResponseListener listener) {
+	public void removeResponseListener(UploaderResponseListener listener) {
 		responseListeners.remove(listener);
 	}
 }

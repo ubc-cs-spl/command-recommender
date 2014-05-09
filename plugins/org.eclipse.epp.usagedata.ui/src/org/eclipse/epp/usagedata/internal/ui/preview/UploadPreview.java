@@ -412,7 +412,7 @@ public class UploadPreview  {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				setTableCursor(busyCursor);
-				processFiles(monitor);
+				//processFiles(monitor);
 				setTableCursor(null);
 				if (monitor.isCanceled()) return Status.CANCEL_STATUS;
 				return Status.OK_STATUS;
@@ -431,9 +431,8 @@ public class UploadPreview  {
 		contentJob.setPriority(Job.LONG);
 		contentJob.schedule();
 	}
-
+/*
 	void processFiles(IProgressMonitor monitor) {
-		File[] files = parameters.getFiles();
 		monitor.beginTask("Process Files", files.length);	 //$NON-NLS-1$
 		for (File file : files) {
 			if (isDisposed()) break; 
@@ -443,7 +442,7 @@ public class UploadPreview  {
 		}
 		monitor.done();
 	}
-	
+	*/
 	/**
 	 * This method extracts the events found in a {@link File}
 	 * and adds them to the list of events displayed by the
