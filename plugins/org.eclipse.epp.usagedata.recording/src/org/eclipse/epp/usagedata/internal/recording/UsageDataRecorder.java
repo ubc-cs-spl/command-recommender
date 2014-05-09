@@ -150,7 +150,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 			writer = getWriter();
 			if (writer == null) return;
 			for (UsageDataEvent event : events) {
-				UsageDataRecorderUtils.writeEvent(writer, event);
+				CSVStorageUtils.writeEvent(writer, event);
 			}
 			events.clear();
 		} catch (IOException e) {
@@ -180,7 +180,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 
 		file.createNewFile();
 		FileWriter writer = new FileWriter(file);
-		UsageDataRecorderUtils.writeHeader(writer);
+		CSVStorageUtils.writeHeader(writer);
 		
 		return writer;
 	}

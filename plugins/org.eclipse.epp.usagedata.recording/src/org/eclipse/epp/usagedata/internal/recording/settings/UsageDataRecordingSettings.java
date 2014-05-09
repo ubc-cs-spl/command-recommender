@@ -137,27 +137,6 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	}
 
 	/**
-	 * When it's time to start uploading the usage data, the file that's used
-	 * to persist the data is moved (renamed) and a new file is created. The
-	 * moved file is then uploaded to the server. This method finds an appropriate
-	 * destination for the moved file. The destination {@link File} will be in the
-	 * bundle's state location, but will not actually exist in the file system.
-	 * 
-	 * @return a destination {@link File} for the move operation. 
-	 */
-	public File computeDestinationFile() {
-		int index = 0;
-		File parent = getWorkingDirectory();
-		File file = null;
-		// TODO Unlikely (impossible?), but what if this spins forever.
-		while (true) {
-			file = new File(parent, UPLOAD_FILE_PREFIX + index++ + ".csv"); //$NON-NLS-1$
-			if (!file.exists())
-				return file;
-		}
-	}
-
-	/**
 	 * This method returns an identifier for the workstation. This value
 	 * is common to all workspaces on a single machine. The value
 	 * is persisted (if possible) in a hidden file in the users's working 

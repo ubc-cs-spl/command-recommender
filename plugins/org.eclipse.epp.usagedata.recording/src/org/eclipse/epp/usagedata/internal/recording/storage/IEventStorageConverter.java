@@ -14,6 +14,8 @@ import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
  */
 public interface IEventStorageConverter {
 	
+	File[] getUsageDataUploadFiles();
+	
 	File getEventStorageFile();
 	
 	void writeEvent(UsageDataEvent event);
