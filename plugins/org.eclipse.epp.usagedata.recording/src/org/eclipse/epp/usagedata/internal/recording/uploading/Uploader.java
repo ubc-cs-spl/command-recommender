@@ -18,7 +18,7 @@ import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 public interface Uploader {
 	boolean isUploadInProgress();
 
-	void startUpload(List<UsageDataEvent> events);
+	void startUpload();
 	
 	void addUploadListener(UploadListener listener);
 	

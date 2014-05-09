@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.usagedata.internal.recording.storage.AbstractStorageConverter;
 
-public abstract class AbstractUploader {
+public abstract class AbstractUploader implements Uploader{
 
 	private ListenerList uploadListeners = new ListenerList();
 	private UploadParameters uploadParameters;
