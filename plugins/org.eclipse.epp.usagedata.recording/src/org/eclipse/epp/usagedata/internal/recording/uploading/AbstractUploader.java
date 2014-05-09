@@ -10,10 +10,7 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.usagedata.internal.recording.storage.AbstractStorageConverter;
 

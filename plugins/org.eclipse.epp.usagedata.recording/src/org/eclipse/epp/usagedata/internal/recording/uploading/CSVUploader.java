@@ -199,12 +199,13 @@ public class CSVUploader extends AbstractUploader {
 
 		MultipartEntity entity = new MultipartEntity();
 		String bodyContent = getContentBody();
-		//ContentBody body = new FileBody(file, "text/csv");
 		ContentBody body = new StringBody(bodyContent, "text/csv", Charset.defaultCharset());
 		entity.addPart("csv", body);
 		httpPost.setEntity(entity);
 		try{
 			HttpResponse response = client.execute(httpPost);
+			if(shouldProcessServerResponse())
+				handleServerResponse(response);
 			if(response.getStatusLine().getStatusCode() != 200){
 				return new UploadResult(response.getStatusLine().getStatusCode());
 			}
@@ -234,25 +235,6 @@ public class CSVUploader extends AbstractUploader {
 		return 5 * 60000;
 	}
 
-	void handleServerResponse(HttpPost post) {
-		// No point in doing any work if nobody's listening.
-		if (!shouldProcessServerResponse()) return;
-		
-		InputStream response = null;
-		try {
-			//response = post.getResponseBodyAsStream();
-			handleServerResponse(new BufferedReader(new InputStreamReader(response)));
-		} catch (IOException e) {
-			UsageDataRecordingActivator.getDefault().log(IStatus.WARNING, e, "Exception raised while parsing the server response"); //$NON-NLS-1$
-		} finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	private boolean shouldProcessServerResponse() {
 		if (getSettings().isLoggingServerActivity()) return true;
@@ -260,26 +242,9 @@ public class CSVUploader extends AbstractUploader {
 		return false;
 	}
 
-	void handleServerResponse(BufferedReader response) throws IOException {
-		while (true) {
-			String line = response.readLine();
-			if (line == null) return;
-			if (getSettings().isLoggingServerActivity()) {
-				UsageDataRecordingActivator.getDefault().log(IStatus.INFO, line);
-			}
-			int colon = line.indexOf(':'); // first occurrence
-			if (colon != -1) {
-				String key = line.substring(0, colon);
-				String value = line.substring(colon + 1);
-				handleServerResponse(key, value);
-			} else {
-				handleServerResponse("", line); //$NON-NLS-1$
-			}
-		}
-	}
 
-	void handleServerResponse(String key, String value) {
-		UploaderServerResponse response = new UploaderServerResponse(key, value);
+	void handleServerResponse(HttpResponse httpResponse) {
+		UploaderServerResponse response = new UploaderServerResponse(Integer.toString(httpResponse.getStatusLine().getStatusCode()), httpResponse.getStatusLine().getReasonPhrase());
 		for(Object listener : responseListeners.getListeners()) {
 			((UploaderResponseListener)listener).handleServerResponse(response);
 		}
@@ -301,73 +266,7 @@ public class CSVUploader extends AbstractUploader {
 	private UploadSettings getSettings() {
 		return getUploadParameters().getSettings();
 	}
-/*
-	Part[] getFileParts(IProgressMonitor monitor) {
-		List<Part> fileParts = new ArrayList<Part>();
-		for (File file : getUploadParameters().getFiles()) {
-			try {
-				// TODO Hook in a custom FilePart that filters contents.
-				fileParts.add(new FilteredFilePart(monitor, "uploads[]", file)); //$NON-NLS-1$
-			} catch (FileNotFoundException e) {
-				// If an exception occurs while creating the FilePart, 
-				// ignore the error and move on. If this has happened,
-				// then another process may have deleted or moved the file.
-			}
-		}
-		return (Part[]) fileParts.toArray(new Part[fileParts.size()]);
-	}
-	
-	class FilteredFilePart extends FilePart {
-		private final IProgressMonitor monitor;
 
-		public FilteredFilePart(IProgressMonitor monitor, String name, File file)	throws FileNotFoundException {
-			super(name, file);
-			this.monitor = monitor;
-		}
-		
-		@Override
-		protected void sendData(OutputStream out) throws IOException {
-			final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-			InputStream input = null;
-			try {
-				input = getSource().createInputStream();
-				new UsageDataFileReader(input).iterate(new UsageDataFileReader.Iterator() {
-					public void header(String header) throws Exception {
-						writer.append(header);
-						writer.append('\n');
-					}
-					public void event(String line, UsageDataEvent event) throws Exception {
-						if (getUploadParameters().getFilter().includes(event)) {
-							writer.append(line);
-							writer.append('\n');
-						} 
-					}					
-				});
-				writer.flush();
-				monitor.worked(1);
-			} catch (Exception e) {
-				if (e instanceof IOException) throw (IOException)e;
-				UsageDataRecordingActivator.getDefault().log(IStatus.WARNING, e, e.getMessage());
-			} finally {
-				input.close();
-			}
-		}
-		*/
-		/**
-		 * Return the length (size in bytes) of the data we're sending.
-		 * Since we're going to be (potentially) applying filters to the
-		 * data, we don't really know the size so return -1. We could
-		 * compute the size, but that would require either passing twice
-		 * over the file, or keeping the content in memory; both options
-		 * have limited appeal.
-		 */
-	/*
-		@Override
-		public long length() throws IOException {
-			return -1;
-		}
-	}
-*/
 	public synchronized boolean isUploadInProgress() {
 		return uploadInProgress;
 	}	
