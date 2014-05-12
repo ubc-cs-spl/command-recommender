@@ -74,6 +74,8 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		File uploadFile = new File(getWorkingDirectory(), 
 				UPLOAD_FILE_NAME + FORMAT_EXT);
 		File[] files = {uploadFile};
+		if (uploadFile.exists())
+			uploadFile.delete();
 		if (currentEvents.exists() && currentEvents.renameTo(uploadFile))
 			return files;
 		return new File[0];
