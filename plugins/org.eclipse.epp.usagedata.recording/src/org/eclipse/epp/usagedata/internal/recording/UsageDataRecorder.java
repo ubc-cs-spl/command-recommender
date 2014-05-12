@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  * Copyright (c) 2007 The Eclipse Foundation.
  * All rights reserved. This program and the accompanying materials
@@ -22,7 +23,6 @@ import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEventListener;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
-import org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
 
 public class UsageDataRecorder implements UsageDataEventListener {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 The Eclipse Foundation.
+ * Copyright (c) 2008 The Eclipse Foundation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,21 +10,14 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.util.List;
+public class UploaderServerResponse {
 
-import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+	public final String key;
+	public final String value;
 
+	public UploaderServerResponse(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
 
-public interface Uploader {
-	boolean isUploadInProgress();
-
-	void startUpload();
-	
-	void addUploadListener(UploadListener listener);
-	
-	void removeUploadListener(UploadListener listener);
-
-	void setUploadParameters(UploadParameters uploadParameters);
-	
-	UploadParameters getUploadParameters();
 }
