@@ -1,0 +1,7 @@
+<h1>New upload_file</h1>
+
+<%= form_for @upload_file do |f| %>
+	<%= f.file_field :csv %>
+	<%= submit_tag('Upload') %>
+<% end %>
+<%= link_to 'Back', upload_files_path %>
