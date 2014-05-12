@@ -10,8 +10,14 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InterruptedIOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
@@ -22,6 +28,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -183,8 +190,7 @@ public class CSVUploader extends AbstractUploader {
 		HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
 
 		MultipartEntity entity = new MultipartEntity();
-		String bodyContent = getContentBody();
-		ContentBody body = new StringBody(bodyContent, "text/csv", Charset.defaultCharset());
+		ContentBody body = getContentBody();
 		entity.addPart("csv", body);
 		httpPost.setEntity(entity);
 		try{
@@ -200,12 +206,23 @@ public class CSVUploader extends AbstractUploader {
 		return new UploadResult(200);
 	}
 
-	private String getContentBody() throws StorageConverterException{
+	private FileBody getContentBody() throws StorageConverterException{
+		File temp = null;
+		BufferedWriter writer = null;
+		try {
+		temp = File.createTempFile("temp_upload", ".csv");
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
 		List<UsageDataEvent> events = getEventStorage().readEvents();
 		for(UsageDataEvent event : events)
-			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + "," + event.description + "," + event.when + "\n"; 
-		return content;
+			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
+		writer = new BufferedWriter(new FileWriter(temp));
+		writer.write(content);
+		writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new FileBody(temp);
 	}
 
 	/**
