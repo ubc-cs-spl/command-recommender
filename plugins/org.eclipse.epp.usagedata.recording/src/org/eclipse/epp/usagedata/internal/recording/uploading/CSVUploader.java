@@ -10,33 +10,18 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,7 +32,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
-import org.eclipse.usagedata.internal.recording.storage.StorageConverterException;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 
 /**
  * Instances of the {@link CSVUploader} class are responsible for
@@ -217,7 +202,7 @@ public class CSVUploader extends AbstractUploader {
 
 	private String getContentBody() throws StorageConverterException{
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
-		List<UsageDataEvent> events = getEventStorage().read();
+		List<UsageDataEvent> events = getEventStorage().readEvents();
 		for(UsageDataEvent event : events)
 			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + "," + event.description + "," + event.when + "\n"; 
 		return content;
