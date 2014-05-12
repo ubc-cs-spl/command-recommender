@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEventListener;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 import org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
 
@@ -44,11 +45,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 */
 	private static final int EXCEPTION_THRESHOLD = 5;
 
-	/**
-	 * When the file holding upload data exceeds this number
-	 * of bytes, it is moved so that it can be uploaded.
-	 */
-	private static final long FILE_SIZE_THRESHOLD = 25000; 
+	
 	
 	/**
 	 * This list holds events as they are received. Once the number of events in
@@ -109,28 +106,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		return UsageDataRecordingActivator.getDefault().getSettings();
 	}
 
-	/**
-	 * This method (curiously enough) prepares the data that's been collected by
-	 * the receiver for upload. Preparing the data involves first making sure
-	 * that all the events that we've recorded up to this point are properly
-	 * recorded. Then, the file that we've been writing events to is renamed so
-	 * that it can be found by the {@link BasicUploader}. When the next
-	 * event comes in, a new file will be created.
-	 */
-	private synchronized void prepareForUpload() {
-		if (getSettings() == null) return;
-		File file = getSettings().getEventFile();
-		
-		// If the file does not exist, then something bad has happened. Just return.
-		if (!file.exists()) return;
-		
-		if (file.length() < FILE_SIZE_THRESHOLD) return;
-		
-		File destination = getSettings().computeDestinationFile();
-		
-		// TODO What if the rename fails?
-		file.renameTo(destination);
-	}
+
 
 	private UploadManager getUploadManager() {
 		if (UsageDataRecordingActivator.getDefault() == null) return null;
@@ -143,54 +119,19 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	}
 
 	protected synchronized void dumpEvents() {
-		prepareForUpload();
-		
-		Writer writer = null;
 		try {
-			writer = getWriter();
-			if (writer == null) return;
-			for (UsageDataEvent event : events) {
-				CSVStorageUtils.writeEvent(writer, event);
-			}
-			events.clear();
-		} catch (IOException e) {
+			getSettings().getStorageConverter().writeEvents(events);
+		} catch (StorageConverterException e) {
 			handleException(e, "Error writing events to file."); //$NON-NLS-1$
-		} finally {
-			close(writer);
-		}
+		} 
 	}
 
-	private void handleException(IOException e, String message) {
+	private void handleException(Exception e, String message) {
 		if (exceptionCount++ > EXCEPTION_THRESHOLD) {
 			UsageDataRecordingActivator.getDefault().log(IStatus.INFO, e, "The UsageDataRecorder has been stopped because it has caused too many exceptions"); //$NON-NLS-1$
 			stop();
 		}
 		UsageDataRecordingActivator.getDefault().log(IStatus.ERROR, e, message);
 	}
-	
 
-	private Writer getWriter() throws IOException {
-		if (getSettings() == null) return null;
-		return createEventWriter(getSettings().getEventFile());
-	}
-
-	private Writer createEventWriter(File file) throws IOException {
-		if (file.exists())
-			return new FileWriter(file, true);
-
-		file.createNewFile();
-		FileWriter writer = new FileWriter(file);
-		CSVStorageUtils.writeHeader(writer);
-		
-		return writer;
-	}
-	
-	private void close(Writer writer) {
-		if (writer == null) return;
-		try {
-			writer.close();
-		} catch (IOException e) {
-			// TODO Handle exception
-		}
-	}
 }

@@ -15,8 +15,8 @@ public class StorageConverterException extends Exception {
 	 * @param message
 	 * @param cause
 	 */
-	public StorageConverterException(String message, Throwable cause) {
-		super(message, cause);
+	public StorageConverterException(Throwable cause) {
+		super(cause);
 	}
 
 }

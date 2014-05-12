@@ -17,13 +17,18 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.List;
 import java.util.UUID;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.PreferencesBasedFilter;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
+import org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
 
@@ -55,8 +60,14 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
 	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_files"; //$NON-NLS-1$
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
+	
+	private AbstractEventStorageConverter converter = new CsvEventStorageConverter(); //TODO get this properly
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
+	
+	public AbstractEventStorageConverter getStorageConverter() {
+		return converter;
+	}
 
 	/**
 	 * First if the system property {@value #UPLOAD_PERIOD_KEY} has been set,
