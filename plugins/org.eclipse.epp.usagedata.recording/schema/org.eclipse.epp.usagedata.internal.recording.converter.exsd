@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="converter"/>
@@ -50,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter:"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -80,7 +85,7 @@
          <meta.section type="apiinfo"/>
       </appInfo>
       <documentation>
-         The contributed class must extend &lt;code&gt;org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter&lt;/code&gt;
+         The contributed class must extend &lt;code&gt;org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter&lt;/code&gt;
       </documentation>
    </annotation>
 

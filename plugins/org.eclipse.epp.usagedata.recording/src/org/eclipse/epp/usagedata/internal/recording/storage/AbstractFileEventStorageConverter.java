@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 
-public abstract class AbstractFileEventStorageConverter extends AbstractEventStorageConverter {
+public abstract class AbstractFileEventStorageConverter implements IEventStorageConverter {
 
 	protected final String FORMAT_EXT;
 	

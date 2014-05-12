@@ -23,7 +23,7 @@
    <extension
          point="org.eclipse.epp.usagedata.internal.recording.converter">
       <converter
-            class="org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter">
+            class="org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter">
       </converter>
    </extension>
 </plugin>

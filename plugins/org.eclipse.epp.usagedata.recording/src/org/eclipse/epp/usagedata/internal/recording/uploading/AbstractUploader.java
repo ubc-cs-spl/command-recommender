@@ -12,7 +12,7 @@ package org.eclipse.epp.usagedata.internal.recording.uploading;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
-import org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 
 public abstract class AbstractUploader implements Uploader{
 
@@ -53,7 +53,7 @@ public abstract class AbstractUploader implements Uploader{
 		if (uploadParameters == null) throw new RuntimeException("The UploadParameters must be set."); //$NON-NLS-1$
 	}
 	
-	protected AbstractEventStorageConverter getEventStorage(){
+	protected IEventStorageConverter getEventStorage(){
 		return UsageDataRecordingActivator.getDefault().getSettings().getStorageConverter();
 	}
 	

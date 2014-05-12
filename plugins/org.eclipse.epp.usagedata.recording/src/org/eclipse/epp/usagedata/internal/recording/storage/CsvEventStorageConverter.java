@@ -24,7 +24,6 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		super(".csv");
 	}
 	
-	@Override
 	public void writeEvents(List<UsageDataEvent> events) 
 			throws StorageConverterException {
 		Writer writer = null;
@@ -42,7 +41,6 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		}
 	}
 
-	@Override
 	public List<UsageDataEvent> readEvents() throws StorageConverterException {
 		final List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
 		for (File file : getEventUploadFiles()) {

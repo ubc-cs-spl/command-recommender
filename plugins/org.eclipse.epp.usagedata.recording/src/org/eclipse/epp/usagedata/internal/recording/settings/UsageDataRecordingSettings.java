@@ -23,7 +23,7 @@ import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSet
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.PreferencesBasedFilter;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
-import org.eclipse.epp.usagedata.internal.recording.storage.AbstractEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
@@ -59,11 +59,11 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	static final String UPLOAD_TYPE_DEFAULT = "basic";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 	
-	private AbstractEventStorageConverter converter = new CsvEventStorageConverter(); //TODO get this properly
+	private IEventStorageConverter converter = new CsvEventStorageConverter(); //TODO get this properly
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
 	
-	public AbstractEventStorageConverter getStorageConverter() {
+	public IEventStorageConverter getStorageConverter() {
 		return converter;
 	}
 
