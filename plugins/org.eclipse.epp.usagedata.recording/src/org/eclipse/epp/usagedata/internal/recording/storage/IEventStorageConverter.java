@@ -24,5 +24,11 @@ public interface IEventStorageConverter {
 	 * @throws StorageConverterException 
 	 */
 	List<UsageDataEvent> readEvents() throws StorageConverterException;
+	
+	/**
+	 * The format of local storage
+	 * @return 
+	 */
+	String getFormat();
 
 }

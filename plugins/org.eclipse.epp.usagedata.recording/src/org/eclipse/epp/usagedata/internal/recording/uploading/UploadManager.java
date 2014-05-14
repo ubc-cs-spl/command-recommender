@@ -10,14 +10,11 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.ui.PlatformUI;
@@ -62,8 +59,6 @@ public class UploadManager {
 		if (!getSettings().isEnabled()) return UPLOAD_DISABLED;
 		if (PlatformUI.getWorkbench().isClosing()) return WORKBENCH_IS_CLOSING;
 		
-		File[] usageDataUploadFiles;
-		List<UsageDataEvent> events;
 		synchronized (lock) {
 			uploader = getUploader();
 			if (uploader == null) return NO_UPLOADER;

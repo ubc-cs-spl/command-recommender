@@ -11,10 +11,6 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +116,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 
 	protected synchronized void dumpEvents() {
 		try {
-			getSettings().getStorageConverter().writeEvents(events);
+			UsageDataRecordingActivator.getDefault().getStorageConverter().writeEvents(events);
 		} catch (StorageConverterException e) {
 			handleException(e, "Error writing events to file."); //$NON-NLS-1$
 		} 

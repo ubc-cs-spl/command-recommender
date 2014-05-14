@@ -58,14 +58,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_files"; //$NON-NLS-1$
 	static final String UPLOAD_TYPE_DEFAULT = "basic";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
-	
-	private IEventStorageConverter converter = new CsvEventStorageConverter(); //TODO get this properly
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
-	
-	public IEventStorageConverter getStorageConverter() {
-		return converter;
-	}
 
 	/**
 	 * First if the system property {@value #UPLOAD_PERIOD_KEY} has been set,

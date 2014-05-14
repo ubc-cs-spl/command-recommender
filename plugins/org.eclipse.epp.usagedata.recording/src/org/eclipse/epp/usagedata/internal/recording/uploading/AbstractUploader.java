@@ -54,7 +54,7 @@ public abstract class AbstractUploader implements Uploader{
 	}
 	
 	protected IEventStorageConverter getEventStorage(){
-		return UsageDataRecordingActivator.getDefault().getSettings().getStorageConverter();
+		return UsageDataRecordingActivator.getDefault().getStorageConverter();
 	}
 	
 	public abstract void startUpload();

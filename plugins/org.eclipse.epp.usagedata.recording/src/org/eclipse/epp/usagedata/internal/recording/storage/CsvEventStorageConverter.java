@@ -80,6 +80,10 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 			return files;
 		return new File[0];
 	}
+	
+	public String getFormat() {
+		return "csv";
+	}
 
 	private Writer getWriter() throws IOException {
 		File file = getEventStorageFile();
@@ -102,5 +106,4 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 			// TODO Handle exception
 		}
 	}
-
 }
