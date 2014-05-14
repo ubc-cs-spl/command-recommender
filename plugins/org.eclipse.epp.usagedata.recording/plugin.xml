@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="uploader" name="Upload Delegate" schema="schema/uploader.exsd"/>
+   <extension-point id="org.eclipse.epp.usagedata.internal.recording.converter" name="Converter Delegate" schema="schema/org.eclipse.epp.usagedata.internal.recording.converter.exsd"/>
    <extension
          point="org.eclipse.epp.usagedata.listeners.event">
       <listener
@@ -18,5 +19,11 @@
          point="org.eclipse.ui.startup">
       <startup
             class="org.eclipse.epp.usagedata.internal.recording.Startup"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.epp.usagedata.internal.recording.converter">
+      <converter
+            class="org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter">
+      </converter>
    </extension>
 </plugin>

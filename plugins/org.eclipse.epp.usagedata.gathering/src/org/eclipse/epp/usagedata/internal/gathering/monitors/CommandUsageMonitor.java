@@ -16,6 +16,7 @@ import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.epp.usagedata.internal.gathering.services.UsageDataService;
 import org.eclipse.jface.bindings.TriggerSequence;
+import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.keys.IBindingService;
@@ -58,7 +59,8 @@ public class CommandUsageMonitor implements UsageMonitor {
 			}
 
 			public void preExecute(String commandId, ExecutionEvent event) {
-				
+				KeySequence state = KeySequence.getInstance();
+				int j = 1;
 			}			
 		};
 		getCommandService().addExecutionListener(executionListener);

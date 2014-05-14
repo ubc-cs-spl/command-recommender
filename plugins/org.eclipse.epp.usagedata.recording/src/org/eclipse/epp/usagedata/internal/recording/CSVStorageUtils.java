@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 
-public class UsageDataRecorderUtils {
+public class CSVStorageUtils {
 	
 	/**
 	 * Write a header onto the {@link Writer}.

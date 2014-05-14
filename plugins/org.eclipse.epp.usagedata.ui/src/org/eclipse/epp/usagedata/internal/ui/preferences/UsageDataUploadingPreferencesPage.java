@@ -19,6 +19,7 @@ import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingS
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -131,6 +132,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		composite.setLayout(new GridLayout());
 		
 		createGeneralInformationArea(composite);
+		createStorageFormatArea(composite);
 		createUploadingArea(composite);
 		createButtonsArea(composite);
 		
@@ -254,6 +256,30 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		createUploadUrlField(group);
 	}
 		
+	private void createStorageFormatArea(Composite parent) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(Messages.UsageDataUploadingPreferencesPage_10); 
+		group.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+
+		group.setLayout(new GridLayout(3, false));
+
+		// Create the layout that will be used by all the fields.
+		GridData fieldLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		fieldLayoutData.horizontalIndent = FieldDecorationRegistry.getDefault().getMaximumDecorationWidth();
+			
+		createStorageFormatField(group);
+	}
+
+
+	private void createStorageFormatField(Group composite) {
+		//TODO: set the preference values properly
+		final String[][] contents = new String[1][2];
+		contents[0] = new String[] {"cvs", "cvs"};
+		ComboFieldEditor comboBox = new ComboFieldEditor(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY,
+				"Select Desired Local Storage Format:", contents, composite);
+	}
+
+
 	/*
 	 * Note that this method expects to be run in the UI Thread.
 	 */
@@ -338,6 +364,9 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private void createUploadUrlField(Group composite) {
 		label = new Label(composite, SWT.NONE);
 		label.setText(Messages.UsageDataUploadingPreferencesPage_9); 
+		final String[][] contents = new String[1][1];
+		contents[0] = new String[] {"http://localhost:3000/upload_files", "basic"};
+		ComboFieldEditor uploadUrl = new ComboFieldEditor(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, "Select Upload Location:", contents, composite);
 		
 		Text uploadUrlText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		uploadUrlText.setEnabled(false);

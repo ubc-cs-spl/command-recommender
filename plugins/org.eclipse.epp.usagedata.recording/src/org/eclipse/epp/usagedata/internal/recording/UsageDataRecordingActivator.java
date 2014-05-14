@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  * Copyright (c) 2007 The Eclipse Foundation.
  * All rights reserved. This program and the accompanying materials
@@ -10,9 +11,14 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.epp.usagedata.internal.gathering.services.UsageDataService;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
+import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -37,6 +43,8 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 	private UsageDataRecorder usageDataRecorder;
 
 	private ServiceTracker usageDataServiceTracker;
+
+	private IEventStorageConverter converter;
 	
 	/*
 	 * (non-Javadoc)
@@ -47,6 +55,7 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		plugin = this;
 		
 		uploadManager = new UploadManager();
+		converter = new CsvEventStorageConverter();
 		settings = new UsageDataRecordingSettings();
 		
 		usageDataRecorder = new UsageDataRecorder();
@@ -78,6 +87,39 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		
 		plugin = null;
 		super.stop(context);
+	}
+	
+	public IEventStorageConverter getStorageConverter() {
+		return converter;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private IEventStorageConverter getConverter(String format) {
+		IConfigurationElement[] elements = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.epp.usagedata.internal.recording.converter"); //$NON-NLS-1$
+		for (IConfigurationElement element : elements) {
+			if ("converter".equals(element.getName())) { //$NON-NLS-1$
+				try {
+					Object converter = element.createExecutableExtension("class"); //$NON-NLS-1$
+					if ((converter instanceof IEventStorageConverter) 
+							&& ((IEventStorageConverter) converter).getFormat().equals(format)) {
+						return (IEventStorageConverter) converter;
+					}
+				} catch (CoreException e) {
+					UsageDataRecordingActivator.getDefault().getLog().log(e.getStatus());
+				}
+			}
+		}
+		return null;
+	}
+	
+	public void setConverter(String format) {
+		IEventStorageConverter storageConverter = getConverter(format);
+		converter = storageConverter == null ? converter : storageConverter;
 	}
 
 	private UsageDataService getUsageDataService() {

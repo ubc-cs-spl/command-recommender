@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  * Copyright (c) 2007 The Eclipse Foundation.
  * All rights reserved. This program and the accompanying materials
@@ -12,6 +13,7 @@ package org.eclipse.epp.usagedata.internal.recording.settings;
 
 import org.eclipse.epp.usagedata.internal.recording.filtering.NullFilter;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 
 public interface UploadSettings {
 
@@ -21,14 +23,14 @@ public interface UploadSettings {
 	 * 
 	 * @return true if we're logging, false otherwise.
 	 */
-	public abstract boolean isLoggingServerActivity();
+	boolean isLoggingServerActivity();
 
 	/**
 	 * This method returns the target URL for uploads.
 	 * 
 	 * @return the target URL for uploads.
 	 */
-	public abstract String getUploadUrl();
+	String getUploadUrl();
 
 	/**
 	 * This method returns the receiver's filter. A filter
@@ -37,16 +39,16 @@ public interface UploadSettings {
 	 * 
 	 * @return an instance of a class that implements {@link UsageDataEventFilter}
 	 */
-	public abstract UsageDataEventFilter getFilter();
+	UsageDataEventFilter getFilter();
 
-	public abstract boolean hasUserAcceptedTermsOfUse();
+	boolean hasUserAcceptedTermsOfUse();
 
-	public abstract boolean isEnabled();
+	boolean isEnabled();
 
-	public abstract String getUserId();
+	String getUserId();
 
-	public abstract String getWorkspaceId();
+	String getWorkspaceId();
 
-	public abstract String getUserAgent();
+	String getUserAgent();
 
 }

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.io.File;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -30,7 +29,7 @@ public class UploadManager {
 	public static final int UPLOAD_DISABLED = 5;
 	
 	private Object lock = new Object();
-	private Uploader uploader;
+	private AbstractUploader uploader;
 	private ListenerList uploadListeners = new ListenerList();
 
 	/**
@@ -60,13 +59,7 @@ public class UploadManager {
 		if (!getSettings().isEnabled()) return UPLOAD_DISABLED;
 		if (PlatformUI.getWorkbench().isClosing()) return WORKBENCH_IS_CLOSING;
 		
-		File[] usageDataUploadFiles;
 		synchronized (lock) {
-			if (uploader != null) return UPLOAD_IN_PROGRESS;
-			
-			usageDataUploadFiles = findUsageDataUploadFiles();
-			if (usageDataUploadFiles.length == 0) return NO_FILES_TO_UPLOAD;
-			
 			uploader = getUploader();
 			if (uploader == null) return NO_UPLOADER;
 		}
@@ -75,7 +68,6 @@ public class UploadManager {
 		
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(getSettings());
-		uploadParameters.setFiles(usageDataUploadFiles);
 		//request.setFilter(getSettings().getFilter());
 		
 		uploader.setUploadParameters(uploadParameters);
@@ -96,10 +88,6 @@ public class UploadManager {
 		return UPLOAD_STARTED_OK;
 	}
 
-	private File[] findUsageDataUploadFiles() {
-		return getSettings().getUsageDataUploadFiles();
-	}
-	
 	private UsageDataRecordingSettings getSettings() {
 		return UsageDataRecordingActivator.getDefault().getSettings();
 	}
@@ -125,7 +113,7 @@ public class UploadManager {
 	 * 
 	 * @return
 	 */
-	private Uploader getUploader() {
+	private AbstractUploader getUploader() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(UsageDataRecordingActivator.PLUGIN_ID + ".uploader"); //$NON-NLS-1$
 		for (IConfigurationElement element : elements) {
@@ -133,7 +121,7 @@ public class UploadManager {
 				try {
 					Object uploader = element.createExecutableExtension("class"); //$NON-NLS-1$
 					if (uploader instanceof Uploader) {
-						return (Uploader) uploader;
+						return (AbstractUploader) uploader;
 					}
 				} catch (CoreException e) {
 					UsageDataRecordingActivator.getDefault().getLog().log(e.getStatus());
