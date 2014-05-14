@@ -16,6 +16,7 @@ import org.eclipse.epp.usagedata.internal.gathering.UsageDataCaptureActivator;
 import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
+import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -60,8 +61,9 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private Text lastUploadText;
 
 	private Button askBeforeUploadingCheckbox;
-
+	private Text uploadUrlText;
 	private Button uploadNowButton;
+	private ComboFieldEditor uploadServerType;
 	
 	IPropertyChangeListener capturePropertyChangeListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
@@ -177,6 +179,10 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		askBeforeUploadingCheckbox.setSelection(getRecordingPreferences().getBoolean(UsageDataRecordingSettings.ASK_TO_UPLOAD_KEY));
 	}
 	
+	private void updateUploadUrl(){
+		uploadUrlText.setText(getSettings().getUploadUrl());
+	}
+	
 	/*
 	 * Note that this method expects to be run in the UI Thread.
 	 */
@@ -197,7 +203,8 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	public boolean performOk() {		
 		getRecordingPreferences().setValue(UsageDataRecordingSettings.ASK_TO_UPLOAD_KEY, askBeforeUploadingCheckbox.getSelection());		
 		getRecordingPreferences().setValue(UsageDataRecordingSettings.UPLOAD_PERIOD_KEY, Long.valueOf(uploadPeriodText.getText()) * MILLISECONDS_IN_ONE_DAY);
-		
+		uploadServerType.store();
+		System.setProperty(UsageDataRecordingSettings.UPLOAD_URL_KEY, uploadUrlText.getText());
 		return super.performOk();
 	}
 	
@@ -365,18 +372,24 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		label = new Label(composite, SWT.NONE);
 		label.setText(Messages.UsageDataUploadingPreferencesPage_9); 
 		final String[][] contents = new String[1][1];
-		contents[0] = new String[] {"http://localhost:3000/upload_files", "basic"};
-		ComboFieldEditor uploadUrl = new ComboFieldEditor(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, "Select Upload Location:", contents, composite);
-		
-		Text uploadUrlText = new Text(composite, SWT.SINGLE | SWT.BORDER);
-		uploadUrlText.setEnabled(false);
+		contents[0] = new String[] {"CSVUploader", AbstractUploader.UPLOAD_TYPE_CSV};
+		uploadServerType = new ComboFieldEditor(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, "Select Server Type:", contents, composite);
+		uploadServerType.setPreferenceStore(getRecordingPreferences());
+		uploadUrlText = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		uploadUrlText.setEnabled(true);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 		gridData.horizontalIndent = FieldDecorationRegistry.getDefault().getMaximumDecorationWidth();
 		gridData.horizontalSpan = 2;
 		uploadUrlText.setLayoutData(gridData);
-		uploadUrlText.setText(getSettings().getUploadUrl());
+		updateUploadUrl();
+		updateUploadserverType();
 	}
 	
+	private void updateUploadserverType() {
+		uploadServerType.load();
+	}
+
+
 	/*
 	 * Note that this method expects to be run in the UI Thread.
 	 */

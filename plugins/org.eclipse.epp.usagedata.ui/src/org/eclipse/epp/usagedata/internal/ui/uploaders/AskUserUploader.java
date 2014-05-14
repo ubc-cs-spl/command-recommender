@@ -120,7 +120,7 @@ public class AskUserUploader extends AbstractUploader {
 	}
 	
 	private void startBasicUpload() {
-		uploader = AbstractUploader.createUploader("basic", getUploadParameters());
+		uploader = AbstractUploader.createUploader(getUploaderType(), getUploadParameters());
 		uploader.addUploadListener(new UploadListener() {
 			public void uploadComplete(UploadResult result) {
 				fireUploadComplete(result);
@@ -128,6 +128,10 @@ public class AskUserUploader extends AbstractUploader {
 			}
 		});
 		uploader.startUpload();	
+	}
+
+	private String getUploaderType() {
+		return UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
 	}
 
 	public void setAction(int action) {

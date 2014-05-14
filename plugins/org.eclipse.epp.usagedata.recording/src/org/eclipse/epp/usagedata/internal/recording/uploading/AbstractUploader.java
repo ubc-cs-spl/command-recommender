@@ -18,10 +18,10 @@ public abstract class AbstractUploader implements Uploader{
 
 	private ListenerList uploadListeners = new ListenerList();
 	private UploadParameters uploadParameters;
-
+	public static String UPLOAD_TYPE_CSV = "csv";
 	
 	public static AbstractUploader createUploader(String type, UploadParameters uploadParameters){
-		if("basic".equals(type))
+		if(UPLOAD_TYPE_CSV.equals(type))
 			return (AbstractUploader) new CSVUploader(uploadParameters);
 		else
 			return (AbstractUploader) new CSVUploader(uploadParameters); 

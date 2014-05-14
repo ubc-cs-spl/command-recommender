@@ -50,7 +50,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public static final String UPLOAD_TYPE_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload_type"; //$NON-NLS-1$
 	public static final String LOCAL_STORAGE_FORMAT_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".local-storage-format"; //$NON-NLS-1$
 	
-	static final String UPLOAD_URL_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload-url"; //$NON-NLS-1$
+	public static final String UPLOAD_URL_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload-url"; //$NON-NLS-1$
 	
 	public static final int PERIOD_REASONABLE_MINIMUM = 15 * 60 * 1000; // 15 minutes
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
