@@ -213,8 +213,12 @@ public class CSVUploader extends AbstractUploader {
 		temp = File.createTempFile("temp_upload", ".csv");
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
 		List<UsageDataEvent> events = getEventStorage().readEvents();
-		for(UsageDataEvent event : events)
-			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
+		
+		for(UsageDataEvent event : events){
+			if(getUploadParameters().getFilter().includes(event)){
+				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
+			}
+		}
 		writer = new BufferedWriter(new FileWriter(temp));
 		writer.write(content);
 		writer.close();

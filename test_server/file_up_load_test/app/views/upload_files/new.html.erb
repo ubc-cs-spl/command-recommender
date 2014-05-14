@@ -1,0 +1,7 @@
+<h1>New upload_file</h1>
+
+<%= form_tag({action: :create}, multipart: true) do %>
+	<%= file_field_tag 'csv' %>
+	<%= submit_tag('Upload') %>
+<% end %>
+<%= link_to 'Back', upload_files_path %>
