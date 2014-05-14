@@ -20,6 +20,7 @@ public class UsageDataRecordingPreferenceInitializer extends AbstractPreferenceI
 		IPreferenceStore preferenceStore = UsageDataRecordingActivator.getDefault().getPreferenceStore();
 		preferenceStore.setDefault(UsageDataRecordingSettings.UPLOAD_PERIOD_KEY, UsageDataRecordingSettings.UPLOAD_PERIOD_DEFAULT);
 		preferenceStore.setDefault(UsageDataRecordingSettings.ASK_TO_UPLOAD_KEY, UsageDataRecordingSettings.ASK_TO_UPLOAD_DEFAULT);
+		preferenceStore.setDefault(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY, UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_DEFAULT);
 		preferenceStore.setDefault(UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, false);
 	}
 

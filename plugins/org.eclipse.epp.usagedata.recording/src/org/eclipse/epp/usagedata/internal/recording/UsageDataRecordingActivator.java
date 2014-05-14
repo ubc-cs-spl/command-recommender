@@ -18,9 +18,7 @@ import org.eclipse.epp.usagedata.internal.gathering.services.UsageDataService;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
-import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
-import org.eclipse.epp.usagedata.internal.recording.uploading.Uploader;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -56,7 +54,7 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		plugin = this;
 		
 		uploadManager = new UploadManager();
-		converter = getConverter();
+		converter = new CsvEventStorageConverter();
 		settings = new UsageDataRecordingSettings();
 		
 		usageDataRecorder = new UsageDataRecorder();
@@ -99,14 +97,15 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 	 * 
 	 * @return
 	 */
-	private IEventStorageConverter getConverter() {
+	private IEventStorageConverter getConverter(String format) {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor("org.eclipse.epp.usagedata.internal.recording.converter"); //$NON-NLS-1$
 		for (IConfigurationElement element : elements) {
 			if ("converter".equals(element.getName())) { //$NON-NLS-1$
 				try {
 					Object converter = element.createExecutableExtension("class"); //$NON-NLS-1$
-					if (converter instanceof IEventStorageConverter) {
+					if ((converter instanceof IEventStorageConverter) 
+							&& ((IEventStorageConverter) converter).getFormat().equals(format)) {
 						return (IEventStorageConverter) converter;
 					}
 				} catch (CoreException e) {
@@ -115,6 +114,11 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 			}
 		}
 		return null;
+	}
+	
+	public void setConverter(String format) {
+		IEventStorageConverter storageConverter = getConverter(format);
+		converter = storageConverter == null ? converter : storageConverter;
 	}
 
 	private UsageDataService getUsageDataService() {

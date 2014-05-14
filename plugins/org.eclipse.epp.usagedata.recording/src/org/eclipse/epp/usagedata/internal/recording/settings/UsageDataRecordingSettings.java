@@ -23,8 +23,6 @@ import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSet
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.PreferencesBasedFilter;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
-import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
-import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.PlatformUI;
 
@@ -50,6 +48,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public static final String FILTER_ECLIPSE_BUNDLES_ONLY_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".filter-eclipse-only"; //$NON-NLS-1$
 	public static final String FILTER_PATTERNS_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".filter-patterns"; //$NON-NLS-1$
 	public static final String UPLOAD_TYPE_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload_type"; //$NON-NLS-1$
+	public static final String LOCAL_STORAGE_FORMAT_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".local-storage-format"; //$NON-NLS-1$
 	
 	static final String UPLOAD_URL_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload-url"; //$NON-NLS-1$
 	
@@ -57,6 +56,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
 	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_files"; //$NON-NLS-1$
 	static final String UPLOAD_TYPE_DEFAULT = "basic";
+	static final String LOCAL_STORAGE_FORMAT_DEFAULT = "csv";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
