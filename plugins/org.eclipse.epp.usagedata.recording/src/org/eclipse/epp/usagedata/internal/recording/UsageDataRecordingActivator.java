@@ -20,6 +20,9 @@ import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingS
 import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadManager;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -54,8 +57,20 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		super.start(context);
 		plugin = this;
 		
+		IPreferenceStore prefs = getPreferenceStore();
+		prefs.addPropertyChangeListener(new IPropertyChangeListener() {
+			
+			public void propertyChange(PropertyChangeEvent event) {
+				if (UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY.equals(event.getProperty())) {
+					UsageDataRecordingActivator.this.setConverter((String) event.getNewValue());
+				}
+				
+			}
+		});
+		setConverter(prefs.getString(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY));
+		
+		
 		uploadManager = new UploadManager();
-		converter = new CsvEventStorageConverter();
 		settings = new UsageDataRecordingSettings();
 		
 		usageDataRecorder = new UsageDataRecorder();
@@ -119,7 +134,11 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 	
 	public void setConverter(String format) {
 		IEventStorageConverter storageConverter = getConverter(format);
-		converter = storageConverter == null ? converter : storageConverter;
+		if (storageConverter == null) {
+			converter = new CsvEventStorageConverter();
+		} else {
+			converter = storageConverter;
+		}
 	}
 
 	private UsageDataService getUsageDataService() {

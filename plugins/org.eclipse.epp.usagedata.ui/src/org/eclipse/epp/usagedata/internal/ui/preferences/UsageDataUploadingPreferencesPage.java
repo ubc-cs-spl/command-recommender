@@ -12,11 +12,15 @@ package org.eclipse.epp.usagedata.internal.ui.preferences;
 
 import java.util.Date;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.epp.usagedata.internal.gathering.UsageDataCaptureActivator;
 import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -59,6 +63,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private Text uploadPeriodText;
 	private Label label;
 	private Text lastUploadText;
+	private ComboFieldEditor storageFormat;
 
 	private Button askBeforeUploadingCheckbox;
 	private Text uploadUrlText;
@@ -204,6 +209,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		getRecordingPreferences().setValue(UsageDataRecordingSettings.ASK_TO_UPLOAD_KEY, askBeforeUploadingCheckbox.getSelection());		
 		getRecordingPreferences().setValue(UsageDataRecordingSettings.UPLOAD_PERIOD_KEY, Long.valueOf(uploadPeriodText.getText()) * MILLISECONDS_IN_ONE_DAY);
 		uploadServerType.store();
+		storageFormat.store();
 		System.setProperty(UsageDataRecordingSettings.UPLOAD_URL_KEY, uploadUrlText.getText());
 		return super.performOk();
 	}
@@ -280,12 +286,35 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 
 	private void createStorageFormatField(Group composite) {
 		//TODO: set the preference values properly
-		final String[][] contents = new String[1][2];
-		contents[0] = new String[] {"cvs", "cvs"};
-		ComboFieldEditor comboBox = new ComboFieldEditor(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY,
-				"Select Desired Local Storage Format:", contents, composite);
+		storageFormat = new ComboFieldEditor(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY,
+				"Select Desired Local Storage Format:", getStorageComboBoxContents(), composite);	
+		storageFormat.setEnabled(true, composite);
+		storageFormat.setPreferenceStore(getRecordingPreferences());
+		storageFormat.load();
 	}
 
+	private String[][] getStorageComboBoxContents() {
+		IConfigurationElement[] elements = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.epp.usagedata.internal.recording.converter"); //$NON-NLS-1$
+		String[][] contents = new String[elements.length][2];
+		int index = 0;
+		for (IConfigurationElement element : elements) {
+			if ("converter".equals(element.getName())) { //$NON-NLS-1$
+				try {
+					Object converter = element.createExecutableExtension("class"); //$NON-NLS-1$
+					if (converter instanceof IEventStorageConverter) {
+						String format = ((IEventStorageConverter) converter).getFormat();
+						contents[index][0] = format;
+						contents[index][1] = format;
+						index++;
+					}
+				} catch (CoreException e) {
+					UsageDataRecordingActivator.getDefault().getLog().log(e.getStatus());
+				}
+			}
+		}
+		return contents;
+	}
 
 	/*
 	 * Note that this method expects to be run in the UI Thread.
