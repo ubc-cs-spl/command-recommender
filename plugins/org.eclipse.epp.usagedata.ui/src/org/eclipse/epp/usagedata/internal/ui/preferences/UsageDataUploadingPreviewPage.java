@@ -42,7 +42,6 @@ public class UsageDataUploadingPreviewPage extends PreferencePage
 		UploadParameters parameters = new UploadParameters();
 		UsageDataRecordingSettings settings = getSettings();
 		parameters.setSettings(settings);
-		parameters.setFiles(settings.getUsageDataUploadFiles());
 		new UploadPreview(parameters).createControl(composite);
 		return composite;
 	}

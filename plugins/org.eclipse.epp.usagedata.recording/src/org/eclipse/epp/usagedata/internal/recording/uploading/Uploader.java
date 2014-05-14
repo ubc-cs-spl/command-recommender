@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
+import java.util.List;
+
+import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+
 
 public interface Uploader {
 	boolean isUploadInProgress();

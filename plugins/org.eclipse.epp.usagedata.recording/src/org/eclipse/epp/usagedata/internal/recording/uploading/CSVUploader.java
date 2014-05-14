@@ -10,31 +10,26 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.InterruptedIOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -44,15 +39,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 
 /**
- * Instances of the {@link BasicUploader} class are responsible for
+ * Instances of the {@link CSVUploader} class are responsible for
  * uploading a set of files to the server.
  * 
  * @author Wayne Beaton
  *
  */
-public class BasicUploader extends AbstractUploader {
+public class CSVUploader extends AbstractUploader {
 
 	/**
 	 * The HTTP_USERID constant is the key for the HTTP header
@@ -86,8 +82,7 @@ public class BasicUploader extends AbstractUploader {
 
 	private ListenerList responseListeners = new ListenerList();
 
-	public BasicUploader(UploadParameters uploadParameters) {
-		super();
+	public CSVUploader(UploadParameters uploadParameters) {
 		setUploadParameters(uploadParameters);
 	}
 	
@@ -100,6 +95,7 @@ public class BasicUploader extends AbstractUploader {
 	 * cannot be modified. The instance is <em>not</em> reusable.
 	 * </p>
 	 */
+	@Override
 	public synchronized void startUpload() {
 		checkValues();
 		if (uploadInProgress) return;
@@ -172,7 +168,7 @@ public class BasicUploader extends AbstractUploader {
 	 * @throws Exception 
 	 */
 	UploadResult doUpload(IProgressMonitor monitor) throws Exception {
-		monitor.beginTask("Upload", getUploadParameters().getFiles().length + 3); //$NON-NLS-1$
+		monitor.beginTask("Upload", 0); //$NON-NLS-1$
 		/*
 		 * The files that we have been provided with were determined while the recorder
 		 * was suspended. We should be safe to work with these files without worrying
@@ -190,31 +186,47 @@ public class BasicUploader extends AbstractUploader {
 		 * about compressing our output; we can worry about that later.
 		 */
 		
-		File[] file = getUploadParameters().getFiles();
-		for(int i=0; i < file.length; i++){
-			HttpClient client = new DefaultHttpClient(); 
-			HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
+		HttpClient client = new DefaultHttpClient(); 
+		HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
 
-			MultipartEntity entity = new MultipartEntity();
-			ContentBody body = new FileBody(file[0], "text/csv");
-			entity.addPart("csv", body);
-			
-			httpPost.setEntity(entity);
-			HttpEntity responseEntity = null;
-			try{
-				HttpResponse response = client.execute(httpPost);
-				responseEntity = response.getEntity();
-				if(response.getStatusLine().getStatusCode() != 200){
-					return new UploadResult(response.getStatusLine().getStatusCode());
-				}
-			}catch(IOException exp){
-				return new UploadResult(1);
-			}finally{
-				
+		MultipartEntity entity = new MultipartEntity();
+		ContentBody body = getContentBody();
+		entity.addPart("csv", body);
+		httpPost.setEntity(entity);
+		try{
+			HttpResponse response = client.execute(httpPost);
+			if(shouldProcessServerResponse())
+				handleServerResponse(response);
+			if(response.getStatusLine().getStatusCode() != 200){
+				return new UploadResult(response.getStatusLine().getStatusCode());
+			}
+		}catch(IOException exp){
+			return new UploadResult(1);
+		}
+		return new UploadResult(200);
+	}
+
+	private FileBody getContentBody() throws StorageConverterException{
+		File temp = null;
+		BufferedWriter writer = null;
+		try {
+		temp = File.createTempFile("temp_upload", ".csv");
+		String content = "what,kind,bundleId,bundleVersion,description,time\n";
+		List<UsageDataEvent> events = getEventStorage().readEvents();
+		
+		for(UsageDataEvent event : events){
+			if(getUploadParameters().getFilter().includes(event)){
+				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
 			}
 		}
-
-		return new UploadResult(200);
+		writer = new BufferedWriter(new FileWriter(temp));
+		writer.write(content);
+		writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new FileBody(temp);
 	}
 
 	/**
@@ -226,28 +238,9 @@ public class BasicUploader extends AbstractUploader {
 	 * @return int value specifying a reasonable timeout.
 	 */
 	int getSocketTimeout() {
-		return getUploadParameters().getFiles().length * 60000;
+		return 5 * 60000;
 	}
 
-	void handleServerResponse(HttpPost post) {
-		// No point in doing any work if nobody's listening.
-		if (!shouldProcessServerResponse()) return;
-		
-		InputStream response = null;
-		try {
-			//response = post.getResponseBodyAsStream();
-			handleServerResponse(new BufferedReader(new InputStreamReader(response)));
-		} catch (IOException e) {
-			UsageDataRecordingActivator.getDefault().log(IStatus.WARNING, e, "Exception raised while parsing the server response"); //$NON-NLS-1$
-		} finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
 	private boolean shouldProcessServerResponse() {
 		if (getSettings().isLoggingServerActivity()) return true;
@@ -255,28 +248,11 @@ public class BasicUploader extends AbstractUploader {
 		return false;
 	}
 
-	void handleServerResponse(BufferedReader response) throws IOException {
-		while (true) {
-			String line = response.readLine();
-			if (line == null) return;
-			if (getSettings().isLoggingServerActivity()) {
-				UsageDataRecordingActivator.getDefault().log(IStatus.INFO, line);
-			}
-			int colon = line.indexOf(':'); // first occurrence
-			if (colon != -1) {
-				String key = line.substring(0, colon);
-				String value = line.substring(colon + 1);
-				handleServerResponse(key, value);
-			} else {
-				handleServerResponse("", line); //$NON-NLS-1$
-			}
-		}
-	}
 
-	void handleServerResponse(String key, String value) {
-		BasicUploaderServerResponse response = new BasicUploaderServerResponse(key, value);
+	void handleServerResponse(HttpResponse httpResponse) {
+		UploaderServerResponse response = new UploaderServerResponse(Integer.toString(httpResponse.getStatusLine().getStatusCode()), httpResponse.getStatusLine().getReasonPhrase());
 		for(Object listener : responseListeners.getListeners()) {
-			((BasicUploaderResponseListener)listener).handleServerResponse(response);
+			((UploaderResponseListener)listener).handleServerResponse(response);
 		}
 	}
 
@@ -296,82 +272,16 @@ public class BasicUploader extends AbstractUploader {
 	private UploadSettings getSettings() {
 		return getUploadParameters().getSettings();
 	}
-/*
-	Part[] getFileParts(IProgressMonitor monitor) {
-		List<Part> fileParts = new ArrayList<Part>();
-		for (File file : getUploadParameters().getFiles()) {
-			try {
-				// TODO Hook in a custom FilePart that filters contents.
-				fileParts.add(new FilteredFilePart(monitor, "uploads[]", file)); //$NON-NLS-1$
-			} catch (FileNotFoundException e) {
-				// If an exception occurs while creating the FilePart, 
-				// ignore the error and move on. If this has happened,
-				// then another process may have deleted or moved the file.
-			}
-		}
-		return (Part[]) fileParts.toArray(new Part[fileParts.size()]);
-	}
-	
-	class FilteredFilePart extends FilePart {
-		private final IProgressMonitor monitor;
 
-		public FilteredFilePart(IProgressMonitor monitor, String name, File file)	throws FileNotFoundException {
-			super(name, file);
-			this.monitor = monitor;
-		}
-		
-		@Override
-		protected void sendData(OutputStream out) throws IOException {
-			final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-			InputStream input = null;
-			try {
-				input = getSource().createInputStream();
-				new UsageDataFileReader(input).iterate(new UsageDataFileReader.Iterator() {
-					public void header(String header) throws Exception {
-						writer.append(header);
-						writer.append('\n');
-					}
-					public void event(String line, UsageDataEvent event) throws Exception {
-						if (getUploadParameters().getFilter().includes(event)) {
-							writer.append(line);
-							writer.append('\n');
-						} 
-					}					
-				});
-				writer.flush();
-				monitor.worked(1);
-			} catch (Exception e) {
-				if (e instanceof IOException) throw (IOException)e;
-				UsageDataRecordingActivator.getDefault().log(IStatus.WARNING, e, e.getMessage());
-			} finally {
-				input.close();
-			}
-		}
-		*/
-		/**
-		 * Return the length (size in bytes) of the data we're sending.
-		 * Since we're going to be (potentially) applying filters to the
-		 * data, we don't really know the size so return -1. We could
-		 * compute the size, but that would require either passing twice
-		 * over the file, or keeping the content in memory; both options
-		 * have limited appeal.
-		 */
-	/*
-		@Override
-		public long length() throws IOException {
-			return -1;
-		}
-	}
-*/
 	public synchronized boolean isUploadInProgress() {
 		return uploadInProgress;
 	}	
 	
-	public void addResponseListener(BasicUploaderResponseListener listener) {
+	public void addResponseListener(UploaderResponseListener listener) {
 		responseListeners.add(listener);
 	}
 
-	public void removeResponseListener(BasicUploaderResponseListener listener) {
+	public void removeResponseListener(UploaderResponseListener listener) {
 		responseListeners.remove(listener);
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 The Eclipse Foundation.
+ * Copyright (c) 2008 The Eclipse Foundation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,14 +8,16 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.epp.usagedata.internal.gathering.monitors;
+package org.eclipse.epp.usagedata.internal.recording.uploading;
 
-import org.eclipse.epp.usagedata.internal.gathering.services.UsageDataService;
+public class UploaderServerResponse {
 
-public interface UsageMonitor {
+	public final String key;
+	public final String value;
 
-	public abstract void startMonitoring(UsageDataService usageDataService);
-
-	public abstract void stopMonitoring();
+	public UploaderServerResponse(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
 
 }

@@ -16,7 +16,7 @@ import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
-import org.eclipse.epp.usagedata.internal.recording.uploading.BasicUploader;
+import org.eclipse.epp.usagedata.internal.recording.uploading.CSVUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadListener;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadResult;
 import org.eclipse.epp.usagedata.internal.ui.wizards.AskUserUploaderWizard;
@@ -31,7 +31,7 @@ public class AskUserUploader extends AbstractUploader {
 	public static final int DONT_UPLOAD = 2;
 	public static final int NEVER_UPLOAD = 3;
 	
-	private BasicUploader basicUploader;
+	private AbstractUploader uploader;
 	private WizardDialog dialog;
 
 	private int action = UPLOAD_NOW;
@@ -89,8 +89,8 @@ public class AskUserUploader extends AbstractUploader {
 
 	public synchronized boolean isUploadInProgress() {
 		if (isWizardOpen()) return true;
-		if (basicUploader != null) {
-			return basicUploader.isUploadInProgress();
+		if (uploader != null) {
+			return uploader.isUploadInProgress();
 		}
 		return false;
 	}
@@ -120,14 +120,14 @@ public class AskUserUploader extends AbstractUploader {
 	}
 	
 	private void startBasicUpload() {
-		basicUploader = new BasicUploader(getUploadParameters());
-		basicUploader.addUploadListener(new UploadListener() {
+		uploader = AbstractUploader.createUploader("basic", getUploadParameters());
+		uploader.addUploadListener(new UploadListener() {
 			public void uploadComplete(UploadResult result) {
 				fireUploadComplete(result);
-				basicUploader = null;
+				uploader = null;
 			}
 		});
-		basicUploader.startUpload();
+		uploader.startUpload();	
 	}
 
 	public void setAction(int action) {
@@ -150,10 +150,6 @@ public class AskUserUploader extends AbstractUploader {
 		if (action == UPLOAD_ALWAYS) return true;
 		if (action == UPLOAD_NOW) return true;
 		return false;
-	}
-
-	public File[] getFiles() {
-		return getUploadParameters().getFiles();
 	}
 
 	public UsageDataEventFilter getFilter() {

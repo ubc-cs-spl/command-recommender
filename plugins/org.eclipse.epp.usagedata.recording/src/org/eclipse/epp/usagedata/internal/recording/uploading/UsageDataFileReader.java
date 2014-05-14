@@ -22,7 +22,7 @@ import java.io.Reader;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
-import org.eclipse.epp.usagedata.internal.recording.UsageDataRecorderUtils;
+import org.eclipse.epp.usagedata.internal.recording.CSVStorageUtils;
 
 public class UsageDataFileReader {
 	public interface Iterator {
@@ -72,7 +72,7 @@ public class UsageDataFileReader {
 	 *         found in the given string.
 	 */
 	private UsageDataEvent createUsageDataEvent(String line) {
-		String[] tokens = UsageDataRecorderUtils.splitLine(line);
+		String[] tokens = CSVStorageUtils.splitLine(line);
 		if (tokens == null) return null;
 		if (tokens.length != 6) return null;
 		Long when;

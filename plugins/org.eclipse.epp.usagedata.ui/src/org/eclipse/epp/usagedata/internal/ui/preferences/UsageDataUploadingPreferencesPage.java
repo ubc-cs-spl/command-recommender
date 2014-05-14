@@ -19,6 +19,7 @@ import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingS
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -34,6 +35,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -338,6 +340,9 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private void createUploadUrlField(Group composite) {
 		label = new Label(composite, SWT.NONE);
 		label.setText(Messages.UsageDataUploadingPreferencesPage_9); 
+		final String[][] contents = new String[1][1];
+		contents[0] = new String[] {"http://localhost:3000/upload_files", "basic"};
+		ComboFieldEditor uploadUrl = new ComboFieldEditor(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, "Select Upload Location:", contents, composite);
 		
 		Text uploadUrlText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		uploadUrlText.setEnabled(false);
