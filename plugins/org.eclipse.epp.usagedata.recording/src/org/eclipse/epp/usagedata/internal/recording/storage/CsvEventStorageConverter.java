@@ -69,7 +69,6 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 	
 		return events;
 	}
-
 	
 	public String getFormat() {
 		return "csv";

@@ -12,7 +12,7 @@
             category="org.eclipse.epp.usagedata.internal.ui.preferences.UsageDataCapturePreferencesPage"
             class="org.eclipse.epp.usagedata.internal.ui.preferences.UsageDataUploadingPreferencesPage"
             id="org.eclipse.epp.usagedata.internal.ui.preferences.UsageDataUploadingPreferencesPage"
-            name="%page.name.1">
+            name="Storage and Uploading">
       </page>
       <page
             category="org.eclipse.epp.usagedata.internal.ui.preferences.UsageDataCapturePreferencesPage"

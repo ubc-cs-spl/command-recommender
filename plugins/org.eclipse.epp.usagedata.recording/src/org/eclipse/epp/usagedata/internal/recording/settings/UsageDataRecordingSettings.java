@@ -49,6 +49,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public static final String FILTER_PATTERNS_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".filter-patterns"; //$NON-NLS-1$
 	public static final String UPLOAD_TYPE_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload_type"; //$NON-NLS-1$
 	public static final String LOCAL_STORAGE_FORMAT_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".local-storage-format"; //$NON-NLS-1$
+	public static final String STORAGE_LOCATION_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".storage-location"; //$NON-NLS-1$
 	
 	public static final String UPLOAD_URL_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".upload-url"; //$NON-NLS-1$
 	
@@ -58,6 +59,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	static final String UPLOAD_TYPE_DEFAULT = "basic";
 	static final String LOCAL_STORAGE_FORMAT_DEFAULT = "csv";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
+	static final String STORAGE_LOCATION_DEFAULT = "Default";
 
 	private PreferencesBasedFilter filter = new PreferencesBasedFilter();
 
@@ -353,6 +355,15 @@ public class UsageDataRecordingSettings implements UploadSettings {
 			return System.getProperty(UPLOAD_URL_KEY);
 		}
 		return UPLOAD_URL_DEFAULT;
+	}
+	
+	public File getStorageDirectory() {
+		String location = getPreferencesStore().getString(STORAGE_LOCATION_KEY);
+		if (STORAGE_LOCATION_DEFAULT.equals(location)) {
+			return getWorkingDirectory();
+		} else {
+			return new File(location);
+		}
 	}
 
 }

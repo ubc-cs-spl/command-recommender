@@ -20,7 +20,7 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	}
 
 	public File getEventStorageFile() {
-		return new File(getWorkingDirectory(), 
+		return new File(getStorageDirectory(), 
 				STORAGE_FILE_NAME + FORMAT_EXT);
 	}
 	
@@ -46,7 +46,7 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	 */
 	protected File computeArchiveFile() {
 		int index = 0;
-		File parent = getWorkingDirectory();
+		File parent = getStorageDirectory();
 		File file = null;
 		// TODO: Unlikely (impossible?), but what if this spins forever.
 		// TODO: set a limit for the number of backup files
@@ -57,8 +57,8 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 		}
 	}
 	
-	protected File getWorkingDirectory() {
-		return UsageDataRecordingActivator.getDefault().getStateLocation().toFile();
+	protected File getStorageDirectory() {
+		return UsageDataRecordingActivator.getDefault().getSettings().getStorageDirectory();
 	}
 	
 }
