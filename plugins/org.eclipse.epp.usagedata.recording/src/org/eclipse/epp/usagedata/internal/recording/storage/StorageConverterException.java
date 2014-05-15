@@ -18,5 +18,9 @@ public class StorageConverterException extends Exception {
 	public StorageConverterException(Throwable cause) {
 		super(cause);
 	}
+	
+	public StorageConverterException(String msg){
+		super(msg);
+	}
 
 }

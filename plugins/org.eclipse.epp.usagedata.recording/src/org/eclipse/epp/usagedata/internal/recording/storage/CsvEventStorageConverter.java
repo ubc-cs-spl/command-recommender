@@ -24,7 +24,7 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		super(".csv");
 	}
 	
-	public void writeEvents(List<UsageDataEvent> events) 
+	public synchronized void writeEvents(List<UsageDataEvent> events) 
 			throws StorageConverterException {
 		Writer writer = null;
 		try {
@@ -41,45 +41,35 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		}
 	}
 
-	public List<UsageDataEvent> readEvents() throws StorageConverterException {
+	public synchronized List<UsageDataEvent> readEvents() throws StorageConverterException {
 		final List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
-		for (File file : getEventUploadFiles()) {
-			UsageDataFileReader reader = null;
-			try {
-				reader = new UsageDataFileReader(file);
-				reader.iterate(new UsageDataFileReader.Iterator() {
-					public void header(String header) {
-						// Ignore the header.
-					}
-					
-					public void event(String line, UsageDataEvent event) {
-						events.add(event);
-					}	
-				});
-			} catch (Exception e) {
-				throw new StorageConverterException(e);
-			} finally {
-				try {
-					reader.close();
-				} catch (IOException e) {
+		File file = getEventStorageFile();
+		if(file == null)
+			throw new StorageConverterException("File is null");
+		UsageDataFileReader reader = null;
+		try {
+			reader = new UsageDataFileReader(file);
+			reader.iterate(new UsageDataFileReader.Iterator() {
+				public void header(String header) {
+					// Ignore the header.
 				}
+				
+				public void event(String line, UsageDataEvent event) {
+					events.add(event);
+				}	
+			});
+		} catch (Exception e) {
+			throw new StorageConverterException(e);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException e) {
 			}
 		}
+	
 		return events;
 	}
 
-	@Override
-	public File[] getEventUploadFiles() {
-		File currentEvents = getEventStorageFile();
-		File uploadFile = new File(getWorkingDirectory(), 
-				UPLOAD_FILE_NAME + FORMAT_EXT);
-		File[] files = {uploadFile};
-		if (uploadFile.exists())
-			uploadFile.delete();
-		if (currentEvents.exists() && currentEvents.renameTo(uploadFile))
-			return files;
-		return new File[0];
-	}
 	
 	public String getFormat() {
 		return "csv";
@@ -94,7 +84,6 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		file.createNewFile();
 		FileWriter writer = new FileWriter(file);
 		CSVStorageUtils.writeHeader(writer);
-
 		return writer;
 	}
 	

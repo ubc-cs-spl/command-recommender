@@ -169,6 +169,7 @@ public class CSVUploader extends AbstractUploader {
 	 */
 	UploadResult doUpload(IProgressMonitor monitor) throws Exception {
 		monitor.beginTask("Upload", 0); //$NON-NLS-1$
+		UsageDataRecordingActivator.getDefault().prepareUsageDataRecorderForUpload();
 		/*
 		 * The files that we have been provided with were determined while the recorder
 		 * was suspended. We should be safe to work with these files without worrying
@@ -190,6 +191,7 @@ public class CSVUploader extends AbstractUploader {
 		HttpPost httpPost = new HttpPost(getSettings().getUploadUrl());
 
 		MultipartEntity entity = new MultipartEntity();
+		
 		ContentBody body = getContentBody();
 		entity.addPart("csv", body);
 		httpPost.setEntity(entity);
@@ -203,6 +205,7 @@ public class CSVUploader extends AbstractUploader {
 		}catch(IOException exp){
 			return new UploadResult(1);
 		}
+		getEventStorage().archive();
 		return new UploadResult(200);
 	}
 
@@ -213,7 +216,6 @@ public class CSVUploader extends AbstractUploader {
 		temp = File.createTempFile("temp_upload", ".csv");
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
 		List<UsageDataEvent> events = getEventStorage().readEvents();
-		
 		for(UsageDataEvent event : events){
 			if(getUploadParameters().getFilter().includes(event)){
 				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";

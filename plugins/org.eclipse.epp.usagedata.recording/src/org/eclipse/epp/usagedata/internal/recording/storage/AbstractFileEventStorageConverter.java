@@ -13,18 +13,10 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	 */
 	protected final String STORAGE_FILE_NAME = "usagedata";
 	protected final String ARCHIVE_FILE_PREFIX = "archive_usagedata_";
-	protected final String UPLOAD_FILE_NAME = "upload";
 	
 
 	protected AbstractFileEventStorageConverter(String extName){
 		FORMAT_EXT = extName;
-	}
-
-	public void archive() {
-		//TODO: improve performance
-		for (File file: getEventUploadFiles()) {
-			file.renameTo(computeArchiveFile());
-		}
 	}
 
 	public File getEventStorageFile() {
@@ -32,7 +24,12 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 				STORAGE_FILE_NAME + FORMAT_EXT);
 	}
 	
-	public abstract File[] getEventUploadFiles();
+	public synchronized void archive() {
+		//TODO: improve performance
+		File file = getEventStorageFile();
+		file.renameTo(computeArchiveFile());
+		
+	}
 	
 	public String getFileExt() {
 		return FORMAT_EXT;

@@ -129,5 +129,9 @@ public class UsageDataRecorder implements UsageDataEventListener {
 		}
 		UsageDataRecordingActivator.getDefault().log(IStatus.ERROR, e, message);
 	}
+	
+	public void prepareForUpload(){
+		dumpEvents();
+	}
 
 }

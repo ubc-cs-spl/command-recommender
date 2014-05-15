@@ -182,6 +182,10 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 	public UploadManager getUploadManager() {
 		return uploadManager;
 	}
+	
+	public void prepareUsageDataRecorderForUpload(){
+		usageDataRecorder.prepareForUpload();
+	}
 
 
 }
