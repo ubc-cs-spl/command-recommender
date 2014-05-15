@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.CSVStorageUtils;
-import org.eclipse.epp.usagedata.internal.recording.uploading.UsageDataFileReader;
+import org.eclipse.epp.usagedata.internal.recording.uploading.CsvFileReader;
 
 /**
  * @author KeEr
@@ -46,10 +46,10 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		File file = getEventStorageFile();
 		if(file == null)
 			throw new StorageConverterException("File is null");
-		UsageDataFileReader reader = null;
+		CsvFileReader reader = null;
 		try {
-			reader = new UsageDataFileReader(file);
-			reader.iterate(new UsageDataFileReader.Iterator() {
+			reader = new CsvFileReader(file);
+			reader.iterate(new CsvFileReader.Iterator() {
 				public void header(String header) {
 					// Ignore the header.
 				}

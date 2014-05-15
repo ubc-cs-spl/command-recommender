@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.epp.usagedata.internal.ui.preview;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,11 +21,13 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.FilterChangeListener;
 import org.eclipse.epp.usagedata.internal.recording.filtering.FilterUtils;
 import org.eclipse.epp.usagedata.internal.recording.filtering.PreferencesBasedFilter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadParameters;
-import org.eclipse.epp.usagedata.internal.recording.uploading.UsageDataFileReader;
 import org.eclipse.epp.usagedata.internal.ui.Activator;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -412,7 +412,7 @@ public class UploadPreview  {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				setTableCursor(busyCursor);
-				//processFiles(monitor);
+				obtainData(monitor);
 				setTableCursor(null);
 				if (monitor.isCanceled()) return Status.CANCEL_STATUS;
 				return Status.OK_STATUS;
@@ -431,54 +431,23 @@ public class UploadPreview  {
 		contentJob.setPriority(Job.LONG);
 		contentJob.schedule();
 	}
-/*
-	void processFiles(IProgressMonitor monitor) {
-		monitor.beginTask("Process Files", files.length);	 //$NON-NLS-1$
-		for (File file : files) {
-			if (isDisposed()) break; 
-			if (monitor.isCanceled()) break;
-			processFile(file, monitor);
-			monitor.worked(1);
-		}
-		monitor.done();
-	}
-	*/
-	/**
-	 * This method extracts the events found in a {@link File}
-	 * and adds them to the list of events displayed by the
-	 * receiver. Events are batched into groups to reduce
-	 * the number of times the viewer will have to update.
-	 * 
-	 * @param file the {@link File} to process.
-	 * @param monitor the monitor.
-	 */
-	void processFile(File file, IProgressMonitor monitor) {
-		// TODO Add a progress bar to the page?
-		final List<UsageDataEventWrapper> events = new ArrayList<UsageDataEventWrapper>();
-		UsageDataFileReader reader = null;
+	
+	protected void obtainData(IProgressMonitor monitor) {
+		IEventStorageConverter converter = UsageDataRecordingActivator.getDefault().getStorageConverter();
+		List<UsageDataEvent> events;
 		try {
-			reader = new UsageDataFileReader(file);
-			reader.iterate(monitor, new UsageDataFileReader.Iterator() {
-				public void header(String header) {
-					// Ignore the header.
-				}
-				
-				public void event(String line, UsageDataEvent event) {
-					events.add(new UsageDataEventWrapper(parameters, event));
-					if (events.size() > 25) {
-						addEvents(events);
-						events.clear();
-					}
-				}	
-			});
-			addEvents(events);
-		} catch (Exception e) {
-			Activator.getDefault().log(IStatus.WARNING, e, "An error occurred while trying to read %1$s", file.getAbsolutePath()); //$NON-NLS-1$
-		} finally {
-			try {
-				reader.close();
-			} catch (IOException e) {
+			events = converter.readEvents();
+			monitor.beginTask("Loading Data", events.size());
+			ArrayList<UsageDataEventWrapper> wrappers = new ArrayList<UsageDataEventWrapper>();
+			for (UsageDataEvent event : events) {
+				wrappers.add(new UsageDataEventWrapper(parameters, event));
+				monitor.worked(1);
 			}
+			addEvents(wrappers);
+		} catch (StorageConverterException e) {
+			Activator.getDefault().log(IStatus.WARNING, e, "An error occurred while reading the usage data.");
+		} finally {
+			monitor.done();
 		}
 	}
 

@@ -26,8 +26,8 @@ public class UsageDataFileReaderTests {
 		
 		final StringBuilder builder = new StringBuilder();
 
-		UsageDataFileReader reader = new UsageDataFileReader(new StringReader(content));
-		reader.iterate(new UsageDataFileReader.Iterator() {
+		CsvFileReader reader = new CsvFileReader(new StringReader(content));
+		reader.iterate(new CsvFileReader.Iterator() {
 
 			public void event(String line, UsageDataEvent event) {
 				builder.append(line);
@@ -50,8 +50,8 @@ public class UsageDataFileReaderTests {
 		
 		final StringBuilder builder = new StringBuilder();
 
-		UsageDataFileReader reader = new UsageDataFileReader(new StringReader(header+valid+invalid));
-		reader.iterate(new UsageDataFileReader.Iterator() {
+		CsvFileReader reader = new CsvFileReader(new StringReader(header+valid+invalid));
+		reader.iterate(new CsvFileReader.Iterator() {
 
 			public void event(String line, UsageDataEvent event) {
 				builder.append(line);
@@ -74,8 +74,8 @@ public class UsageDataFileReaderTests {
 		
 		final StringBuilder builder = new StringBuilder();
 
-		UsageDataFileReader reader = new UsageDataFileReader(new StringReader(header+valid+invalid));
-		reader.iterate(new UsageDataFileReader.Iterator() {
+		CsvFileReader reader = new CsvFileReader(new StringReader(header+valid+invalid));
+		reader.iterate(new CsvFileReader.Iterator() {
 
 			public void event(String line, UsageDataEvent event) {
 				builder.append(line);
@@ -99,8 +99,8 @@ public class UsageDataFileReaderTests {
 	 */
 	@Test
 	public void testReadSingleFile() throws Exception {
-		UsageDataFileReader reader = new UsageDataFileReader(UsageDataFileReaderTests.class.getResourceAsStream("usagedata.csv"));
-		reader.iterate(new UsageDataFileReader.Iterator() {
+		CsvFileReader reader = new CsvFileReader(UsageDataFileReaderTests.class.getResourceAsStream("usagedata.csv"));
+		reader.iterate(new CsvFileReader.Iterator() {
 			public void event(String line, UsageDataEvent event) throws Exception {				
 			}
 

@@ -297,7 +297,6 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private void createStorageLocationField(Group composite) {
 		Label label = new Label(composite, SWT.NONE);
 		label.setText(Messages.UsageDataUploadingPreferencesPage_11); 
-		//storageLocationText = new Text(composite, SWT.LEFT);
 		storageLocationText = new Text(composite, SWT.SINGLE | SWT.BORDER);
 		storageLocationText.setEnabled(true);
 		GridData gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);

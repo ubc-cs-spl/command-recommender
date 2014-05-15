@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.CSVStorageUtils;
 
-public class UsageDataFileReader {
+public class CsvFileReader {
 	public interface Iterator {
 		public void header(String header) throws Exception;
 		public void event(String line, UsageDataEvent event) throws Exception;
@@ -44,19 +44,19 @@ public class UsageDataFileReader {
 	 *             other way a foolish choice.
 	 * @throws IOException
 	 */
-	public UsageDataFileReader(File file) throws IOException {
+	public CsvFileReader(File file) throws IOException {
 		this(new FileInputStream(file));
 	}
 
-	public UsageDataFileReader(InputStream inputStream) throws IOException {
+	public CsvFileReader(InputStream inputStream) throws IOException {
 		this(new InputStreamReader(inputStream));
 	}
 
-	public UsageDataFileReader(Reader reader) throws IOException {
+	public CsvFileReader(Reader reader) throws IOException {
 		this(new BufferedReader(reader));
 	}
 	
-	public UsageDataFileReader(BufferedReader bufferedReader) throws IOException {
+	public CsvFileReader(BufferedReader bufferedReader) throws IOException {
 		reader = bufferedReader;
 	}
 
