@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
-import org.eclipse.epp.usagedata.internal.recording.UsageDataRecorderUtils;
+import org.eclipse.epp.usagedata.internal.recording.CsvStorageUtils;
 
 public class UploaderTestUtils {
 	
@@ -28,9 +28,9 @@ public class UploaderTestUtils {
 	public static File createBogusUploadDataFile(int days) throws Exception {
 		File file = File.createTempFile("bogusUploadData", "csv");
 		FileWriter writer = new FileWriter(file);
-		UsageDataRecorderUtils.writeHeader(writer);
+		CsvStorageUtils.writeHeader(writer);
 		for(int index=0;index<days*NUMBER_OF_ENTRIES_PER_DAY;index++) {
-			UsageDataRecorderUtils.writeEvent(writer, new UsageDataEvent("bogus", "bogus", "bogus", "bogus","bogus",System.currentTimeMillis()));
+			CsvStorageUtils.writeEvent(writer, new UsageDataEvent("bogus", "bogus", "bogus", "bogus","bogus",System.currentTimeMillis()));
 		}
 
 		writer.close();

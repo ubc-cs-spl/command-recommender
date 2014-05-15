@@ -8,7 +8,7 @@
  * Contributors:
  *    The Eclipse Foundation - initial API and implementation
  *******************************************************************************/
-package org.eclipse.epp.usagedata.internal.recording.storage;
+package org.eclipse.epp.usagedata.internal.recording.uploading;
 
 import java.io.BufferedReader;
 import java.io.File;

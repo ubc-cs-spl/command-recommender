@@ -16,12 +16,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+import org.eclipse.epp.usagedata.internal.recording.CsvStorageUtils;
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
+import org.eclipse.epp.usagedata.internal.recording.storage.CsvEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
+import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 import org.eclipse.epp.usagedata.internal.recording.uploading.util.MockUploadSettings;
 import org.eclipse.epp.usagedata.internal.recording.uploading.util.UploadGoodServlet;
 import org.eclipse.epp.usagedata.internal.recording.uploading.util.UploaderTestUtils;
@@ -34,13 +41,59 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 import org.osgi.util.tracker.ServiceTracker;
 
-public class BasicUploaderTests {
+public class CsvUploaderTests {
 	private static final String GOOD_SERVLET_NAME = "/upload_good";
 	private static final String SERVER_NAME = "usagedata.upload.tests";
-	
+	private static final String TEST_FILE = "usagedata.csv";
 	private static int port;
 	private static ServiceTracker tracker;
+	
+	private class TestCsvUploader extends CsvUploader{
+		private File test_file;
+		public TestCsvUploader(UploadParameters uploadParameters, File test_file) {
+			super(uploadParameters);
+			this.test_file = test_file;
+		}
+		@Override
+		protected List<UsageDataEvent> getEvents(){
+			List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
+			CsvEventStorageConverter converter = new TestCsvEventStorageConverter(test_file);
+			try {
+				events = converter.readEvents();
+			} catch (StorageConverterException e) {
+				e.printStackTrace();
+			}
+			return events;
+		}
+		
+		@Override
+		public IEventStorageConverter getEventStorage(){
+			return new TestCsvEventStorageConverter(test_file);
+		}
+		
+	}
+	
+	private class TestCsvEventStorageConverter extends CsvEventStorageConverter{
+		private File test_file;
+		
+		public TestCsvEventStorageConverter(File test_file){
+			this.test_file = test_file;
+		}
+		
+		@Override
+		public File getEventStorageFile(){
+			return test_file;
+		}
+		
+		@Override
+		protected File computeArchiveFile(){
+			return new File(test_file.getParent(), "archive_usagedata_1.csv");
+		}
+		
 
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@BeforeClass
 	public static void startServer() throws Exception {
 		Dictionary<String, Object> settings = new Hashtable<String, Object>();	
@@ -69,16 +122,22 @@ public class BasicUploaderTests {
 		MockUploadSettings settings = new MockUploadSettings();
 		settings.setUploadUrl("http://localhost:" + port + GOOD_SERVLET_NAME);
 		
-		File file = UploaderTestUtils.createBogusUploadDataFile(90);
+		File fileToUpload = UploaderTestUtils.createBogusUploadDataFile(1);
 		
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(settings);
-		uploadParameters.setFiles(new File[] {file});
 		
-		UploadResult result = new CSVUploader(uploadParameters).doUpload(new NullProgressMonitor());
+		 TestCsvUploader uploader = new TestCsvUploader(uploadParameters, fileToUpload);
+		 UploadResult result = uploader.doUpload(new NullProgressMonitor());
 
 		assertEquals(200, result.getReturnCode());
-		assertFalse(file.exists());
+		assertFalse(fileToUpload.exists());
+		File archivedFile = new File(fileToUpload.getParent(), "archive_usagedata_1.csv");
+		if(archivedFile.exists())
+			archivedFile.deleteOnExit();
+		assertTrue(archivedFile.exists());
+		if(archivedFile.exists())
+			archivedFile.delete();
 	}
 	
 	@Test
@@ -90,16 +149,19 @@ public class BasicUploaderTests {
 
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(settings);
-		uploadParameters.setFiles(new File[] {file});
 		
 		try {
-			new CSVUploader(uploadParameters).doUpload(new NullProgressMonitor());
-			
-			fail("IllegalStateException expected.");
+			UploadResult result = new TestCsvUploader(uploadParameters, file).doUpload(new NullProgressMonitor());
+			assertNotEquals(result.getReturnCode(), -1);
 		} catch (IllegalStateException e) {
 			// Expected
 		} 
 		assertTrue(file.exists());
+	}
+
+	private void assertNotEquals(int returnCode, int i) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Test
@@ -111,9 +173,8 @@ public class BasicUploaderTests {
 
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(settings);
-		uploadParameters.setFiles(new File[] {file});
 		
-		UploadResult result = new CSVUploader(uploadParameters).doUpload(new NullProgressMonitor());
+		UploadResult result = new TestCsvUploader(uploadParameters, file).doUpload(new NullProgressMonitor());
 		
 		assertEquals(404, result.getReturnCode());
 		assertTrue(file.exists());
@@ -135,7 +196,7 @@ public class BasicUploaderTests {
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(settings);
 		
-		assertFalse(new CSVUploader(uploadParameters).hasUserAuthorizedUpload());
+		assertFalse(new TestCsvUploader(uploadParameters, null).hasUserAuthorizedUpload());
 	}
 
 	@Test
@@ -154,6 +215,6 @@ public class BasicUploaderTests {
 		UploadParameters uploadParameters = new UploadParameters();
 		uploadParameters.setSettings(settings);
 		
-		assertFalse(new CSVUploader(uploadParameters).hasUserAuthorizedUpload());
+		assertFalse(new TestCsvUploader(uploadParameters, null).hasUserAuthorizedUpload());
 	}
 }

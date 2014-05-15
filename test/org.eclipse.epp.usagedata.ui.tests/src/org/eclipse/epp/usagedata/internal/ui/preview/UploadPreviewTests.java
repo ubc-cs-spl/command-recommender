@@ -55,7 +55,6 @@ public class UploadPreviewTests {
 		parameters = new UploadParameters();
 		parameters.setSettings(new MockUploadSettings());
 
-		parameters.setFiles(new File[] {findFile("upload0.csv")});
 		preview = new UploadPreview(parameters);
 		
 		while (!EclipseStarter.isRunning()) Thread.sleep(100);

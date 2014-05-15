@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
-import org.eclipse.epp.usagedata.internal.recording.CSVStorageUtils;
+import org.eclipse.epp.usagedata.internal.recording.CsvStorageUtils;
+import org.eclipse.epp.usagedata.internal.recording.uploading.CsvFileReader;
+
 
 /**
  * @author KeEr
@@ -30,7 +32,7 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 			writer = getWriter();
 			if (writer == null) return;
 			for (UsageDataEvent event : events) {
-				CSVStorageUtils.writeEvent(writer, event);
+				CsvStorageUtils.writeEvent(writer, event);
 			}
 			events.clear();
 		} catch (IOException e) {
@@ -81,7 +83,7 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 
 		file.createNewFile();
 		FileWriter writer = new FileWriter(file);
-		CSVStorageUtils.writeHeader(writer);
+		CsvStorageUtils.writeHeader(writer);
 		return writer;
 	}
 	

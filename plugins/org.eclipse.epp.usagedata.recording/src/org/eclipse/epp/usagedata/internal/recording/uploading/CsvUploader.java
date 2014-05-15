@@ -42,13 +42,13 @@ import org.eclipse.epp.usagedata.internal.recording.settings.UploadSettings;
 import org.eclipse.epp.usagedata.internal.recording.storage.StorageConverterException;
 
 /**
- * Instances of the {@link CSVUploader} class are responsible for
+ * Instances of the {@link CsvUploader} class are responsible for
  * uploading a set of files to the server.
  * 
  * @author Wayne Beaton
  *
  */
-public class CSVUploader extends AbstractUploader {
+public class CsvUploader extends AbstractUploader {
 
 	/**
 	 * The HTTP_USERID constant is the key for the HTTP header
@@ -82,7 +82,7 @@ public class CSVUploader extends AbstractUploader {
 
 	private ListenerList responseListeners = new ListenerList();
 
-	public CSVUploader(UploadParameters uploadParameters) {
+	public CsvUploader(UploadParameters uploadParameters) {
 		setUploadParameters(uploadParameters);
 	}
 	
@@ -215,7 +215,7 @@ public class CSVUploader extends AbstractUploader {
 		try {
 		temp = File.createTempFile("temp_upload", ".csv");
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
-		List<UsageDataEvent> events = getEventStorage().readEvents();
+		List<UsageDataEvent> events = getEvents();
 		for(UsageDataEvent event : events){
 			if(getUploadParameters().getFilter().includes(event)){
 				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
@@ -229,6 +229,10 @@ public class CSVUploader extends AbstractUploader {
 			e.printStackTrace();
 		}
 		return new FileBody(temp);
+	}
+
+	protected List<UsageDataEvent> getEvents() throws StorageConverterException {
+		return getEventStorage().readEvents();
 	}
 
 	/**

@@ -22,9 +22,9 @@ public abstract class AbstractUploader implements Uploader{
 	
 	public static AbstractUploader createUploader(String type, UploadParameters uploadParameters){
 		if(UPLOAD_TYPE_CSV.equals(type))
-			return (AbstractUploader) new CSVUploader(uploadParameters);
+			return (AbstractUploader) new CsvUploader(uploadParameters);
 		else
-			return (AbstractUploader) new CSVUploader(uploadParameters); 
+			return (AbstractUploader) new CsvUploader(uploadParameters); 
 	}
 	
 	public void addUploadListener(UploadListener listener) {

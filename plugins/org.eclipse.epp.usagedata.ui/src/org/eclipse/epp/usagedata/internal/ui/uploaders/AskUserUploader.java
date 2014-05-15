@@ -16,7 +16,7 @@ import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.filtering.UsageDataEventFilter;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
-import org.eclipse.epp.usagedata.internal.recording.uploading.CSVUploader;
+import org.eclipse.epp.usagedata.internal.recording.uploading.CsvUploader;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadListener;
 import org.eclipse.epp.usagedata.internal.recording.uploading.UploadResult;
 import org.eclipse.epp.usagedata.internal.ui.wizards.AskUserUploaderWizard;
