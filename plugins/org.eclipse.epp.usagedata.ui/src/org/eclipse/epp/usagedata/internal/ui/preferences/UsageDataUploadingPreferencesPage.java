@@ -21,7 +21,9 @@ import org.eclipse.epp.usagedata.internal.gathering.settings.UsageDataCaptureSet
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 import org.eclipse.epp.usagedata.internal.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.epp.usagedata.internal.recording.uploading.AbstractUploader;
+import org.eclipse.epp.usagedata.internal.recording.storage.AbstractFileEventStorageConverter;
 import org.eclipse.epp.usagedata.internal.recording.storage.IEventStorageConverter;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
 import org.eclipse.jface.fieldassist.FieldDecorationRegistry;
@@ -69,6 +71,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private Button askBeforeUploadingCheckbox;
 	private Text uploadUrlText;
 	private Button uploadNowButton;
+	private Button clearStorageButton;
 	private ComboFieldEditor uploadServerType;
 	private Text storageLocationText;
 	
@@ -291,8 +294,26 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 			
 		createStorageFormatField(group);
 		createStorageLocationField(group);
+		createClearStorageButton(group);
 	}
-
+	
+	private void createClearStorageButton(Group composite) {
+		clearStorageButton = new Button(composite, SWT.PUSH);
+		clearStorageButton.setText(Messages.UsageDataUploadingPreferencesPage_13); 
+		clearStorageButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IEventStorageConverter converter = UsageDataRecordingActivator.getDefault().getStorageConverter();
+				if (converter instanceof AbstractFileEventStorageConverter) {
+					boolean confirmed = MessageDialog.openConfirm(getShell(), "Confirmation Required", 
+							"All the backup files for your usage data will be deleted locally.");
+					if (confirmed) {
+						((AbstractFileEventStorageConverter) converter).clearArchive();
+					}
+				}
+			}
+		});
+	}
 
 	private void createStorageLocationField(Group composite) {
 		Label label = new Label(composite, SWT.NONE);

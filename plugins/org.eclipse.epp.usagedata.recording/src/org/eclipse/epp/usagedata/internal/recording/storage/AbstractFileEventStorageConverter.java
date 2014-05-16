@@ -1,6 +1,7 @@
 package org.eclipse.epp.usagedata.internal.recording.storage;
 
 import java.io.File;
+import java.io.FilenameFilter;
 
 import org.eclipse.epp.usagedata.internal.recording.UsageDataRecordingActivator;
 
@@ -22,6 +23,18 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	public File getEventStorageFile() {
 		return new File(getStorageDirectory(), 
 				STORAGE_FILE_NAME + FORMAT_EXT);
+	}
+	
+	public void clearArchive() {
+		File storageDir = getStorageDirectory();
+		FilenameFilter archiveFilter = new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.startsWith(ARCHIVE_FILE_PREFIX);
+			}
+		};
+		for (File file : storageDir.listFiles(archiveFilter)) {
+			file.delete();
+		}
 	}
 	
 	public synchronized void archive() {

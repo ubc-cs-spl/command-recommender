@@ -13,7 +13,9 @@ package org.eclipse.epp.usagedata.internal.recording.uploading;
 import java.io.StringReader;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
+import org.eclipse.epp.usagedata.internal.recording.storage.CsvFileReader;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class UsageDataFileReaderTests {

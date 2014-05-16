@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.eclipse.epp.usagedata.internal.gathering.events.UsageDataEvent;
 import org.eclipse.epp.usagedata.internal.recording.CSVStorageUtils;
-import org.eclipse.epp.usagedata.internal.recording.uploading.CsvFileReader;
 
 /**
  * @author KeEr
