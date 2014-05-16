@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="uploader" name="Upload Delegate" schema="schema/uploader.exsd"/>
+   <extension-point id="ca.ubc.cs.commandrecommender.usagedata.recording.uploader" name="Upload Delegate" schema="schema/ca.ubc.cs.commandrecommender.usagedata.recording.uploader.exsd"/>
    <extension-point id="ca.ubc.cs.commandrecommender.usagedata.recording.converter" name="Converter Delegate" schema="schema/ca.ubc.cs.commandrecommender.usagedata.recording.converter.exsd"/>
-   <extension
-         point="org.eclipse.epp.usagedata.listeners.event">
-      <listener
-            class="ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecorder">
-      </listener>
-   </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer

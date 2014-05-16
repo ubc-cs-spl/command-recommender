@@ -1,0 +1,10 @@
+# map file that uses HEAD to build the EPP Usage Data Collector Testcases
+
+# feature
+feature@org.eclipse.epp.usagedata.tests.feature=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.epp/features/org.eclipse.epp.usagedata.tests.feature
+
+# plugins
+fragment@ca.ubc.cs.commandrecommender.usagedata.ui.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,ca.ubc.cs.commandrecommender/test/ca.ubc.cs.commandrecommender.usagedata.ui.tests
+fragment@ca.ubc.cs.commandrecommender.usagedata.recording.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,ca.ubc.cs.commandrecommender/test/ca.ubc.cs.commandrecommender.usagedata.recording.tests
+fragment@ca.ubc.cs.commandrecommender.usagedata.gathering.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,ca.ubc.cs.commandrecommender/test/ca.ubc.cs.commandrecommender.usagedata.gathering.tests
+plugin@ca.ubc.cs.commandrecommender.usagedata.tests=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,ca.ubc.cs.commandrecommender/test/ca.ubc.cs.commandrecommender.usagedata.tests

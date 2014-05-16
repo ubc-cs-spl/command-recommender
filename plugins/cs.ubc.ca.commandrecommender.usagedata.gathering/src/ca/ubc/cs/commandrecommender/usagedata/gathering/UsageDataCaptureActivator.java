@@ -30,7 +30,7 @@ import org.osgi.util.tracker.ServiceTracker;
 public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStartup {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.epp.usagedata.gathering"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "ca.ubc.cs.commandrecommender.usagedata.gathering"; //$NON-NLS-1$
 
 	// The shared instance
 	private static UsageDataCaptureActivator plugin;

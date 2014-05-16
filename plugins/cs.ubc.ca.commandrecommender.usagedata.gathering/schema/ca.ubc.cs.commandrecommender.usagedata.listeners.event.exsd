@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.epp.usagedata.gathering">
+<schema targetNamespace="ca.ubc.cs.commandrecommender.usagedata.gathering" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.epp.usagedata.gathering" id="org.eclipse.epp.usagedata.event" name="Event Listener"/>
+         <meta.schema plugin="ca.ubc.cs.commandrecommender.usagedata.gathering" id="ca.ubc.cs.commandrecommender.usagedata.event" name="Event Listener"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -11,6 +11,11 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="listener"/>

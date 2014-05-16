@@ -12,7 +12,7 @@
             category="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
             class="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreferencesPage"
             id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreferencesPage"
-            name="Storage and Uploading">
+            name="%page.name.1">
       </page>
       <page
             category="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
@@ -26,12 +26,6 @@
             id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreviewPage"
             name="%page.name.3">
       </page>
-   </extension>
-   <extension
-         point="org.eclipse.epp.usagedata.recording.uploader">
-      <uploader
-            class="ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader">
-      </uploader>
    </extension>
    <extension
          point="org.eclipse.help.toc">
@@ -49,5 +43,11 @@
             configId="org.eclipse.ui.intro.universalConfig"
             content="intro/udc-intro.xml">
       </configExtension>
+   </extension>
+   <extension
+         point="ca.ubc.cs.commandrecommender.usagedata.recording.uploader">
+      <uploader
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader">
+      </uploader>
    </extension>
 </plugin>

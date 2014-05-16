@@ -1,26 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.epp.usagedata.feature"
-      label="Usage Data Collector"
+      id="ca.ubc.cs.commandrecommender.usagedata.feature"
+      label="Command Recommender - Usage Data Collector"
       version="1.4.0.qualifier"
       provider-name="Eclipse Packaging Project"
       license-feature="org.eclipse.platform"
       license-feature-version="3.7.0.qualifier">
 
    <description url="http://www.eclipse.org/epp/usagedata/index.php">
-      The Usage Data Collector collects information
+      The Command Recommender - Usage Data Collector collects information
 about how individuals are using the Eclipse platform. This
 information is periodically uploaded to servers hosted by
-The Eclipse Foundation (though this is configurable). The intent
-is to use this data to help committers and organizations better
-understand how developers are using Eclipse.
-Target Users of the Data:
-* Users of Eclipse
-* Committers working on Eclipse projects
-* ISVs and organization creating Eclipse based software
-* Enterprise IT departments that make extensive use of Eclipse
-Foundation
-* Academic researchers that want to study how developer work
+//TODO add where servers are. The intent
+is to use this data to make recommendations of commnads that will be useful to the user.
 Data to Be Collected
 Captured data is associated with a user through a combination
 of workstation and workspace ids that are automatically generated
