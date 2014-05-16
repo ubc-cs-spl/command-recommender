@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
+            id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
+            name="%page.name.0">
+      </page>
+      <page
+            category="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreferencesPage"
+            id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreferencesPage"
+            name="Storage and Uploading">
+      </page>
+      <page
+            category="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingTermsOfUsePage"
+            id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingTermsOfUsePage"
+            name="%page.name.2">
+      </page>
+      <page
+            category="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPage"
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreviewPage"
+            id="ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataUploadingPreviewPage"
+            name="%page.name.3">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.epp.usagedata.recording.uploader">
+      <uploader
+            class="ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader">
+      </uploader>
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="tocgettingstarted.xml">
+      </toc>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.configExtension">
+      <configExtension
+            configId="org.eclipse.ui.intro.universalConfig"
+            content="intro/udc-intro.xml">
+      </configExtension>
+   </extension>
+</plugin>

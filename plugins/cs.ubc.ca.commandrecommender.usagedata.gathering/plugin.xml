@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="org.eclipse.epp.usagedata.gathering.monitors" name="Usage Data Monitors" schema="schema/org.eclipse.epp.usagedata.gathering.monitors.exsd"/>
+   <extension-point id="org.eclipse.epp.usagedata.listeners.event" name="Event Listener" schema="schema/org.eclipse.epp.usagedata.listeners.event.exsd"/>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.Startup"></startup>
+   </extension>
+   <extension
+         point="org.eclipse.epp.usagedata.gathering.monitors">
+      <monitor
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.PartUsageMonitor">
+      </monitor>
+      <monitor
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.BundleUsageMonitor">
+      </monitor>
+      <monitor
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.CommandUsageMonitor">
+      </monitor>
+      <monitor
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.SystemInfoMonitor">
+      </monitor>
+      <monitor
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.LogMonitor">
+      </monitor>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCapturePreferenceInitializer">
+      </initializer>
+   </extension>
+
+</plugin>
