@@ -117,6 +117,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	protected synchronized void dumpEvents() {
 		try {
 			UsageDataRecordingActivator.getDefault().getStorageConverter().writeEvents(events);
+			events.clear();
 		} catch (StorageConverterException e) {
 			handleException(e, "Error writing events to file."); //$NON-NLS-1$
 		} 

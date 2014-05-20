@@ -34,7 +34,6 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 			for (UsageDataEvent event : events) {
 				CsvStorageUtils.writeEvent(writer, event);
 			}
-			events.clear();
 		} catch (IOException e) {
 			throw new StorageConverterException(e); //$NON-NLS-1$
 		} finally { 
@@ -47,6 +46,8 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		File file = getEventStorageFile();
 		if(file == null)
 			throw new StorageConverterException("File is null");
+		if(!file.exists())
+			return events;
 		CsvFileReader reader = null;
 		try {
 			reader = new CsvFileReader(file);
@@ -64,7 +65,7 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		} finally {
 			try {
 				reader.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 			}
 		}
 	
