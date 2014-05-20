@@ -12,8 +12,8 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	/**
 	 * The file name for the current local data dump without extension
 	 */
-	protected final String STORAGE_FILE_NAME = "usagedata";
-	protected final String ARCHIVE_FILE_PREFIX = "archive_usagedata_";
+	public static final String STORAGE_FILE_NAME = "usagedata";
+	public static final String ARCHIVE_FILE_PREFIX = "archive_usagedata_";
 	
 
 	protected AbstractFileEventStorageConverter(String extName){

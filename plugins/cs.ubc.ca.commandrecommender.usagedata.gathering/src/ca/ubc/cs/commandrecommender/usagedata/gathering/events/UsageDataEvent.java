@@ -68,4 +68,59 @@ public class UsageDataEvent {
 				this.when = when;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((bundleId == null) ? 0 : bundleId.hashCode());
+		result = prime * result
+				+ ((bundleVersion == null) ? 0 : bundleVersion.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((kind == null) ? 0 : kind.hashCode());
+		result = prime * result + ((what == null) ? 0 : what.hashCode());
+		result = prime * result + (int) (when ^ (when >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UsageDataEvent other = (UsageDataEvent) obj;
+		if (bundleId == null) {
+			if (other.bundleId != null)
+				return false;
+		} else if (!bundleId.equals(other.bundleId))
+			return false;
+		if (bundleVersion == null) {
+			if (other.bundleVersion != null)
+				return false;
+		} else if (!bundleVersion.equals(other.bundleVersion))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (kind == null) {
+			if (other.kind != null)
+				return false;
+		} else if (!kind.equals(other.kind))
+			return false;
+		if (what == null) {
+			if (other.what != null)
+				return false;
+		} else if (!what.equals(other.what))
+			return false;
+		if (when != other.when)
+			return false;
+		return true;
+	}
+
 }

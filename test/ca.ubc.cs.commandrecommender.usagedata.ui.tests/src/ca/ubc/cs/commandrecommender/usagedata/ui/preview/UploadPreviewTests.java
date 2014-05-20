@@ -20,18 +20,30 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.TableView;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.adaptor.EclipseStarter;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.MockUsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
 import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
 import ca.ubc.cs.commandrecommender.usagedata.ui.preview.util.MockUploadSettings;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 import org.junit.After;
 import org.junit.Before;
@@ -52,6 +64,11 @@ public class UploadPreviewTests {
 
 	@Before
 	public void setup() throws Exception {
+
+		IEventStorageConverter converter = UsageDataRecordingActivator.getDefault().getStorageConverter();
+		converter.archive();
+		converter.clearArchive();
+		converter.writeEvents(generateEvents());
 		parameters = new UploadParameters();
 		parameters.setSettings(new MockUploadSettings());
 
@@ -101,12 +118,12 @@ public class UploadPreviewTests {
 	
 	@Test
 	public void testRowChangesColorWhenFilterChanges() throws Exception {
-		
 		assertNull(preview.viewer.getTable().getItem(0).getImage(0));
 		assertEquals(display.getSystemColor(SWT.COLOR_BLACK), preview.viewer.getTable().getItem(0).getForeground(1));
 		
 		((MockUsageDataEventFilter)parameters.getFilter()).addPattern("org.eclipse.osgi");
-
+		
+		//TODO: This test is not currently working. Suspecting if the filtering is not working as expected
 		assertNotNull(preview.viewer.getTable().getItem(0).getImage(0));
 		assertEquals(display.getSystemColor(SWT.COLOR_GRAY), preview.viewer.getTable().getItem(0).getForeground(1));
 		
@@ -116,9 +133,14 @@ public class UploadPreviewTests {
 		assertEquals(display.getSystemColor(SWT.COLOR_BLACK), preview.viewer.getTable().getItem(0).getForeground(1));
 		
 	}
-
-	private File findFile(String string) throws URISyntaxException, IOException {
-		URL url = FileLocator.find(Activator.getDefault().getBundle(), new Path("upload0.csv"), null);
-		return new File(FileLocator.toFileURL(url).toURI());
+	
+	private List<UsageDataEvent> generateEvents() {
+		List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.osgi","3.4.0.v20071207","org.eclipse.osgi", 1));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.equinox.common","3.4.0.v20071207","org.eclipse.equinox.common", 1));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.update.configurator","3.2.200.v20071113","org.eclipse.update.configurator", 1));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.core.runtime","3.4.0.v20071207","org.eclipse.core.runtime", 1));
+		return events;
 	}
+
 }

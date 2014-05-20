@@ -304,12 +304,10 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IEventStorageConverter converter = UsageDataRecordingActivator.getDefault().getStorageConverter();
-				if (converter instanceof AbstractFileEventStorageConverter) {
-					boolean confirmed = MessageDialog.openConfirm(getShell(), "Confirmation Required", 
-							"All the backup files for your usage data will be deleted locally.");
-					if (confirmed) {
-						((AbstractFileEventStorageConverter) converter).clearArchive();
-					}
+				boolean confirmed = MessageDialog.openConfirm(getShell(), "Confirmation Required", 
+						"All the backup files for your usage data will be deleted locally.");
+				if (confirmed) {
+					converter.clearArchive();
 				}
 			}
 		});

@@ -11,3 +11,4 @@ Export-Package: ca.ubc.cs.commandrecommender.usagedata.recording.filtering,
  ca.ubc.cs.commandrecommender.usagedata.ui.preferences,
  ca.ubc.cs.commandrecommender.usagedata.ui.preview,
  ca.ubc.cs.commandrecommender.usagedata.ui.preview.util
+Import-Package: ca.ubc.cs.commandrecommender.usagedata.gathering.events

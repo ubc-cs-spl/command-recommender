@@ -10,6 +10,11 @@ public interface IEventStorageConverter {
 	 * Make back-ups of the data as necessary
 	 */
 	void archive();
+	
+	/**
+	 * Clear the archives
+	 */
+	void clearArchive();
 
 	/**
 	 * Write given events into local storage
