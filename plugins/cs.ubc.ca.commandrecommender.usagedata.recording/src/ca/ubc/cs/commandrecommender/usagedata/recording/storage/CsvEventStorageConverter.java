@@ -12,7 +12,7 @@ import java.util.List;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.CsvStorageUtils;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.CsvFileReader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvFileReader;
 
 
 /**

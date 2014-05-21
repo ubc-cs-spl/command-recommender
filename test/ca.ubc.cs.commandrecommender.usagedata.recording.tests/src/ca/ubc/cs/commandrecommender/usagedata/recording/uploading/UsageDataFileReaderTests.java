@@ -19,12 +19,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UsageDataFileReaderTests {
+	private String header = "what,kind,bundleId,bundleVersion,description,bindingUsed,time\n";
+	private String valid =  "what,kind,bundleId,bundleVersion,description,0,123456\n";
+	private String invalidStart = "what,kind,bundleId,bundleVersion,description";
+	
 	@Test
 	public void testIterate() throws Exception {
-		String content = "what,kind,bundleId,bundleVersion,description,time\n"
-				+ "what,kind,bundleId,bundleVersion,description,123456\n"
-				+ "what,kind,bundleId,bundleVersion,description,123456\n"
-				+ "what,kind,bundleId,bundleVersion,description,123456\n";
+		String content = header + valid + valid + valid;
 		
 		final StringBuilder builder = new StringBuilder();
 
@@ -46,12 +47,10 @@ public class UsageDataFileReaderTests {
 
 	@Test
 	public void testIterateSkipsRowsWithMissingFields() throws Exception {
-		String header = "what,kind,bundleId,bundleVersion,description,time\n";
-		String valid =  "what,kind,bundleId,bundleVersion,description,123456\n";
-		String invalid = "what,kind,bundleId,bundleVersion,description\n";
-		
+	
+		String invalid = invalidStart + "\n";
 		final StringBuilder builder = new StringBuilder();
-
+		
 		CsvFileReader reader = new CsvFileReader(new StringReader(header+valid+invalid));
 		reader.iterate(new CsvFileReader.Iterator() {
 
@@ -70,9 +69,7 @@ public class UsageDataFileReaderTests {
 	
 	@Test
 	public void testIterateSkipsRowsWithIncorrectlyFormattedNumberFields() throws Exception {
-		String header = "what,kind,bundleId,bundleVersion,description,time\n";
-		String valid =  "what,kind,bundleId,bundleVersion,description,123456\n";
-		String invalid = "what,kind,bundleId,bundleVersion,description,123bob\n";
+		String invalid = invalidStart + ",123bob\n";
 		
 		final StringBuilder builder = new StringBuilder();
 

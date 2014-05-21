@@ -57,15 +57,23 @@ public class UsageDataEvent {
 	 * milliseconds in UNIX time (using <code>System.currentTimeMillis()</code>);
 	 */
 	public final long when;
+	
+	/**
+	 * The {@link #bindingUsed} field contains a string indicating whether a user used a key binding or not.
+	 * Where "1" is a binding was used and "0" is a binding was not used.
+	 */
+	public final String bindingUsed;
 
 	public UsageDataEvent(String what, String kind, String description, String bundleId,
-			String bundleVersion, long when) {
+			String bundleVersion, String bindingUsed, long when) {
 				this.what = what;
 				this.kind = kind;
 				this.description = description;
 				this.bundleId = bundleId;
 				this.bundleVersion = bundleVersion;
 				this.when = when;
+				this.bindingUsed = bindingUsed;
+				
 	}
 
 	@Override

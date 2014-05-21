@@ -57,7 +57,7 @@ public class UsageDataServiceTests {
 		};
 		service.addUsageDataEventListener(listener);
 		long time = System.currentTimeMillis();
-		service.recordEvent("bogus", "bogus", "bogus", "bogus");
+		service.recordEvent("bogus", "bogus", "bogus", "bogus", "0");
 		
 		while (events.isEmpty()) Thread.sleep(100);
 		
@@ -78,8 +78,8 @@ public class UsageDataServiceTests {
 			}			
 		};
 		service.addUsageDataEventListener(listener);
-		service.recordEvent("started", "bundle", "bogus", "bogus_bundle", "bogus_version");
-		service.recordEvent("bogus", "bogus", "bogus", "bogus_bundle");
+		service.recordEvent("started", "bundle", "bogus", "bogus_bundle", "bogus_version", "0");
+		service.recordEvent("bogus", "bogus", "bogus", "bogus_bundle", "0");
 		
 		while (events.isEmpty()) Thread.sleep(100);
 		

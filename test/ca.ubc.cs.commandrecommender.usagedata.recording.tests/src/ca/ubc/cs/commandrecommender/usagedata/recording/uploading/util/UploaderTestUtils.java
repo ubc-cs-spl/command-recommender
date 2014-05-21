@@ -30,7 +30,7 @@ public class UploaderTestUtils {
 		FileWriter writer = new FileWriter(file);
 		CsvStorageUtils.writeHeader(writer);
 		for(int index=0;index<days*NUMBER_OF_ENTRIES_PER_DAY;index++) {
-			CsvStorageUtils.writeEvent(writer, new UsageDataEvent("bogus", "bogus", "bogus", "bogus","bogus",System.currentTimeMillis()));
+			CsvStorageUtils.writeEvent(writer, new UsageDataEvent("bogus", "bogus", "bogus", "bogus","bogus","0", System.currentTimeMillis()));
 		}
 
 		writer.close();

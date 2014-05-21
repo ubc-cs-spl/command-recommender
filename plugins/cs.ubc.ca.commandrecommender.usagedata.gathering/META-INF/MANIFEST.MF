@@ -6,7 +6,10 @@ Bundle-Version: 1.3.1.qualifier
 Bundle-Activator: ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.ui;bundle-version="[3.3.0,4.0.0)",
- org.eclipse.ui.workbench
+ org.eclipse.ui.workbench,
+ org.eclipse.e4.ui.bindings;bundle-version="0.10.102",
+ org.eclipse.e4.core.contexts;bundle-version="1.3.1",
+ org.eclipse.core.commands
 Eclipse-LazyStart: true
 Export-Package: ca.ubc.cs.commandrecommender.usagedata.gathering;x-friends:="org.eclipse.epp.usagedata.recording,org.eclipse.epp.usagedata.ui",
  ca.ubc.cs.commandrecommender.usagedata.gathering.events;x-friends:="org.eclipse.epp.usagedata.recording,org.eclipse.epp.usagedata.ui",

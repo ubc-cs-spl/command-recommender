@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.adaptor.EclipseStarter;
 import org.eclipse.core.runtime.jobs.Job;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEventListener;
@@ -239,10 +240,11 @@ public class UsageDataService {
 	 * @param bundleId
 	 *            symbolic name of the bundle that owns the thing that caused
 	 *            the event.
+	 * @param bindingUsed TODO
 	 */
 	public void recordEvent(String what, String kind, String description,
-			String bundleId) {
-		recordEvent(what, kind, description, bundleId, null);
+			String bundleId, String bindingUsed) {
+		recordEvent(what, kind, description, bundleId, null, bindingUsed);
 	}
 	
 	/**
@@ -264,11 +266,13 @@ public class UsageDataService {
 	 * @param bundleVersion
 	 *            the version of the bundle that owns the thing that caused the
 	 *            event.
+	 * @param bindingUsed 
+	 *				whether a user used a key-binding to trigger the event
 	 */
 	public void recordEvent(String what, String kind, String description,
-			String bundleId, String bundleVersion) {
+			String bundleId, String bundleVersion, String bindingUsed) {
 		UsageDataEvent event = new UsageDataEvent(what, kind, description, bundleId,
-				bundleVersion, System.currentTimeMillis());
+				bundleVersion, bindingUsed, System.currentTimeMillis());
 		recordEvent(event);
 
 	}

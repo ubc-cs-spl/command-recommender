@@ -49,7 +49,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 		// Create an install a listener on the bundle context.
 		bundleUsageListener = new BundleListener() {
 			public void bundleChanged(BundleEvent event) {
-				usageDataService.recordEvent(getWhatHappenedString(event), BUNDLE, event.getBundle().getSymbolicName(), event.getBundle().getSymbolicName(), getBundleVersion(event));
+				usageDataService.recordEvent(getWhatHappenedString(event), BUNDLE, event.getBundle().getSymbolicName(), event.getBundle().getSymbolicName(), getBundleVersion(event), "0");
 			}			
 		};
 		getBundleContext().addBundleListener(bundleUsageListener);
@@ -60,7 +60,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 		for (Bundle bundle : getBundleContext().getBundles()) {
 			if (bundle.getState() != Bundle.ACTIVE) continue;
 			String bundleId = bundle.getSymbolicName();
-			usageDataService.recordEvent(STARTED, BUNDLE, bundleId, bundleId, getBundleVersion(bundle));
+			usageDataService.recordEvent(STARTED, BUNDLE, bundleId, bundleId, getBundleVersion(bundle), "0");
 		}
 	}
 

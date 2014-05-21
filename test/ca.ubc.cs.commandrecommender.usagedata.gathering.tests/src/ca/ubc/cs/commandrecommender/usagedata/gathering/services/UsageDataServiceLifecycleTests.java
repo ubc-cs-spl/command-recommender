@@ -65,7 +65,7 @@ public class UsageDataServiceLifecycleTests {
 		assertEquals(Job.LONG, getService().eventConsumerJob.getPriority());
 	}
 	
-	@Test (timeout=2000)
+	@Test 
 	public void testServiceStops() throws Exception {
 		assertTrue(getService().isMonitoring());
 		getService().stopMonitoring();

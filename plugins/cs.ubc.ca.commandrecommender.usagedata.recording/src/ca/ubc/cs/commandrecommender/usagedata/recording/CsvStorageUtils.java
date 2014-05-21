@@ -40,6 +40,8 @@ public class CsvStorageUtils {
 		writer.write("bundleVersion"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
 		writer.write("description"); //$NON-NLS-1$
+		writer.write(",");
+		writer.write("bindingUsed");
 		writer.write(","); //$NON-NLS-1$
 		writer.write("time"); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
@@ -69,6 +71,8 @@ public class CsvStorageUtils {
 		writer.write(","); //$NON-NLS-1$
 		writer.write(event.description != null ? encode(event.description) : ""); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
+		writer.write(event.bindingUsed != null ? event.bindingUsed : "0");
+		writer.write(",");
 		writer.write(String.valueOf(event.when));
 		writer.write("\n"); //$NON-NLS-1$
 	}

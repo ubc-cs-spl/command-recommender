@@ -40,7 +40,7 @@ public class UsageDataEventWrapperTests {
 		filter = (MockUsageDataEventFilter)settings.getFilter();
 		parameters.setSettings(settings);
 		
-		wrapper = new UsageDataEventWrapper(parameters, new UsageDataEvent("what", "kind", "description", "bundleId", "bundleVersion", 1000));
+		wrapper = new UsageDataEventWrapper(parameters, new UsageDataEvent("what", "kind", "description", "bundleId", "bundleVersion", "0", 1000));
 	}
 	
 	@Test

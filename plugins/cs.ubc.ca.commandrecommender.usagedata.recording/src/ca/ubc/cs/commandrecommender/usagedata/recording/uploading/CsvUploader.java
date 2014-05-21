@@ -218,7 +218,8 @@ public class CsvUploader extends AbstractUploader {
 		List<UsageDataEvent> events = getEvents();
 		for(UsageDataEvent event : events){
 			if(getUploadParameters().getFilter().includes(event)){
-				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" + event.description + "\"," + event.when + "\n";
+				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" 
+						+ event.description + "\"," + event.when + "," + event.bindingUsed  + "\n";
 			}
 		}
 		writer = new BufferedWriter(new FileWriter(temp));

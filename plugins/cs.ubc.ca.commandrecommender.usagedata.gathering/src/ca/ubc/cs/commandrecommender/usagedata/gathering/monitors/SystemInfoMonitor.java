@@ -71,18 +71,18 @@ public class SystemInfoMonitor implements UsageMonitor {
 		 * runtime exception. We'll catch and log that potential exception.
 		 */
 		try {
-			usageDataService.recordEvent(INFO_OS, SYSINFO, Platform.getOS(), null);
-			usageDataService.recordEvent(INFO_ARCH, SYSINFO, Platform.getOSArch(), null);
-			usageDataService.recordEvent(INFO_WS, SYSINFO, Platform.getWS(), null);
-			usageDataService.recordEvent(INFO_LOCALE, SYSINFO, Platform.getNL(), null);
+			usageDataService.recordEvent(INFO_OS, SYSINFO, Platform.getOS(), null, "0");
+			usageDataService.recordEvent(INFO_ARCH, SYSINFO, Platform.getOSArch(), null, "0");
+			usageDataService.recordEvent(INFO_WS, SYSINFO, Platform.getWS(), null, "0");
+			usageDataService.recordEvent(INFO_LOCALE, SYSINFO, Platform.getNL(), null, "0");
 		} catch (Exception e) {
 			UsageDataCaptureActivator.getDefault().logException("Exception occurred while obtaining platform properties.", e); //$NON-NLS-1$
 		}
 		
-		usageDataService.recordEvent(INFO_PROCESSORS, SYSINFO, String.valueOf(Runtime.getRuntime().availableProcessors()), null);
+		usageDataService.recordEvent(INFO_PROCESSORS, SYSINFO, String.valueOf(Runtime.getRuntime().availableProcessors()), null, "0");
 		
 		for (String property : SYSTEM_PROPERTIES) {
-			usageDataService.recordEvent(property, SYSINFO, System.getProperty(property), null);
+			usageDataService.recordEvent(property, SYSINFO, System.getProperty(property), null, null);
 		}
 	}
 
