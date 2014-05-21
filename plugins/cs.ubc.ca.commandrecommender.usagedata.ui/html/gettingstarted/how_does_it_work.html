@@ -20,14 +20,14 @@
 
 <body>
 <h1>How Does it Work?</h1>
-<p>The Usage Data Collector is designed to have a minimal impact on user
+<p>Command Recommender - Data Collector is designed to have a minimal impact on user
 experience. The impact on performance is negligible.</p>
 
-<p>Once installed, the Usage Data Collector immediately starts
+<p>Once installed, the Data Collector immediately starts
 monitoring your use of Eclipse. In particular, it takes note of the
 views, editors, perspectives, and commands that you use. It also keeps
 track of when you bring the Eclipse workbench window into focus. At a
-lower level, the Usage Data Collector records the bundles (plug-ins)
+lower level, the Data Collector records the bundles (plug-ins)
 that are loaded by Eclipse. The information collected amounts to the id
 of the entity (view, editor, perspective, etc.), the symbolic name and
 version of the bundle that contains the entity, and the time of the
@@ -37,44 +37,51 @@ event.</p>
 information. Symbolic names for bundles can potentially include company
 and product names; bundle versions, as well as view, editor, and
 perspective ids could potentially also contain sensitive information.
-With this in mind, the Usage Data Collector includes a filtering
+With this in mind, the Data Collector includes a filtering
 framework that can be used to restrict the type of information that is
 uploaded.</p>
 
 <p>After a configurable period of time (five days by default)
 passes, it asks you for permission to upload.</p>
 
+<!-- TODO: update image -->
 <p align="center"><img src="UploadWiz.png" /></p>
 
-<p>At this point, you can tell the Usage Data Collector what you want to
+<p>At this point, you can tell the Data Collector what you want to
 do:</p>
 
 <ul>
-	<li><em>Upload now</em> tells the Usage Data Collector to upload the
+	<li><em>Upload now</em> tells the Data Collector to upload the
 	data that has been captured to date. After the same configurable period
 	of time passes, you will be asked again.</li>
 
-	<li><em>Upload always</em> tells the Usage Data Collector to upload the
+	<li><em>Upload always</em> tells the Data Collector to upload the
 	data that has been captured to date and not ask again. Henceforth, the
 	data will be uploaded without asking.</li>
 
-	<li><em>Don't upload</em> tells the Usage Data Collector not to upload
+	<li><em>Don't upload</em> tells the Data Collector not to upload
 	the data that has been captured. After that same configurable period of
 	time passes, you will be asked again. All the data collected to this
 	point will be retained.</li>
 
-	<li><em>Turn UDC feature off</em> tells the Usage Data Collector not to
+	<li><em>Never Upload</em> tells the Data Collector not to
 	upload the data and to stop collecting the data altogether. This turns
-	off the usage data collection.</li>
+	off the data collection.</li>
 </ul>
 <p>The period of time between requests to upload the usage data can be
 configured by changing the &quot;Upload Period&quot; field on the
-&quot;Usage Data Collection | Uploading&quot; preferences page.</p>
+&quot;Command Recommender | Storage and Uploading&quot; preferences page.</p>
 
 <p align="center"><img src="UploadingPrefs.png" /></p>
 
-<p>The target for uploads is a server hosted by The Eclipse Foundation.
-The data is stored in its collected form in a foundation database.</p>
+<p>The target for uploads is a server hosted by University of British Columbia
+or any other compatible server you specify. The server location can be customized
+on the same preference page shown above. The server and related databases will
+use the uploaded data to determine helpful commands to recommend back</p>
+
+<p>A copy of the uploaded data is also stored locally. You can use the 
+&quot;Local Storage&quot; section of the preferences page shown above to 
+clear these data, or change the storage location.</p>
 
 <p>Two different keys are used to identify the source of the uploaded
 data. The first key identifies the workstation; this key is stored

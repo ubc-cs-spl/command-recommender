@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="ca.ubc.cs.commandrecommender.usagedata.feature"
-      label="Command Recommender - Usage Data Collector"
+      label="Command Recommender - Data Collector"
       version="1.4.0.qualifier"
-      provider-name="Eclipse Packaging Project"
-      license-feature="org.eclipse.platform"
-      license-feature-version="3.7.0.qualifier">
+      provider-name="UBC CommandRecommender Project">
 
-   <description url="http://www.eclipse.org/epp/usagedata/index.php">
-      The Command Recommender - Usage Data Collector collects information
+   <description>
+      The Command Recommender - Data Collector collects information
 about how individuals are using the Eclipse platform. This
 information is periodically uploaded to servers hosted by
 //TODO add where servers are. The intent
-is to use this data to make recommendations of commnads that will be useful to the user.
+is to use this data to make recommendations of commnads that
+will be useful to the user.
 Data to Be Collected
 Captured data is associated with a user through a combination
 of workstation and workspace ids that are automatically generated
@@ -39,10 +38,6 @@ v1.0 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
    </copyright>
 
-   <url>
-      <discovery label="UDC Updates" url="http://download.eclipse.org/technology/epp/updates/udc/"/>
-   </url>
-
    <requires>
       <import plugin="org.eclipse.core.runtime" version="3.3.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.3.0" match="compatible"/>
@@ -50,21 +45,21 @@ http://www.eclipse.org/legal/epl-v10.html
    </requires>
 
    <plugin
-         id="org.eclipse.epp.usagedata.gathering"
+         id="ca.ubc.cs.commandrecommender.usagedata.gathering"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epp.usagedata.recording"
+         id="ca.ubc.cs.commandrecommender.usagedata.recording"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.epp.usagedata.ui"
+         id="ca.ubc.cs.commandrecommender.usagedata.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"

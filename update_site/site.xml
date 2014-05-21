@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/ca.ubc.cs.commandrecommender.usagedata.feature_1.4.0.201405211253.jar" id="ca.ubc.cs.commandrecommender.usagedata.feature" version="1.4.0.201405211253">
+      <category name="ca.ubc.cs.commandrecommender.CommandRecommender"/>
+   </feature>
+   <category-def name="ca.ubc.cs.commandrecommender.CommandRecommender" label="CommandRecommender"/>
+</site>

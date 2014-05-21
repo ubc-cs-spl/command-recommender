@@ -376,8 +376,6 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		gc.dispose();
 		uploadPeriodText.setLayoutData(gridData);
 		
-		new Label(composite, SWT.NONE).setText(Messages.UsageDataUploadingPreferencesPage_4); 
-		
 		final ControlDecoration rangeErrorDecoration = new ControlDecoration(uploadPeriodText, SWT.LEFT | SWT.TOP);
 		rangeErrorDecoration.setDescriptionText(MessageFormat.format(Messages.UsageDataUploadingPreferencesPage_5, new Object[] {MINIMUM_PERIOD_IN_DAYS, MAXIMUM_PERIOD_IN_DAYS})); 
 		rangeErrorDecoration.setImage(getErrorImage());
