@@ -31,7 +31,7 @@ public class CsvEventStorageConverterTests {
 	private static List<UsageDataEvent> generateEvents(int count) throws IOException  {
 		List<UsageDataEvent> events = new ArrayList<UsageDataEvent>(count);
 		for(int index = 0; index < count; index++) {
-			events.add(new UsageDataEvent(String.valueOf(index), "a", "b", "c","d",System.currentTimeMillis()));
+			events.add(new UsageDataEvent(String.valueOf(index), "a", "b", "c","d","e", System.currentTimeMillis()));
 		}
 		return events;
 	}
