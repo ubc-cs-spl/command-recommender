@@ -1,29 +1,12 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
-import javax.naming.Binding;
-
-import org.eclipse.jface.bindings.keys.KeyStroke;
-
-
-import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.bindings.EBindingService;
-import org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher;
-import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.keys.IBindingService;
 
 public class KeyBindingMonitor {
 	private boolean potentialBindingUsed = false;
@@ -34,14 +17,12 @@ public class KeyBindingMonitor {
 	}
 	
 	public final class KeyPressedListener implements Listener{
-		@Override
 		public void handleEvent(Event event) {
 			handleKeyPressed(event);
 		}
 	}
 	
 	public final class KeyReleasedListener implements Listener{
-		@Override
 		public void handleEvent(Event event) {
 			handleKeyReleased(event);
 		}
