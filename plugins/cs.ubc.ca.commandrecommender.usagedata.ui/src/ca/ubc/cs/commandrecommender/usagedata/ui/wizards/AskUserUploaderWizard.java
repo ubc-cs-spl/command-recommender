@@ -10,10 +10,11 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.wizards;
 
-import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IWorkbench;
+
+import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 
 public class AskUserUploaderWizard extends Wizard {
 	private final AskUserUploader uploader;

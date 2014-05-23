@@ -10,11 +10,12 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.preview;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Shell;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
 
 public class AddFilterDialog {
 

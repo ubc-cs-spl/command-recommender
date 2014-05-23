@@ -16,13 +16,6 @@ import java.util.Date;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.AbstractFileEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.fieldassist.FieldDecoration;
@@ -52,6 +45,13 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
 
 import com.ibm.icu.text.MessageFormat;
 

@@ -14,8 +14,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.core.runtime.adaptor.EclipseStarter;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -23,6 +21,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
 
 public class UsageDataCapturePreferencesPageTests {

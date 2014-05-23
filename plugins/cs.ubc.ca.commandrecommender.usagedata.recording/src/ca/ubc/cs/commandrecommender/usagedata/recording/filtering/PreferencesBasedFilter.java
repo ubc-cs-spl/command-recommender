@@ -10,12 +10,13 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 
 /**
  * The {@link PreferencesBasedFilter} is a {@link UsageDataEventFilter} with

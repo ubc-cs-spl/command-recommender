@@ -13,8 +13,9 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
 /**
  * This class implements a &quot;mock&quot; implementation of

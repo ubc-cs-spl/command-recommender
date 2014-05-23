@@ -10,15 +10,16 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.AbstractUsageDataEventFilterTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtilsTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilterTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettingsTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.CsvUploaderTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UsageDataFileReaderTests;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)

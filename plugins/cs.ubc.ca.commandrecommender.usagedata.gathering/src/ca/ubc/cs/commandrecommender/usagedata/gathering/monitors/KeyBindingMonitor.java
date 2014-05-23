@@ -4,9 +4,9 @@ package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.SWT;
 
 public class KeyBindingMonitor {
 	private boolean potentialBindingUsed = false;

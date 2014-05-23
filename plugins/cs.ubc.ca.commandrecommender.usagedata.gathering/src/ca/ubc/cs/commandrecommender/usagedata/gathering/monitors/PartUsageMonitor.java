@@ -10,7 +10,6 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
@@ -24,6 +23,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 
 /**
  * Instances of the {@link PartUsageMonitor} class monitor the use of parts in

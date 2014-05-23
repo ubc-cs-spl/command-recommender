@@ -15,11 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadManager;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -27,6 +22,12 @@ import org.eclipse.ui.IStartup;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadManager;
 
 /**
  * The activator class controls the plug-in life cycle

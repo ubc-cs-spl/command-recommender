@@ -10,28 +10,16 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
-import java.util.List;
-
-import javax.swing.KeyStroke;
-
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
-
-import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
-
-import org.eclipse.jface.bindings.TriggerSequence;
-import org.eclipse.jface.bindings.keys.KeySequence;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.keys.IBindingService;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 
 /**
  * Instances of this class monitor invocations of commands in the workbench.

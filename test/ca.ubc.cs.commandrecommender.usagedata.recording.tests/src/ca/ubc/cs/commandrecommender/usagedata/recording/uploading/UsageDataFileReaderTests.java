@@ -10,13 +10,14 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.StringReader;
+
+import org.junit.Test;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvFileReader;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class UsageDataFileReaderTests {
 	private String header = "what,kind,bundleId,bundleVersion,description,bindingUsed,time\n";

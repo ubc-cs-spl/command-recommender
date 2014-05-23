@@ -11,8 +11,9 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.settings;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 
 public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceInitializer {
 

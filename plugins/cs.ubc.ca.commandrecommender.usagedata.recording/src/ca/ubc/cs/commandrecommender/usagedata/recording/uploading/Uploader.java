@@ -10,9 +10,6 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
-import java.util.List;
-
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
 
 public interface Uploader {

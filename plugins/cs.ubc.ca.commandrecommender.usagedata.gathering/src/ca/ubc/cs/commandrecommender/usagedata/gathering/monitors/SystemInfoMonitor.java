@@ -11,6 +11,7 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
 import org.eclipse.core.runtime.Platform;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 

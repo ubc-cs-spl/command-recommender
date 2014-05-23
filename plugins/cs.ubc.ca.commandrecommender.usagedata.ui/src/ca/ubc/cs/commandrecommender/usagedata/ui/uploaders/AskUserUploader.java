@@ -10,20 +10,18 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.uploaders;
 
-import java.io.File;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.CsvUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadResult;
 import ca.ubc.cs.commandrecommender.usagedata.ui.wizards.AskUserUploaderWizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 public class AskUserUploader extends AbstractUploader {
 	public static final int UPLOAD_NOW = 0;

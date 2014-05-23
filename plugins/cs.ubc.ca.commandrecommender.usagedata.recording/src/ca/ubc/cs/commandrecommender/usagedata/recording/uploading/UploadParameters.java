@@ -10,8 +10,6 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
-import java.io.File;
-
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 

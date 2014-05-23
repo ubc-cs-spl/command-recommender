@@ -10,12 +10,13 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui;
 
-import ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPageTests;
-import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreviewTests;
-import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UsageDataEventWrapperTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
+import ca.ubc.cs.commandrecommender.usagedata.ui.preferences.UsageDataCapturePreferencesPageTests;
+import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreviewTests;
+import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UsageDataEventWrapperTests;
 
 @RunWith(Suite.class)
 @SuiteClasses( { 

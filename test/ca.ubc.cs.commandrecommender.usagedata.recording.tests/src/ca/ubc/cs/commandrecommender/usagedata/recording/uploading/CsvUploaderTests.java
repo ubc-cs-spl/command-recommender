@@ -13,7 +13,6 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -22,16 +21,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.CsvStorageUtils;
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.MockUploadSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.UploadGoodServlet;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.UploaderTestUtils;
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
 import org.eclipse.equinox.http.jetty.JettyConstants;
 import org.junit.AfterClass;
@@ -40,6 +29,16 @@ import org.junit.Test;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 import org.osgi.util.tracker.ServiceTracker;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.MockUploadSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.UploadGoodServlet;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util.UploaderTestUtils;
 
 public class CsvUploaderTests {
 	private static final String GOOD_SERVLET_NAME = "/upload_good";

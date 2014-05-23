@@ -10,8 +10,9 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.settings;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 
 public class UsageDataCaptureSettings {
 

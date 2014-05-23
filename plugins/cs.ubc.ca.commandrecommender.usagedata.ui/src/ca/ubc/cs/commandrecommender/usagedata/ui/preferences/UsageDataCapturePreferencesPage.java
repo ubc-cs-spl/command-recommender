@@ -10,8 +10,6 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.preferences;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -25,6 +23,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
 public class UsageDataCapturePreferencesPage extends PreferencePage
 	implements IWorkbenchPreferencePage {

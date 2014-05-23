@@ -11,6 +11,7 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
 import org.eclipse.core.runtime.ListenerList;
+
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 

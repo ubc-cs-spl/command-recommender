@@ -10,12 +10,13 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 
 /**
  * Instances of this class hook into the {@link BundleContext} so

@@ -15,8 +15,6 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
-import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -27,6 +25,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
+import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
+import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 
 public class TermsOfUseWizardPage extends WizardPage {
 

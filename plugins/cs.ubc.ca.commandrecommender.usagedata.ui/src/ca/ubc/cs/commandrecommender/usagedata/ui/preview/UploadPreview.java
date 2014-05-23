@@ -20,15 +20,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterChangeListener;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
-import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -59,6 +50,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.widgets.FormText;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterChangeListener;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
+import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
 
 import com.ibm.icu.text.DateFormat;
 

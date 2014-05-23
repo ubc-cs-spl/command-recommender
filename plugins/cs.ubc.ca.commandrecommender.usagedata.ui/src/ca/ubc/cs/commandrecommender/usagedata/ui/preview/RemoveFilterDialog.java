@@ -2,13 +2,14 @@ package ca.ubc.cs.commandrecommender.usagedata.ui.preview;
 
 import java.util.Arrays;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.ListDialog;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
 
 public class RemoveFilterDialog {
 

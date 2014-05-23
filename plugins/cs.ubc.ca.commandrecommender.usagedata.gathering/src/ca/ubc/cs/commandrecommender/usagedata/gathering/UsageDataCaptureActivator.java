@@ -13,8 +13,6 @@ package ca.ubc.cs.commandrecommender.usagedata.gathering;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.IStartup;
@@ -23,6 +21,9 @@ import org.eclipse.ui.progress.UIJob;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
 /**
  * The activator class controls the plug-in life cycle

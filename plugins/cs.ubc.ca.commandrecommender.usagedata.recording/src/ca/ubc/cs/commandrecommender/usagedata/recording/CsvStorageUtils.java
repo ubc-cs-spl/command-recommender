@@ -15,8 +15,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 

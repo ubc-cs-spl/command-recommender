@@ -13,7 +13,6 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.settings;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.NullFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 
 public interface UploadSettings {
 

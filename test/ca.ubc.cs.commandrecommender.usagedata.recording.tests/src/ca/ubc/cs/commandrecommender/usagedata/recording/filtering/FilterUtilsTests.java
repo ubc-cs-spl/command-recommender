@@ -10,9 +10,10 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
 import org.junit.Test;
 
 public class FilterUtilsTests {

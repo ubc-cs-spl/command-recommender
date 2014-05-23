@@ -11,8 +11,9 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.settings;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import org.eclipse.jface.preference.IPreferenceStore;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 
 public class UsageDataRecordingPreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override

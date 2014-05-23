@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.AfterClass;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 

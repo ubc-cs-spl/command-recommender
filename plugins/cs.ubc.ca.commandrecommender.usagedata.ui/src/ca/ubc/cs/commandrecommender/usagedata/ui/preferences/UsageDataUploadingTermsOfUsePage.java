@@ -15,8 +15,6 @@ import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
-import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -28,6 +26,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
+import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
 
 public class UsageDataUploadingTermsOfUsePage extends PreferencePage
 	implements IWorkbenchPreferencePage {

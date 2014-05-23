@@ -10,10 +10,6 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.preferences;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
-import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreview;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
@@ -21,6 +17,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
+import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreview;
 
 public class UsageDataUploadingPreviewPage extends PreferencePage
 	implements IWorkbenchPreferencePage {

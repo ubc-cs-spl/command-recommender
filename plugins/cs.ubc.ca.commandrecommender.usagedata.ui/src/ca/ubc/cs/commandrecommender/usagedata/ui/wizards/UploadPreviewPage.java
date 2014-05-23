@@ -10,14 +10,15 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.ui.wizards;
 
-import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreview;
-import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import ca.ubc.cs.commandrecommender.usagedata.ui.preview.UploadPreview;
+import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 
 public class UploadPreviewPage extends WizardPage {
 

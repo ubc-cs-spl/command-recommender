@@ -19,12 +19,13 @@ import java.io.Writer;
 import java.util.UUID;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.ui.PlatformUI;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * This class provides a convenient location to find the settings

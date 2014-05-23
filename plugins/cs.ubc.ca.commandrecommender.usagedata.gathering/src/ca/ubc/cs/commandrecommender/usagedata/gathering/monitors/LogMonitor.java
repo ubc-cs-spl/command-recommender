@@ -13,6 +13,7 @@ package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 
 /**

@@ -14,12 +14,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.MockUsageDataEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadParameters;
 import ca.ubc.cs.commandrecommender.usagedata.ui.preview.util.MockUploadSettings;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * These tests can be run outside of the workbench.

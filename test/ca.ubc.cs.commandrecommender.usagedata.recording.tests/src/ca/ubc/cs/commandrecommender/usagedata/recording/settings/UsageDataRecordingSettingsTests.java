@@ -14,10 +14,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 
 /**
  * These tests confirm that the settings, based on values stored

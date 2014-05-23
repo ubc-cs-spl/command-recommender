@@ -13,8 +13,6 @@ package ca.ubc.cs.commandrecommender.usagedata.ui.wizards;
 import java.net.URL;
 
 import org.eclipse.core.runtime.Status;
-import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
-import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -29,6 +27,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
+
+import ca.ubc.cs.commandrecommender.usagedata.ui.Activator;
+import ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader;
 
 public class SelectActionWizardPage extends WizardPage {
 

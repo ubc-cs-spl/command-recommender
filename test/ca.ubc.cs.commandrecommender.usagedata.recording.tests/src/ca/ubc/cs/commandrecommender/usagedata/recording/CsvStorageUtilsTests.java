@@ -14,9 +14,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.StringWriter;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.CsvStorageUtils;
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import org.junit.Test;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
 public class CsvStorageUtilsTests {
 
