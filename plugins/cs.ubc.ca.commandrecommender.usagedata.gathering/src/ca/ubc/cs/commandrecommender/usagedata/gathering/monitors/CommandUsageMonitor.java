@@ -10,12 +10,13 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
+
+import java.util.HashSet;
+
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 
@@ -42,33 +43,54 @@ public class CommandUsageMonitor implements UsageMonitor {
 	
 	private ExtensionIdToBundleMapper commandToBundleIdMapper;
 	
-	private KeyBindingMonitor keyMonitor;
+	private class CommandUsageListener implements IExecutionListener {
+		
+		private final UsageDataService usageDataService;
+		private HashSet<String> commandsTriggeredThroughHotkey;
+		
+		public CommandUsageListener(UsageDataService service) {
+			usageDataService = service;
+			commandsTriggeredThroughHotkey = new HashSet<String>();
+		}
+
+		public void notHandled(String commandId, NotHandledException exception) {
+			recordEvent(NO_HANDLER, commandId);				
+		}
+
+		public void postExecuteFailure(String commandId, ExecutionException exception) {
+			recordEvent(FAILED, commandId);				
+		}
+
+		public void postExecuteSuccess(String commandId, Object returnValue) {
+			recordEvent(EXECUTED, commandId);				
+		}
+
+		public void preExecute(String commandId, ExecutionEvent event) {
+			if (event.getTrigger() == null)
+				commandsTriggeredThroughHotkey.add(commandId);
+		}
+		
+		private void recordEvent(String what, String commandId) {
+			usageDataService.recordEvent(what, COMMAND, commandId, getBundleId(commandId), 
+					getHotkeyUsageMarkerForCommand(commandId));
+		}
+		
+		//Note: this modifies commandsTriggeredThroughHotkey by removing the commandId 
+		//      from the set
+		private String getHotkeyUsageMarkerForCommand(String commandId) {
+			if (commandsTriggeredThroughHotkey.contains(commandId)) {
+				commandsTriggeredThroughHotkey.remove(commandId);
+				return "1";
+			} else {
+				return "0";
+			}
+		}
+	}
 	
-	public void startMonitoring(final UsageDataService usageDataService) {		
-		executionListener = new IExecutionListener() {
-			public void notHandled(String commandId, NotHandledException exception) {
-				recordEvent(NO_HANDLER, usageDataService, commandId, keyMonitor.getBindingUsed());				
-			}
-
-			public void postExecuteFailure(String commandId, ExecutionException exception) {
-				recordEvent(FAILED, usageDataService, commandId, keyMonitor.getBindingUsed());				
-			}
-
-			public void postExecuteSuccess(String commandId, Object returnValue) {
-				
-				recordEvent(EXECUTED, usageDataService, commandId, keyMonitor.getBindingUsed());				
-			}
-
-			public void preExecute(String commandId, ExecutionEvent event) {
-				
-			}			
-		};
-		Display display = PlatformUI.getWorkbench().getDisplay();
-		keyMonitor = new KeyBindingMonitor();
-		display.addFilter(SWT.KeyDown, keyMonitor.getKeyPressedListener());
-		display.addFilter(SWT.KeyUp, keyMonitor.getKeyReleasedListener());
+	public void startMonitoring(final UsageDataService usageDataService) {
+		commandToBundleIdMapper = new ExtensionIdToBundleMapper(COMMANDS_EXTENSION_POINT);		
+		executionListener = new CommandUsageListener(usageDataService);
 		getCommandService().addExecutionListener(executionListener);
-		commandToBundleIdMapper = new ExtensionIdToBundleMapper(COMMANDS_EXTENSION_POINT);
 	}
 
 	private ICommandService getCommandService() {
@@ -79,17 +101,6 @@ public class CommandUsageMonitor implements UsageMonitor {
 		ICommandService commandService = getCommandService();
 		if (commandService != null) commandService.removeExecutionListener(executionListener);
 		commandToBundleIdMapper.dispose();
-		Display display = PlatformUI.getWorkbench().getDisplay();
-		if(!display.isDisposed()){
-			display.removeFilter(SWT.KeyDown, keyMonitor.getKeyPressedListener());
-			display.removeFilter(SWT.KeyUp, keyMonitor.getKeyReleasedListener());
-		}
-
-	}
-
-	private void recordEvent(String what,
-			final UsageDataService usageDataService, String commandId, String bindingUsed) {
-		usageDataService.recordEvent(what, COMMAND, commandId, getBundleId(commandId), bindingUsed);
 	}
 	
 	/**
