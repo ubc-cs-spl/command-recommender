@@ -116,12 +116,12 @@ public class UploadManager {
 	 */
 	private AbstractUploader getUploader() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(UsageDataRecordingActivator.PLUGIN_ID + ".uploader"); //$NON-NLS-1$
+				.getConfigurationElementsFor(UsageDataRecordingActivator.PLUGIN_ID + ".abstractuploader"); //$NON-NLS-1$
 		for (IConfigurationElement element : elements) {
-			if ("uploader".equals(element.getName())) { //$NON-NLS-1$
+			if ("abstractuploader".equals(element.getName())) { //$NON-NLS-1$
 				try {
 					Object uploader = element.createExecutableExtension("class"); //$NON-NLS-1$
-					if (uploader instanceof Uploader) {
+					if (uploader instanceof AbstractUploader) {
 						return (AbstractUploader) uploader;
 					}
 				} catch (CoreException e) {

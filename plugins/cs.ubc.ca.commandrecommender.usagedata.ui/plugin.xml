@@ -45,9 +45,9 @@
       </configExtension>
    </extension>
    <extension
-         point="ca.ubc.cs.commandrecommender.usagedata.recording.uploader">
-      <uploader
+         point="ca.ubc.cs.commandrecommender.usagedata.recording.abstractuploader">
+      <abstractuploader
             class="ca.ubc.cs.commandrecommender.usagedata.ui.uploaders.AskUserUploader">
-      </uploader>
+      </abstractuploader>
    </extension>
 </plugin>

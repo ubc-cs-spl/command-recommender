@@ -16,13 +16,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadResult;
 import ca.ubc.cs.commandrecommender.usagedata.ui.wizards.AskUserUploaderWizard;
 
+@SuppressWarnings("restriction")
 public class AskUserUploader extends AbstractUploader {
 	public static final int UPLOAD_NOW = 0;
 	public static final int UPLOAD_ALWAYS = 1;
@@ -35,24 +36,24 @@ public class AskUserUploader extends AbstractUploader {
 	private int action = UPLOAD_NOW;
 	private boolean userAcceptedTermsOfUse;
 
+	@Override
 	public void startUpload() {
-		checkValues();
 		if (needToOpenWizard()) {
 			openUploadWizard();
 		} else {
-			startBasicUpload();
+			upload();
 		}
 	}
 
 	protected boolean needToOpenWizard() {
-		if (getSettings().shouldAskBeforeUploading()) return true;
-		if (!getSettings().hasUserAcceptedTermsOfUse()) return true;		
+		if (getDataRecorderSettings().shouldAskBeforeUploading()) return true;
+		if (!getDataRecorderSettings().hasUserAcceptedTermsOfUse()) return true;		
 		return false;
 	}
 
 	private void openUploadWizard() {
 		action = getDefaultAction();
-		userAcceptedTermsOfUse = getSettings().hasUserAcceptedTermsOfUse();
+		userAcceptedTermsOfUse = getDataRecorderSettings().hasUserAcceptedTermsOfUse();
 		
 		final AskUserUploaderWizard wizard = new AskUserUploaderWizard(this);
 		Display.getDefault().syncExec(new Runnable() {
@@ -70,7 +71,7 @@ public class AskUserUploader extends AbstractUploader {
 	}
 
 	private int getDefaultAction() {
-		if (getSettings().isEnabled()) {
+		if (getDataRecorderSettings().isEnabled()) {
 			if (needToOpenWizard()) {
 				return UPLOAD_NOW;
 			} else {
@@ -81,9 +82,6 @@ public class AskUserUploader extends AbstractUploader {
 		}
 	}
 
-	private UsageDataRecordingSettings getSettings() {
-		return UsageDataRecordingActivator.getDefault().getSettings();
-	}
 
 	public synchronized boolean isUploadInProgress() {
 		if (isWizardOpen()) return true;
@@ -106,19 +104,19 @@ public class AskUserUploader extends AbstractUploader {
 	public synchronized void execute() {
 		dialog = null;
 		
-		getSettings().setAskBeforeUploading(action != UPLOAD_ALWAYS);
-		getSettings().setEnabled(action != NEVER_UPLOAD);
-		getSettings().setUserAcceptedTermsOfUse(userAcceptedTermsOfUse);
+		getDataRecorderSettings().setAskBeforeUploading(action != UPLOAD_ALWAYS);
+		getDataRecorderSettings().setEnabled(action != NEVER_UPLOAD);
+		getDataRecorderSettings().setUserAcceptedTermsOfUse(userAcceptedTermsOfUse);
 		
 		if (action == UPLOAD_ALWAYS || action == UPLOAD_NOW) {
-			startBasicUpload();
+			upload();
 		} else {
 			fireUploadComplete(new UploadResult(UploadResult.CANCELLED));
 		}
 	}
 	
-	private void startBasicUpload() {
-		uploader = AbstractUploader.createUploader(getUploaderType(), getUploadParameters());
+	private void upload() {
+		uploader = AbstractEventUploader.createUploader(getUploaderType(), getUploadParameters());
 		uploader.addUploadListener(new UploadListener() {
 			public void uploadComplete(UploadResult result) {
 				fireUploadComplete(result);
@@ -154,7 +152,8 @@ public class AskUserUploader extends AbstractUploader {
 		return false;
 	}
 
-	public UserDefinedEventFilter getFilter() {
-		return getUploadParameters().getUserDefinedFilter();
+	private UsageDataRecordingSettings getDataRecorderSettings() {
+		return UsageDataRecordingActivator.getDefault().getSettings();
 	}
+
 }
