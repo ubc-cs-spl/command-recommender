@@ -19,7 +19,7 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActiva
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 
 /**
- * The {@link PreferencesBasedFilter} is a {@link UsageDataEventFilter} with
+ * The {@link PreferencesBasedFilter} is a {@link UserDefinedEventFilter} with
  * direct links to preferences for the org.eclipse.epp.usagedata.recording
  * bundle. When created, instances hook a listener into the preference store
  * for the bundle so as to be notified by changes in preferences and update
@@ -66,7 +66,7 @@ public class PreferencesBasedFilter extends AbstractUsageDataEventFilter {
 		return false;
 	}
 
-	public boolean includes(UsageDataEvent event) {
+	public boolean accepts(UsageDataEvent event) {
 		if (includeOnlyEclipseDotOrgBundles()) {
 			return event.bundleId.startsWith("org.eclipse."); //$NON-NLS-1$
 		}

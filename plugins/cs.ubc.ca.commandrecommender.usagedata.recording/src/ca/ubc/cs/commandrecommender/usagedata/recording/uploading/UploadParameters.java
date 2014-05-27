@@ -10,7 +10,9 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.EventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 
 public class UploadParameters {
@@ -25,7 +27,12 @@ public class UploadParameters {
 		return settings;
 	}
 
-	public UsageDataEventFilter getFilter() {
+	public UserDefinedEventFilter getUserDefinedFilter() {
 		return settings.getFilter();
 	}
+	
+	public EventFilter getCompleteFilter() {
+		return FilterUtils.and(getUserDefinedFilter(), FilterUtils.defaultEventFilter());
+	}
+	
 }

@@ -205,11 +205,11 @@ public class UploadPreview  {
 				viewer.refresh();
 			}
 		};
-		parameters.getFilter().addFilterChangeListener(filterChangeListener);
+		parameters.getUserDefinedFilter().addFilterChangeListener(filterChangeListener);
 		
 		viewer.getTable().addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				parameters.getFilter().removeFilterChangeListener(filterChangeListener);
+				parameters.getUserDefinedFilter().removeFilterChangeListener(filterChangeListener);
 			}			
 		});
 		
@@ -313,10 +313,10 @@ public class UploadPreview  {
 				updateButtons();
 			}			
 		};
-		parameters.getFilter().addFilterChangeListener(filterChangeListener);
+		parameters.getUserDefinedFilter().addFilterChangeListener(filterChangeListener);
 		parent.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				parameters.getFilter().removeFilterChangeListener(filterChangeListener);
+				parameters.getUserDefinedFilter().removeFilterChangeListener(filterChangeListener);
 			}			
 		});
 		updateButtons();
@@ -328,14 +328,14 @@ public class UploadPreview  {
 		eclipseOnlyButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				((PreferencesBasedFilter)parameters.getFilter()).setEclipseOnly(eclipseOnlyButton.getSelection());
+				((PreferencesBasedFilter)parameters.getUserDefinedFilter()).setEclipseOnly(eclipseOnlyButton.getSelection());
 			}
 		});
 	}
 
 	private void updateButtons() {
-		if (parameters.getFilter() instanceof PreferencesBasedFilter) {
-			PreferencesBasedFilter filter = (PreferencesBasedFilter)parameters.getFilter();
+		if (parameters.getUserDefinedFilter() instanceof PreferencesBasedFilter) {
+			PreferencesBasedFilter filter = (PreferencesBasedFilter)parameters.getUserDefinedFilter();
 			if (filter.isEclipseOnly()) {
 				eclipseOnlyButton.setSelection(true);
 				addFilterButton.setEnabled(false);
@@ -349,26 +349,26 @@ public class UploadPreview  {
 	}
 
 	private void createAddFilterButton(Composite parent) {
-		if (parameters.getFilter() instanceof PreferencesBasedFilter) {
+		if (parameters.getUserDefinedFilter() instanceof PreferencesBasedFilter) {
 			addFilterButton = new Button(parent, SWT.PUSH);
 			addFilterButton.setText(Messages.UploadPreview_10); 
 			addFilterButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					new AddFilterDialog((PreferencesBasedFilter)parameters.getFilter()).prompt(viewer.getTable().getShell(), getFilterSuggestion());
+					new AddFilterDialog((PreferencesBasedFilter)parameters.getUserDefinedFilter()).prompt(viewer.getTable().getShell(), getFilterSuggestion());
 				}
 			});
 		}
 	}
 
 	private void createRemoveFilterButton(Composite parent) {
-		if (parameters.getFilter() instanceof PreferencesBasedFilter) {
+		if (parameters.getUserDefinedFilter() instanceof PreferencesBasedFilter) {
 			removeFilterButton = new Button(parent, SWT.PUSH);
 			removeFilterButton.setText(Messages.UploadPreview_11); 
 			removeFilterButton.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					new RemoveFilterDialog((PreferencesBasedFilter)parameters.getFilter()).prompt(viewer.getTable().getShell());
+					new RemoveFilterDialog((PreferencesBasedFilter)parameters.getUserDefinedFilter()).prompt(viewer.getTable().getShell());
 				}
 			});
 		}

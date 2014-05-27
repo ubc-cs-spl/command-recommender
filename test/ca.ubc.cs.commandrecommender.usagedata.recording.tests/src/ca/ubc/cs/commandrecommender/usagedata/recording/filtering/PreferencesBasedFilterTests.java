@@ -53,27 +53,27 @@ public class PreferencesBasedFilterTests {
 	
 	@Test
 	public void testIncludesWithDefaults() {
-		assertTrue(filter.includes(eclipseEvent1));
-		assertTrue(filter.includes(eclipseEvent2));
-		assertTrue(filter.includes(nonEclipseEvent));
+		assertTrue(filter.accepts(eclipseEvent1));
+		assertTrue(filter.accepts(eclipseEvent2));
+		assertTrue(filter.accepts(nonEclipseEvent));
 	}
 
 	@Test
 	public void testIncludes1() {
 		getPreferencesStore().setValue(UsageDataRecordingSettings.FILTER_PATTERNS_KEY, "com.*");
 	
-		assertTrue(filter.includes(eclipseEvent1));
-		assertTrue(filter.includes(eclipseEvent2));
-		assertFalse(filter.includes(nonEclipseEvent));
+		assertTrue(filter.accepts(eclipseEvent1));
+		assertTrue(filter.accepts(eclipseEvent2));
+		assertFalse(filter.accepts(nonEclipseEvent));
 	}
 	
 	@Test
 	public void testIncludes2() {
 		getPreferencesStore().setValue(UsageDataRecordingSettings.FILTER_PATTERNS_KEY, "*.core");
 	
-		assertFalse(filter.includes(eclipseEvent1));
-		assertTrue(filter.includes(eclipseEvent2));
-		assertFalse(filter.includes(nonEclipseEvent));
+		assertFalse(filter.accepts(eclipseEvent1));
+		assertTrue(filter.accepts(eclipseEvent2));
+		assertFalse(filter.accepts(nonEclipseEvent));
 	}
 	
 	@Test

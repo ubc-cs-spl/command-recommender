@@ -12,13 +12,13 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.AbstractUsageDataEventFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 
 public class UsageDataRecordingSettingsMock implements UploadSettings {
 	private String uploadUrl;
-	private UsageDataEventFilter filter = new AbstractUsageDataEventFilter() {
-		public boolean includes(UsageDataEvent event) {
+	private UserDefinedEventFilter filter = new AbstractUsageDataEventFilter() {
+		public boolean accepts(UsageDataEvent event) {
 			return true;
 		}		
 	};
@@ -51,7 +51,7 @@ public class UsageDataRecordingSettingsMock implements UploadSettings {
 		return true;
 	}
 
-	public UsageDataEventFilter getFilter() {
+	public UserDefinedEventFilter getFilter() {
 		return filter;
 	}
 

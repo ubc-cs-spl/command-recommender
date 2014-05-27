@@ -10,6 +10,10 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.BundleUsageMonitor;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.CommandUsageMonitor;
+
 public class FilterUtils {
 	
 	/**
@@ -45,5 +49,55 @@ public class FilterUtils {
 	public static boolean isValidBundleIdPattern(String pattern) {
 		return pattern.matches("[a-zA-Z0-9\\*]+?(\\.[a-zA-Z0-9\\*]+?)*?"); //$NON-NLS-1$
 	}
-
+	
+	public static EventFilter and(final EventFilter filter1, final EventFilter filter2) {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return filter1.accepts(event) && filter2.accepts(event);
+			}
+		};
+	}
+	
+	public static EventFilter or(final EventFilter filter1, final EventFilter filter2) {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return filter1.accepts(event) || filter2.accepts(event);
+			}
+		};
+	}
+	
+	public static EventFilter acceptAllEventFilter() {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return true;
+			}
+		};
+	}
+	
+	public static EventFilter acceptNoneEventFilter() {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return false;
+			}
+		};
+	}
+	
+	public static EventFilter acceptCommandEventFilter() {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return event.kind.equals(CommandUsageMonitor.EVENT_KIND);
+			}
+		};
+	}
+	
+	public static EventFilter defaultEventFilter() {
+		return new EventFilter() {
+			public boolean accepts(UsageDataEvent event) {
+				return event.kind.equals(CommandUsageMonitor.EVENT_KIND) || 
+						(event.kind.equals(BundleUsageMonitor.EVENT_KIND) &&
+								event.what.equals(BundleUsageMonitor.STARTED));
+			}
+		};
+	}
+	
 }

@@ -28,9 +28,10 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataServic
  * @author Wayne Beaton
  */
 public class CommandUsageMonitor implements UsageMonitor {
-	private static final String COMMANDS_EXTENSION_POINT = "org.eclipse.ui.commands"; //$NON-NLS-1$
 
-	private static final String COMMAND = "command"; //$NON-NLS-1$
+	public static final String EVENT_KIND = "command"; //$NON-NLS-1$
+
+	private static final String COMMANDS_EXTENSION_POINT = "org.eclipse.ui.commands"; //$NON-NLS-1$
 	private static final String EXECUTED = "executed"; //$NON-NLS-1$
 	private static final String FAILED = "failed"; //$NON-NLS-1$
 	private static final String NO_HANDLER = "no handler"; //$NON-NLS-1$
@@ -71,7 +72,7 @@ public class CommandUsageMonitor implements UsageMonitor {
 		}
 		
 		private void recordEvent(String what, String commandId) {
-			usageDataService.recordEvent(what, COMMAND, commandId, getBundleId(commandId), 
+			usageDataService.recordEvent(what, EVENT_KIND, commandId, getBundleId(commandId), 
 					getHotkeyUsageMarkerForCommand(commandId));
 		}
 		

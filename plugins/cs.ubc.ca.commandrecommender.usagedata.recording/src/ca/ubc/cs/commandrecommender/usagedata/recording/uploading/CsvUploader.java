@@ -213,7 +213,7 @@ public class CsvUploader extends AbstractUploader {
 		String content = "what,kind,bundleId,bundleVersion,description,time\n";
 		List<UsageDataEvent> events = getEvents();
 		for(UsageDataEvent event : events){
-			if(getUploadParameters().getFilter().includes(event)){
+			if(getUploadParameters().getUserDefinedFilter().accepts(event)){
 				content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" 
 						+ event.description + "\"," + event.when + "," + event.bindingUsed  + "\n";
 			}

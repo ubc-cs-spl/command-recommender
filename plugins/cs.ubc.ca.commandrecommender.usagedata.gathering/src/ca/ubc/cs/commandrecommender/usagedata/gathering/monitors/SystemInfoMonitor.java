@@ -29,7 +29,7 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataServic
  */
 public class SystemInfoMonitor implements UsageMonitor {
 	
-	private static final String SYSINFO = "sysinfo"; //$NON-NLS-1$
+	public static final String EVENT_KIND = "sysinfo"; //$NON-NLS-1$
 	
 	private static final String INFO_PROCESSORS = "processors"; //$NON-NLS-1$
 	private static final String INFO_LOCALE = "locale"; //$NON-NLS-1$
@@ -72,18 +72,18 @@ public class SystemInfoMonitor implements UsageMonitor {
 		 * runtime exception. We'll catch and log that potential exception.
 		 */
 		try {
-			usageDataService.recordEvent(INFO_OS, SYSINFO, Platform.getOS(), null, "0");
-			usageDataService.recordEvent(INFO_ARCH, SYSINFO, Platform.getOSArch(), null, "0");
-			usageDataService.recordEvent(INFO_WS, SYSINFO, Platform.getWS(), null, "0");
-			usageDataService.recordEvent(INFO_LOCALE, SYSINFO, Platform.getNL(), null, "0");
+			usageDataService.recordEvent(INFO_OS, EVENT_KIND, Platform.getOS(), null, "0");
+			usageDataService.recordEvent(INFO_ARCH, EVENT_KIND, Platform.getOSArch(), null, "0");
+			usageDataService.recordEvent(INFO_WS, EVENT_KIND, Platform.getWS(), null, "0");
+			usageDataService.recordEvent(INFO_LOCALE, EVENT_KIND, Platform.getNL(), null, "0");
 		} catch (Exception e) {
 			UsageDataCaptureActivator.getDefault().logException("Exception occurred while obtaining platform properties.", e); //$NON-NLS-1$
 		}
 		
-		usageDataService.recordEvent(INFO_PROCESSORS, SYSINFO, String.valueOf(Runtime.getRuntime().availableProcessors()), null, "0");
+		usageDataService.recordEvent(INFO_PROCESSORS, EVENT_KIND, String.valueOf(Runtime.getRuntime().availableProcessors()), null, "0");
 		
 		for (String property : SYSTEM_PROPERTIES) {
-			usageDataService.recordEvent(property, SYSINFO, System.getProperty(property), null, null);
+			usageDataService.recordEvent(property, EVENT_KIND, System.getProperty(property), null, null);
 		}
 	}
 

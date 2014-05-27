@@ -10,11 +10,8 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
-public interface UsageDataEventFilter {
-
-	boolean includes(UsageDataEvent event);
+public interface UserDefinedEventFilter extends EventFilter {
 
 	void addFilterChangeListener(FilterChangeListener filterChangeListener);
 

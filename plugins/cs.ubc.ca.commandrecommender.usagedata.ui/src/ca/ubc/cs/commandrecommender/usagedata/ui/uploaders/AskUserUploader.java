@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
@@ -154,7 +154,7 @@ public class AskUserUploader extends AbstractUploader {
 		return false;
 	}
 
-	public UsageDataEventFilter getFilter() {
-		return getUploadParameters().getFilter();
+	public UserDefinedEventFilter getFilter() {
+		return getUploadParameters().getUserDefinedFilter();
 	}
 }

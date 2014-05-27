@@ -20,7 +20,7 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
  */
 public class NullFilter extends AbstractUsageDataEventFilter {
 
-	public boolean includes(UsageDataEvent event) {
+	public boolean accepts(UsageDataEvent event) {
 		return true;
 	}
 

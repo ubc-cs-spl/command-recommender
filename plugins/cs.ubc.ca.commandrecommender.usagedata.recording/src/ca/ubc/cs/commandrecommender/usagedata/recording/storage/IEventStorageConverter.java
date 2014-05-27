@@ -3,6 +3,7 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.storage;
 import java.util.List;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.EventFilter;
 
 public interface IEventStorageConverter {
 
@@ -29,6 +30,13 @@ public interface IEventStorageConverter {
 	 * @throws StorageConverterException 
 	 */
 	List<UsageDataEvent> readEvents() throws StorageConverterException;
+	
+	/**
+	 * read events from the local storage that are accepted by the given filter
+	 * @return the collected events that have not yet been uploaded and pass the filter
+	 * @throws StorageConverterException 
+	 */
+	List<UsageDataEvent> readEvents(EventFilter filter) throws StorageConverterException;
 	
 	/**
 	 * The format of local storage

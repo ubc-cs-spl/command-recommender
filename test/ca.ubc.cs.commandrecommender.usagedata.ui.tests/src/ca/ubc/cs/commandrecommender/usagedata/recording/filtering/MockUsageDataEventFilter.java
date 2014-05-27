@@ -19,7 +19,7 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
 /**
  * This class implements a &quot;mock&quot; implementation of
- * {@link UsageDataEventFilter} to be used for testing. The
+ * {@link UserDefinedEventFilter} to be used for testing. The
  * implementation extends {@link PreferencesBasedFilter}, overriding
  * the methods that read to and write from the preferences and replacing
  * them with in-memory variants.
@@ -31,7 +31,7 @@ public class MockUsageDataEventFilter extends PreferencesBasedFilter {
 	private List<String> patterns = new ArrayList<String>();
 	private boolean isEclipseOnly = false;
 
-	public boolean includes(UsageDataEvent event) {
+	public boolean accepts(UsageDataEvent event) {
 		for (String pattern : patterns) {
 			if (matches(pattern, event.bundleId)) return false;
 		}

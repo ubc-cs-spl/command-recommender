@@ -50,7 +50,7 @@ class UsageDataEventWrapper {
 
 	public synchronized boolean isIncludedByFilter() {
 		if (isIncludedByFilter == null) {
-			isIncludedByFilter = parameters.getFilter().includes(event);
+			isIncludedByFilter = parameters.getCompleteFilter().accepts(event);
 		}
 		return isIncludedByFilter;
 	}

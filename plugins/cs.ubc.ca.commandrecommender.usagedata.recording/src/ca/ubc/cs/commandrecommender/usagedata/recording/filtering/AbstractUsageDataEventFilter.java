@@ -13,7 +13,7 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.util.IPropertyChangeListener;
 
-public abstract class AbstractUsageDataEventFilter implements UsageDataEventFilter {
+public abstract class AbstractUsageDataEventFilter implements UserDefinedEventFilter {
 
 	ListenerList changeListeners = new ListenerList();
 	IPropertyChangeListener propertyChangeListener;

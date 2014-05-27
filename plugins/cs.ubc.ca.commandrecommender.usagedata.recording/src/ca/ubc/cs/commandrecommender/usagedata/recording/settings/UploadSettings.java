@@ -12,7 +12,7 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.settings;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.NullFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 
 public interface UploadSettings {
 
@@ -36,9 +36,9 @@ public interface UploadSettings {
 	 * is <strong>always</strong> returned. If no filter is required,
 	 * consider returning an instance of {@link NullFilter}.
 	 * 
-	 * @return an instance of a class that implements {@link UsageDataEventFilter}
+	 * @return an instance of a class that implements {@link UserDefinedEventFilter}
 	 */
-	UsageDataEventFilter getFilter();
+	UserDefinedEventFilter getFilter();
 
 	boolean hasUserAcceptedTermsOfUse();
 

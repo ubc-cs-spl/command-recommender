@@ -27,6 +27,9 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataServic
  *
  */
 public class BundleUsageMonitor implements UsageMonitor {
+	
+	public static final String EVENT_KIND = "bundle"; //$NON-NLS-1$
+	public static final String STARTED = "started"; //$NON-NLS-1$
 
 	private static final String BUNDLE_VERSION = "Bundle-Version"; //$NON-NLS-1$
 	private static final String UNKNOWN = "unknown"; //$NON-NLS-1$
@@ -39,8 +42,6 @@ public class BundleUsageMonitor implements UsageMonitor {
 	private static final String RESOLVED = "resolved"; //$NON-NLS-1$
 	private static final String LAZY_ACTIVATION = "lazy_activation"; //$NON-NLS-1$
 	private static final String INSTALLED = "installed"; //$NON-NLS-1$
-	private static final String STARTED = "started"; //$NON-NLS-1$
-	private static final String BUNDLE = "bundle"; //$NON-NLS-1$
 	private BundleListener bundleUsageListener;
 
 	public void startMonitoring(final UsageDataService usageDataService) {
@@ -50,7 +51,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 		// Create an install a listener on the bundle context.
 		bundleUsageListener = new BundleListener() {
 			public void bundleChanged(BundleEvent event) {
-				usageDataService.recordEvent(getWhatHappenedString(event), BUNDLE, event.getBundle().getSymbolicName(), event.getBundle().getSymbolicName(), getBundleVersion(event), "0");
+				usageDataService.recordEvent(getWhatHappenedString(event), EVENT_KIND, event.getBundle().getSymbolicName(), event.getBundle().getSymbolicName(), getBundleVersion(event), "0");
 			}			
 		};
 		getBundleContext().addBundleListener(bundleUsageListener);
@@ -61,7 +62,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 		for (Bundle bundle : getBundleContext().getBundles()) {
 			if (bundle.getState() != Bundle.ACTIVE) continue;
 			String bundleId = bundle.getSymbolicName();
-			usageDataService.recordEvent(STARTED, BUNDLE, bundleId, bundleId, getBundleVersion(bundle), "0");
+			usageDataService.recordEvent(STARTED, EVENT_KIND, bundleId, bundleId, getBundleVersion(bundle), "0");
 		}
 	}
 

@@ -11,13 +11,13 @@
 package ca.ubc.cs.commandrecommender.usagedata.ui.preview.util;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.MockUsageDataEventFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 
 public class MockUploadSettings implements UploadSettings {
-	UsageDataEventFilter filter = new MockUsageDataEventFilter();
+	UserDefinedEventFilter filter = new MockUsageDataEventFilter();
 	
-	public UsageDataEventFilter getFilter() {
+	public UserDefinedEventFilter getFilter() {
 		return filter;
 	}
 

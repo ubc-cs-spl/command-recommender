@@ -11,15 +11,15 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading.util;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.NullFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 
 public class MockUploadSettings implements UploadSettings {
 
 	private String uploadUrl;
-	private UsageDataEventFilter filter = new NullFilter();
+	private UserDefinedEventFilter filter = new NullFilter();
 
-	public UsageDataEventFilter getFilter() {
+	public UserDefinedEventFilter getFilter() {
 		return filter;
 	}
 

@@ -2,8 +2,11 @@ package ca.ubc.cs.commandrecommender.usagedata.recording.storage;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.List;
 
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
 
 public abstract class AbstractFileEventStorageConverter implements IEventStorageConverter {
 
@@ -23,6 +26,10 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 	public File getEventStorageFile() {
 		return new File(getStorageDirectory(), 
 				STORAGE_FILE_NAME + FORMAT_EXT);
+	}
+
+	public synchronized List<UsageDataEvent> readEvents() throws StorageConverterException {
+		return readEvents(FilterUtils.acceptAllEventFilter());
 	}
 	
 	public void clearArchive() {

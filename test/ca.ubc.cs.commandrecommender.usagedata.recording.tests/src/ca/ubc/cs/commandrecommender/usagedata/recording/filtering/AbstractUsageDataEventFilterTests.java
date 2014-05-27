@@ -29,7 +29,7 @@ public class AbstractUsageDataEventFilterTests {
 	@Before
 	public void setup() {
 		filter = new AbstractUsageDataEventFilter() {
-			public boolean includes(UsageDataEvent event) {
+			public boolean accepts(UsageDataEvent event) {
 				// TODO Auto-generated method stub
 				return false;
 			}

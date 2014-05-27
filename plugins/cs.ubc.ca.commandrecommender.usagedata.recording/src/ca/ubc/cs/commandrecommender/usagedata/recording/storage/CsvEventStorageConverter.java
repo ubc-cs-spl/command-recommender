@@ -12,6 +12,7 @@ import java.util.List;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.CsvStorageUtils;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.EventFilter;
 
 
 /**
@@ -40,7 +41,7 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 		}
 	}
 
-	public synchronized List<UsageDataEvent> readEvents() throws StorageConverterException {
+	public synchronized List<UsageDataEvent> readEvents(final EventFilter filter) throws StorageConverterException {
 		final List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
 		File file = getEventStorageFile();
 		if(file == null)
@@ -56,7 +57,8 @@ public class CsvEventStorageConverter extends AbstractFileEventStorageConverter 
 				}
 				
 				public void event(String line, UsageDataEvent event) {
-					events.add(event);
+					if (filter.accepts(event))
+						events.add(event);
 				}	
 			});
 		} catch (Exception e) {

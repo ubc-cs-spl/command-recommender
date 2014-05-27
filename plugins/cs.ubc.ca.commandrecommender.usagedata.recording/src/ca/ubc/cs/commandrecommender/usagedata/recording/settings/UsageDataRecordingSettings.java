@@ -25,7 +25,7 @@ import org.eclipse.ui.PlatformUI;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UsageDataEventFilter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.UserDefinedEventFilter;
 
 /**
  * This class provides a convenient location to find the settings
@@ -306,7 +306,7 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	/* (non-Javadoc)
 	 * @see ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings#getFilter()
 	 */
-	public UsageDataEventFilter getFilter() {
+	public UserDefinedEventFilter getFilter() {
 		return filter;
 	}
 
