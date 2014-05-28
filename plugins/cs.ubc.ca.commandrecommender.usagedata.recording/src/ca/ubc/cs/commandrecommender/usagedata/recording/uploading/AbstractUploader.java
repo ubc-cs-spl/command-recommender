@@ -11,7 +11,10 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.uploading;
 
 import org.eclipse.core.runtime.ListenerList;
+
+import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
+import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 
 public abstract class AbstractUploader {
 
@@ -19,7 +22,9 @@ public abstract class AbstractUploader {
 	
 	protected boolean uploadInProgress = false;
 	public static String UPLOAD_TYPE_CSV = "csv";
-	private UploadParameters uploadParameters;
+	public static String UPLAOD_TYPE_JSON = "json";
+	protected UploadParameters uploadParameters;
+	
 	
 	protected ListenerList responseListeners = new ListenerList();
 	
@@ -77,5 +82,9 @@ public abstract class AbstractUploader {
 	
 	protected void checkValues() {
 		if (uploadParameters == null) throw new RuntimeException("The UploadParameters must be set."); //$NON-NLS-1$
+	}
+	
+	protected UsageDataRecordingSettings getDataRecorderSettings() {
+		return UsageDataRecordingActivator.getDefault().getSettings();
 	}
 }

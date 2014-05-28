@@ -17,13 +17,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
-import org.eclipse.core.runtime.ListenerList;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UploadSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
 /**
@@ -33,48 +31,16 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverter
  * @author Wayne Beaton
  *
  */
+
 public class CsvUploader extends AbstractEventUploader {
-
-	/**
-	 * The HTTP_USERID constant is the key for the HTTP header
-	 * that is used to pass the user (i.e. workstation) identifier.
-	 * This value identifies the user's workstation (which may
-	 * include multiple Eclipse workspaces).
-	 */
-	private static final String HTTP_USERID = "USERID"; //$NON-NLS-1$
 	
-	/**
-	 * The HTTP_WORKSPACE constant is the key for the HTTP header
-	 * that is used to pass the workspace identifier. This value
-	 * is used to identify a single workspace on the user's workstation.
-	 * A user may have more than one workspace and each will have
-	 * a different workspace id.
-	 */
-	private static final String HTTP_WORKSPACEID = "WORKSPACEID";	 //$NON-NLS-1$
-
-	/**
-	 * The HTTP_TIME constant is the key for the HTTP header
-	 * that is used to pass the current time on the workstation to
-	 * the server. This value is included in the request so that the
-	 * server, if desired, can account for differences in the clock
-	 * between the user's workstation and the server.
-	 */
-	private static final String HTTP_TIME = "TIME"; //$NON-NLS-1$
-
-	private static final String USER_AGENT = "User-Agent"; //$NON-NLS-1$
-	
-	public CsvUploader(UploadParameters uploadParameters) {
-		setUploadParameters(uploadParameters);
+	protected CsvUploader(UploadParameters uploadParameters) {
+		super(uploadParameters);
 	}
-	
 
-	@Override
-	protected HttpEntity getEntityForUpload()
-			throws StorageConverterException {
+	protected HttpEntity getEntityForUpload() throws StorageConverterException {
 		MultipartEntity entity = new MultipartEntity();
-		
-		ContentBody body = getContentBody();
-		entity.addPart("csv", body);
+		entity.addPart("csv", getContentBody());
 		return entity;
 	}
 
@@ -101,10 +67,6 @@ public class CsvUploader extends AbstractEventUploader {
 		return new FileBody(temp);
 	}
 
-	protected List<UsageDataEvent> getEvents() throws StorageConverterException {
-		return getEventStorage().readEvents();
-	}
-
 	/**
 	 * This method returns a &quot;reasonable&quot; value for 
 	 * socket timeout based on the number of files we're trying
@@ -117,7 +79,6 @@ public class CsvUploader extends AbstractEventUploader {
 		return 5 * 60000;
 	}
 
-	public synchronized boolean isUploadInProgress() {
-		return uploadInProgress;
+	protected void setHeaders(HttpPost httpPost) {
 	}
 }

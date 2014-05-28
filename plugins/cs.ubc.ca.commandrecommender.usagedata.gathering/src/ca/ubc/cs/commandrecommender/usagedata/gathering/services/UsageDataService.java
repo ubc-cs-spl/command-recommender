@@ -52,7 +52,7 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.UsageMonitor;
  * 
  * @author Wayne Beaton
  */
-@SuppressWarnings("restriction")
+
 public class UsageDataService {
 	private static final String MONITORS_EXTENSION_POINT = UsageDataCaptureActivator.PLUGIN_ID + ".monitors"; //$NON-NLS-1$
 

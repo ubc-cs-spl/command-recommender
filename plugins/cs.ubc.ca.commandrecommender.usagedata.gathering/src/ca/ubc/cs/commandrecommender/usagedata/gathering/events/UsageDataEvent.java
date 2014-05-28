@@ -10,6 +10,8 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.events;
 
+import java.io.Serializable;
+
 /**
  * The {@link UsageDataEvent} class captures information about a single
  * event. Once created, instances of this class cannot be modified.
@@ -17,7 +19,12 @@ package ca.ubc.cs.commandrecommender.usagedata.gathering.events;
  * @author Wayne Beaton
  *
  */
-public class UsageDataEvent {
+public class UsageDataEvent implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The {@link #what} field describes the event that has occurred. It

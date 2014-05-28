@@ -18,12 +18,12 @@ import org.eclipse.ui.PlatformUI;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader.Uploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadResult;
 import ca.ubc.cs.commandrecommender.usagedata.ui.wizards.AskUserUploaderWizard;
 
-@SuppressWarnings("restriction")
 public class AskUserUploader extends AbstractUploader {
 	public static final int UPLOAD_NOW = 0;
 	public static final int UPLOAD_ALWAYS = 1;
@@ -126,8 +126,10 @@ public class AskUserUploader extends AbstractUploader {
 		uploader.startUpload();	
 	}
 
-	private String getUploaderType() {
-		return UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
+	private Uploader getUploaderType() {
+		String uploaderType = UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
+		Uploader uploader = Uploader.getUploaderByType(uploaderType);
+		return uploader;
 	}
 
 	public void setAction(int action) {
@@ -152,8 +154,6 @@ public class AskUserUploader extends AbstractUploader {
 		return false;
 	}
 
-	private UsageDataRecordingSettings getDataRecorderSettings() {
-		return UsageDataRecordingActivator.getDefault().getSettings();
-	}
+
 
 }
