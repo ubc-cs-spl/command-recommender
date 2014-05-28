@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="cs.ubc.ca.commandrecommender.recommender.core.handlers.RecommendCommandHandler"
+            id="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
+            name="Get Commend Recommendations">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="CommandRecommender"
+               mnemonic="C"
+               id="cs.ubc.ca.commandrecommender.recommender.core.menus.recommender">
+            <command
+                  commandId="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
+                  id="cs.ubc.ca.commandrecommender.recommender.core.menus.recommendCommand"
+                  label="Get Recommendations"
+                  mnemonic="G">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+1">
+      </key>
+   </extension>
+
+</plugin>
