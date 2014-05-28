@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,19 +17,58 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
+import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
 public abstract class AbstractEventUploader extends AbstractUploader {
 
+	public static enum Uploader {
+		CSV("csv", "CSVUploader"),
+		JSON("json", "JSONUploader");
+		
+		private final String displayName;
+		private final String type;
+		
+		Uploader(String type, String displayName){
+			this.type = type;
+			this.displayName = displayName;
+		}
+		
+		public String getType(){
+			return this.type;
+		}
+		
+		public String getDisplayName(){
+			return this.displayName;
+		}
+		
+		public static Uploader getUploaderByType(String uploadType){
+			for(Uploader uploader : Uploader.values()){
+				if(uploader.type.equals(uploadType)){
+					return uploader;
+				}
+			}
+			return getDefault();
+		}
+		
+		public static Uploader getDefault(){
+			return JSON;
+		}
+	}
 	
-	
-	public static AbstractEventUploader createUploader(String type, UploadParameters uploadParameters){
-		if(UPLOAD_TYPE_CSV.equals(type))
+	public static AbstractEventUploader createUploader(Uploader uploader, UploadParameters uploadParameters){
+		if(uploader == Uploader.CSV)
 			return (AbstractEventUploader) new CsvUploader(uploadParameters);
+		else if(uploader == Uploader.JSON)
+			return (AbstractEventUploader) new JSONUploader(uploadParameters);
 		else
-			return (AbstractEventUploader) new CsvUploader(uploadParameters); 
+			return (AbstractEventUploader) new JSONUploader(uploadParameters); 
+	}
+	
+	protected AbstractEventUploader(UploadParameters uploadParameters){
+		setUploadParameters(uploadParameters);
 	}
 	
 
@@ -55,6 +96,10 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		};
 		job.setPriority(Job.LONG);
 		job.schedule();
+	}
+	
+	public synchronized boolean isUploadInProgress() {
+		return uploadInProgress;
 	}
 	
 	/**
@@ -125,9 +170,8 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		
 		HttpClient client = new DefaultHttpClient(); 
 		HttpPost httpPost = new HttpPost(getUploadSettings().getUploadUrl());
-	
-		HttpEntity entity = getEntityForUpload();
-		httpPost.setEntity(entity);
+		httpPost.setEntity(getEntityForUpload());
+		setHeaders(httpPost);
 		try{
 			HttpResponse response = client.execute(httpPost);
 			if(shouldProcessServerResponse())
@@ -142,6 +186,14 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		return new UploadResult(200);
 	}
 	
+	protected abstract void setHeaders(HttpPost httpPost);
+	
+
+	protected abstract HttpEntity getEntityForUpload() throws StorageConverterException;
+
+	protected String getUserId(){
+		return getDataRecorderSettings().getUserId();
+	}
 
 	protected IEventStorageConverter getEventStorage(){
 		return UsageDataRecordingActivator.getDefault().getStorageConverter();
@@ -164,7 +216,8 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		return getUploadSettings().getUploadUrl();
 	}
 	
-	protected abstract HttpEntity getEntityForUpload()
-			throws StorageConverterException;
+	protected List<UsageDataEvent> getEvents() throws StorageConverterException {
+		return getEventStorage().readEvents(uploadParameters.getCompleteFilter());
+	}
 
 }
