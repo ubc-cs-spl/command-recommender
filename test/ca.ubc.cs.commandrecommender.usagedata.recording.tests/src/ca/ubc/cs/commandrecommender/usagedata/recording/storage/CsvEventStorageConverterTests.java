@@ -1,5 +1,6 @@
 package ca.ubc.cs.commandrecommender.usagedata.recording.storage;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
+import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
 
 public class CsvEventStorageConverterTests {
 	private static final String DATA_STORAGE_DIR = "storage-test-dir";
@@ -54,6 +56,16 @@ public class CsvEventStorageConverterTests {
 		List<UsageDataEvent> eventsRead = converter.readEvents();
 		assertTrue(eventsWrote.containsAll(eventsRead));
 		assertTrue(eventsRead.containsAll(eventsWrote));
+	}
+	
+	@Test 
+	public void testReadWithFilter() throws IOException, StorageConverterException {
+		List<UsageDataEvent> eventsWrote = generateEvents(5);
+		converter.writeEvents(eventsWrote);
+		assertEquals(0, converter.readEvents(FilterUtils.acceptNoneEventFilter()).size());
+		assertEquals(5, converter.readEvents(FilterUtils.acceptAllEventFilter()).size());
+		eventsWrote.add(new UsageDataEvent("", "command", "", "", "", "", 0));
+		assertEquals(1, converter.readEvents(FilterUtils.acceptCommandEventFilter()).size());
 	}
 	
 	@Test
