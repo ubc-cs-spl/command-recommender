@@ -10,6 +10,9 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.recording.filtering;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.BundleUsageMonitor;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.CommandUsageMonitor;
@@ -98,6 +101,15 @@ public class FilterUtils {
 								event.what.equals(BundleUsageMonitor.STARTED));
 			}
 		};
+	}
+	
+	public static List<UsageDataEvent> filterEvents(List<UsageDataEvent> events, EventFilter filter) {
+		List<UsageDataEvent> filteredEvents = new ArrayList<UsageDataEvent>();
+		for (UsageDataEvent event : events) {
+			if (filter.accepts(event))
+				filteredEvents.add(event);
+		}
+		return filteredEvents;
 	}
 	
 }
