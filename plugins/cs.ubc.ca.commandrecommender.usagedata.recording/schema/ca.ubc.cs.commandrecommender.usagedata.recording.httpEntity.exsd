@@ -3,7 +3,7 @@
 <schema targetNamespace="ca.ubc.cs.commandrecommender.usagedata.recording" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
-         <meta.schema plugin="ca.ubc.cs.commandrecommender.usagedata.recording" id="ca.ubc.cs.commandrecommender.usagedata.recording.uploader" name="Upload Delegate"/>
+         <meta.schema plugin="ca.ubc.cs.commandrecommender.usagedata.recording" id="ca.ubc.cs.commandrecommender.usagedata.recording.httpEntity" name="IHttpEntity"/>
       </appInfo>
       <documentation>
          [Enter description of this extension point.]
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="uploader"/>
+            <element ref="class"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="uploader">
+   <element name="class">
       <complexType>
          <attribute name="class" type="string" use="required">
             <annotation>
@@ -55,7 +55,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadDelegate"/>
+                  <meta.attribute kind="java" basedOn=":ca.ubc.cs.commandrecommender.usagedata.recording.uploading.IHttpEntityHandler"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -82,7 +82,7 @@
 
    <annotation>
       <appInfo>
-         <meta.section type="apiInfo"/>
+         <meta.section type="apiinfo"/>
       </appInfo>
       <documentation>
          [Enter API information here.]
