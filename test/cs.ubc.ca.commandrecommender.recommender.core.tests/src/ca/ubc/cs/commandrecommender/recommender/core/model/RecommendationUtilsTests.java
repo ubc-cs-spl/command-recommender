@@ -1,8 +1,10 @@
-package cs.ubc.ca.commandrecommender.recommender.core.model;
+package ca.ubc.cs.commandrecommender.recommender.core.model;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import ca.ubc.cs.commandrecommender.recommender.core.model.RecommendationUtils;
 
 public class RecommendationUtilsTests {
 	

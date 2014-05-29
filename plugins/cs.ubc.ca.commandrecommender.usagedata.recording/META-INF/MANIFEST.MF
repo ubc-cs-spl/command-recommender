@@ -12,9 +12,9 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.3.0,4.0.0)",
  ca.ubc.cs.commandrecommender.usagedata.recording.json
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: ca.ubc.cs.commandrecommender.usagedata.recording;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui",
+Export-Package: ca.ubc.cs.commandrecommender.usagedata.recording;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui,ca.ubc.cs.commandrecommender.recommender.core",
  ca.ubc.cs.commandrecommender.usagedata.recording.filtering;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui",
- ca.ubc.cs.commandrecommender.usagedata.recording.settings;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui",
- ca.ubc.cs.commandrecommender.usagedata.recording.storage,
+ ca.ubc.cs.commandrecommender.usagedata.recording.settings;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui,ca.ubc.cs.commandrecommender.recommender.core",
+ ca.ubc.cs.commandrecommender.usagedata.recording.storage, 
  ca.ubc.cs.commandrecommender.usagedata.recording.uploading;x-friends:="ca.ubc.cs.commandrecommender.usagedata.ui"
 Bundle-Vendor: %Bundle-Vendor.0

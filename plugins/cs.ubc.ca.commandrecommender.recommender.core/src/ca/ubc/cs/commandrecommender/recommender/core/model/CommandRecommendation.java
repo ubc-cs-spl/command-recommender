@@ -1,4 +1,4 @@
-package cs.ubc.ca.commandrecommender.recommender.core.model;
+package ca.ubc.cs.commandrecommender.recommender.core.model;
 
 public class CommandRecommendation {
 	

@@ -40,8 +40,6 @@ public class UsageDataRecordingSettings implements UploadSettings {
 
 	private static final String DEFAULT_ID = "unknown"; //$NON-NLS-1$
 
-	private static final String UPLOAD_FILE_PREFIX = "upload"; //$NON-NLS-1$
-
 	public static final String UPLOAD_PERIOD_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".period"; //$NON-NLS-1$
 	public static final String LAST_UPLOAD_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".last-upload"; //$NON-NLS-1$
 	public static final String ASK_TO_UPLOAD_KEY = UsageDataRecordingActivator.PLUGIN_ID + ".ask"; //$NON-NLS-1$
