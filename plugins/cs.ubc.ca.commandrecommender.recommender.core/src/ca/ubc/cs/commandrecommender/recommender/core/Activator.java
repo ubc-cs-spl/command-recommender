@@ -1,4 +1,4 @@
-package cs.ubc.ca.commandrecommender.recommender.core;
+package ca.ubc.cs.commandrecommender.recommender.core;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;

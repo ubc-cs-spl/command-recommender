@@ -5,8 +5,8 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            defaultHandler="cs.ubc.ca.commandrecommender.recommender.core.handlers.RecommendCommandHandler"
-            id="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
+            defaultHandler="ca.ubc.cs.commandrecommender.recommender.core.handlers.RecommendCommandHandler"
+            id="ca.ubc.cs.commandrecommender.recommender.core.commands.recommendCommand"
             name="Get Commend Recommendations">
       </command>
    </extension>
@@ -17,10 +17,10 @@
          <menu
                label="CommandRecommender"
                mnemonic="C"
-               id="cs.ubc.ca.commandrecommender.recommender.core.menus.recommender">
+               id="ca.ubc.cs.commandrecommender.recommender.core.menus.recommender">
             <command
-                  commandId="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
-                  id="cs.ubc.ca.commandrecommender.recommender.core.menus.recommendCommand"
+                  commandId="ca.ubc.cs.commandrecommender.recommender.core.commands.recommendCommand"
+                  id="ca.ubc.cs.commandrecommender.recommender.core.menus.recommendCommand"
                   label="Get Recommendations"
                   mnemonic="G">
             </command>
@@ -30,10 +30,42 @@
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="cs.ubc.ca.commandrecommender.recommender.core.commands.recommendCommand"
+            commandId="ca.ubc.cs.commandrecommender.recommender.core.commands.recommendCommand"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+1">
       </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="ca.ubc.cs.commandrecommender.recommender.core"
+            name="CommandRecommender">
+      </category>
+      <view
+            category="cs.ubc.ca.commandrecommender.recommender.core"
+            class="ca.ubc.cs.commandrecommender.recommender.core.views.RecommendationView"
+            icon="icons/sample.gif"
+            id="cs.ubc.ca.commandrecommender.recommender.core.views.RecommendationView"
+            name="RecommendationView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="ca.ubc.cs.commandrecommender.recommender.core.views.RecommendationView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
    </extension>
 
 </plugin>

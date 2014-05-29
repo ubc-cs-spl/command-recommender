@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="cs.ubc.ca.commandrecommender.recommender.feature"
+      id="ca.ubc.cs.commandrecommender.recommender.feature"
       label="Command Recommender - Recommender"
       version="1.0.0.qualifier"
       provider-name="UBC CommandRecommender Project">
@@ -23,7 +23,7 @@
    </requires>
 
    <plugin
-         id="cs.ubc.ca.commandrecommender.recommender.core"
+         id="ca.ubc.cs.commandrecommender.recommender.core"
          download-size="0"
          install-size="0"
          version="0.0.0"
