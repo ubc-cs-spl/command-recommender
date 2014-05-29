@@ -51,8 +51,8 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptur
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader.Uploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEnityHandler;
 
 import com.ibm.icu.text.MessageFormat;
 
@@ -439,8 +439,8 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	 * Note that this method expects to be run in the UI Thread.
 	 */
 	private void createUploadUrlField(Group composite) {
-		final String[][] contents = new String[AbstractEventUploader.Uploader.values().length][];
-		for(Uploader uploader : AbstractEventUploader.Uploader.values()){
+		final String[][] contents = new String[EventUploader.HttpEnityHandler.values().length][];
+		for(HttpEnityHandler uploader : EventUploader.HttpEnityHandler.values()){
 			contents[uploader.ordinal()] = new String[] {uploader.getDisplayName(), uploader.getType()};
 		}
 		uploadServerType = new ComboFieldEditor(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, "Select Server Type:", contents, composite);

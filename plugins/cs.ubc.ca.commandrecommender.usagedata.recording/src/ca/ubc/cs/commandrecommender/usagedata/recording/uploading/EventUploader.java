@@ -22,18 +22,20 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActiva
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
-public abstract class AbstractEventUploader extends AbstractUploader {
+public class EventUploader extends AbstractUploader {
 
-	public static enum Uploader {
-		CSV("csv", "CSVUploader"),
-		JSON("json", "JSONUploader");
+	public enum HttpEnityHandler {
+		CSV("csv", "CSVUploader", new CsvHttpEntityHandler()),
+		JSON("json", "JSONUploader", new JsonHttpEntityHandler());
 		
 		private final String displayName;
 		private final String type;
+		private final IHttpEntityHandler entityHandler;
 		
-		Uploader(String type, String displayName){
+		HttpEnityHandler(String type, String displayName, IHttpEntityHandler entityHandler){
 			this.type = type;
 			this.displayName = displayName;
+			this.entityHandler = entityHandler;
 		}
 		
 		public String getType(){
@@ -44,33 +46,26 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 			return this.displayName;
 		}
 		
-		public static Uploader getUploaderByType(String uploadType){
-			for(Uploader uploader : Uploader.values()){
-				if(uploader.type.equals(uploadType)){
-					return uploader;
+		public static IHttpEntityHandler getEntityHanlderByType(String entityType){
+			for(HttpEnityHandler entity : HttpEnityHandler.values()){
+				if(entity.type.equals(entityType)){
+					return entity.entityHandler;
 				}
 			}
 			return getDefault();
 		}
 		
-		public static Uploader getDefault(){
-			return JSON;
+		public static IHttpEntityHandler getDefault(){
+			return JSON.entityHandler;
 		}
 	}
 	
-	public static AbstractEventUploader createUploader(Uploader uploader, UploadParameters uploadParameters){
-		if(uploader == Uploader.CSV)
-			return (AbstractEventUploader) new CsvUploader(uploadParameters);
-		else if(uploader == Uploader.JSON)
-			return (AbstractEventUploader) new JSONUploader(uploadParameters);
-		else
-			return (AbstractEventUploader) new JSONUploader(uploadParameters); 
-	}
+	private IHttpEntityHandler entityHandler;
 	
-	protected AbstractEventUploader(UploadParameters uploadParameters){
+	public EventUploader(IHttpEntityHandler entityHandler, UploadParameters uploadParameters){
+		this.entityHandler = entityHandler;
 		setUploadParameters(uploadParameters);
 	}
-	
 
 	/**
 	 * Uploads are done with a {@link Job} running in the background
@@ -170,8 +165,9 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		
 		HttpClient client = new DefaultHttpClient(); 
 		HttpPost httpPost = new HttpPost(getUploadSettings().getUploadUrl());
-		httpPost.setEntity(getEntityForUpload());
-		setHeaders(httpPost);
+		List<UsageDataEvent> events = getEvents();
+		httpPost.setEntity(entityHandler.getEntityForUpload(events, getUserId()));
+		httpPost.setHeaders(entityHandler.getHeaders());
 		try{
 			HttpResponse response = client.execute(httpPost);
 			if(shouldProcessServerResponse())
@@ -185,11 +181,6 @@ public abstract class AbstractEventUploader extends AbstractUploader {
 		getEventStorage().archive();
 		return new UploadResult(200);
 	}
-	
-	protected abstract void setHeaders(HttpPost httpPost);
-	
-
-	protected abstract HttpEntity getEntityForUpload() throws StorageConverterException;
 
 	protected String getUserId(){
 		return getDataRecorderSettings().getUserId();

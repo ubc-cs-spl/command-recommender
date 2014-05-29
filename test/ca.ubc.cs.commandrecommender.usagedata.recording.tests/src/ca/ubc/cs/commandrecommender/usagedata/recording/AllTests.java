@@ -18,7 +18,7 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.AbstractUsageD
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtilsTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilterTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettingsTests;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.CsvUploaderTests;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploaderTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UsageDataFileReaderTests;
 
 
@@ -29,7 +29,7 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UsageDataFileR
 	AbstractUsageDataEventFilterTests.class,
 	FilterUtilsTests.class,
 	PreferencesBasedFilterTests.class,
-	CsvUploaderTests.class, 
+	EventUploaderTests.class, 
 	UsageDataFileReaderTests.class
 })
 public class AllTests {

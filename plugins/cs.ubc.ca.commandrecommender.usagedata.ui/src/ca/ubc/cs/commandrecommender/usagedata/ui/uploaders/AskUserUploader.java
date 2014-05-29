@@ -17,9 +17,10 @@ import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractEventUploader.Uploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEnityHandler;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.IHttpEntityHandler;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadResult;
 import ca.ubc.cs.commandrecommender.usagedata.ui.wizards.AskUserUploaderWizard;
@@ -116,7 +117,7 @@ public class AskUserUploader extends AbstractUploader {
 	}
 	
 	private void upload() {
-		uploader = AbstractEventUploader.createUploader(getUploaderType(), getUploadParameters());
+		uploader = new EventUploader(getUploaderType(), getUploadParameters());
 		uploader.addUploadListener(new UploadListener() {
 			public void uploadComplete(UploadResult result) {
 				fireUploadComplete(result);
@@ -126,10 +127,10 @@ public class AskUserUploader extends AbstractUploader {
 		uploader.startUpload();	
 	}
 
-	private Uploader getUploaderType() {
-		String uploaderType = UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
-		Uploader uploader = Uploader.getUploaderByType(uploaderType);
-		return uploader;
+	private IHttpEntityHandler getUploaderType() {
+		String uploadEntityType = UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
+		IHttpEntityHandler entityHandler = HttpEnityHandler.getEntityHanlderByType(uploadEntityType);
+		return entityHandler;
 	}
 
 	public void setAction(int action) {
