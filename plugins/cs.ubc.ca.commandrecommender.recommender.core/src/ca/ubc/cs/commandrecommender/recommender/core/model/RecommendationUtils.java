@@ -1,5 +1,8 @@
 package ca.ubc.cs.commandrecommender.recommender.core.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.ui.PlatformUI;
@@ -60,6 +63,23 @@ public class RecommendationUtils {
 		} catch (NotDefinedException e) {
 			return null;
 		}
+	}
+	
+	//TODO: this is a stub and is to be removed
+	public static List<CommandRecommendation> getStubRecommendations() {
+		List<CommandRecommendation> recommendations = new ArrayList<CommandRecommendation>();
+		recommendations.add(new CommandRecommendation("org.eclipse.ui.file.save"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.open.editor"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.show.outline"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.organize.imports"));
+		recommendations.add(new CommandRecommendation("org.eclipse.egit.ui.team.CompareIndexWithHead"));
+		recommendations.add(new CommandRecommendation("org.eclipse.egit.ui.team.Pull"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.rename.element"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.open.call.hierarchy"));
+		recommendations.add(new CommandRecommendation("org.eclipse.debug.ui.commands.Terminate"));
+		recommendations.add(new CommandRecommendation("org.eclipse.ui.file.properties"));
+		recommendations.add(new CommandRecommendation("org.eclipse.jdt.ui.edit.text.java.refactor.quickMenu"));
+		return recommendations;
 	}
 	
 }

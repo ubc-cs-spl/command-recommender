@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import ca.ubc.cs.commandrecommender.recommender.core.RecommendationRetrivalService;
 import ca.ubc.cs.commandrecommender.recommender.core.model.RecommendationUtils;
 
 /**
@@ -30,7 +31,14 @@ public class RecommendCommandHandler extends AbstractHandler {
 		MessageDialog.openInformation(
 				window.getShell(),
 				"RecommenderCore",
-				RecommendationUtils.getKeyBindingFor("ca.ubc.cs.commandrecommender.recommender.core.commands.recommendCommand"));
+				"We are retrieving recommendations");
+		
+		//TODO: run in a separate thread. 
+		// Please learn about and consider Job, UIJob, or just a simple Thread
+		// Learn about eclipse threading rules.
+		RecommendationRetrivalService.requestRecommendations();
 		return null;
 	}
+	
+	
 }

@@ -15,6 +15,10 @@ public class CommandRecommendation {
 		this.commandId = commandId;
 	}
 	
+	public String getCommandId() {
+		return commandId;
+	}
+	
 	public String getKeybinding() {
 		return RecommendationUtils.getKeyBindingFor(commandId);
 	}
@@ -37,6 +41,32 @@ public class CommandRecommendation {
 	
 	public String getReasonForSuggestion() {
 		return ""; //TODO
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((commandId == null) ? 0 : commandId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CommandRecommendation other = (CommandRecommendation) obj;
+		if (commandId == null) {
+			if (other.commandId != null)
+				return false;
+		} else if (!commandId.equals(other.commandId))
+			return false;
+		return true;
 	}
 
 }
