@@ -10,19 +10,17 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
-
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
 
 public class CsvHttpEntityHandler implements IHttpEntityHandler {
-	public  HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId) throws StorageConverterException {
+	public  HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId) {
 		MultipartEntity entity = new MultipartEntity();
 		entity.addPart("csv", getContentBody(events));
 		return entity;
 	}
 
-	private FileBody getContentBody(List<UsageDataEvent> events) throws StorageConverterException{
+	private FileBody getContentBody(List<UsageDataEvent> events) {
 		File temp = null;
 		BufferedWriter writer = null;
 		try {

@@ -10,6 +10,6 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
 public interface IHttpEntityHandler {
-	HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId) throws StorageConverterException;
+	HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId);
 	Header[] getHeaders();
 }

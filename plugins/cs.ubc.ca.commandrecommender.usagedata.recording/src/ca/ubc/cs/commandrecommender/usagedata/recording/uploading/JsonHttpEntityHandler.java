@@ -19,8 +19,8 @@ import com.google.gson.Gson;
 public class JsonHttpEntityHandler implements IHttpEntityHandler {
 	private static Header CONTENTTYPE = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
 
-	Gson parser;
-	private class UsageData implements Serializable{
+	protected Gson parser;
+	protected class UsageData implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public String user_id;
 		public UsageDataEvent[] commands;
@@ -36,14 +36,16 @@ public class JsonHttpEntityHandler implements IHttpEntityHandler {
 		parser = new Gson();
 	}
 
-	public HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId) throws StorageConverterException {
+	@SuppressWarnings("deprecation")
+	public HttpEntity getEntityForUpload(List<UsageDataEvent> events, String userId){
 		UsageData data = new UsageData(userId, events);
 		String jsonData = parser.toJson(data);
-		HttpEntity entity;
+		HttpEntity entity = null;
+		
 		try {
 			entity = new ByteArrayEntity(jsonData.getBytes(HTTP.UTF_8));
 		} catch (UnsupportedEncodingException e) {
-			throw new StorageConverterException(e);
+			e.printStackTrace();
 		}
 		return entity;
 	}
