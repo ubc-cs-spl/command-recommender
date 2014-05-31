@@ -43,5 +43,15 @@ public interface IEventStorageConverter {
 	 * @return 
 	 */
 	String getFormat();
+	
+	/**
+	 * Do the necessary procedures to handle a change in the storage location preference
+	 */
+	void handleStorageLocationChange();
+	
+	/**
+	 * Do any clean up procedure as necessary
+	 */
+	void dispose();
 
 }

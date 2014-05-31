@@ -342,17 +342,21 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		int index = 0;
 		for (IConfigurationElement element : elements) {
 			if ("converter".equals(element.getName())) { //$NON-NLS-1$
+				Object converter = null;
 				try {
-					Object converter = element.createExecutableExtension("class"); //$NON-NLS-1$
-					if (converter instanceof IEventStorageConverter) {
-						String format = ((IEventStorageConverter) converter).getFormat();
-						contents[index][0] = format;
-						contents[index][1] = format;
-						index++;
-					}
+					converter = element.createExecutableExtension("class"); //$NON-NLS-1$
 				} catch (CoreException e) {
 					UsageDataRecordingActivator.getDefault().getLog().log(e.getStatus());
 				}
+				if (converter == null) {
+					contents[index][0] = "";
+					contents[index][1] = "";
+				} else if (converter instanceof IEventStorageConverter) {
+					String format = ((IEventStorageConverter) converter).getFormat();
+					contents[index][0] = format;
+					contents[index][1] = format;
+				}
+				index++;
 			}
 		}
 		return contents;

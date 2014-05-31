@@ -59,20 +59,20 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		plugin = this;
 		
 		IPreferenceStore prefs = getPreferenceStore();
+		uploadManager = new UploadManager();
+		settings = new UsageDataRecordingSettings();
+		setConverter(prefs.getString(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY));
+
 		prefs.addPropertyChangeListener(new IPropertyChangeListener() {
 			
 			public void propertyChange(PropertyChangeEvent event) {
 				if (UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY.equals(event.getProperty())) {
 					UsageDataRecordingActivator.this.setConverter((String) event.getNewValue());
+				} else if (UsageDataRecordingSettings.STORAGE_LOCATION_KEY.equals(event.getProperty())) {
+					UsageDataRecordingActivator.this.converter.handleStorageLocationChange();
 				}
-				
 			}
-		});
-		setConverter(prefs.getString(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY));
-		
-		
-		uploadManager = new UploadManager();
-		settings = new UsageDataRecordingSettings();
+		});		
 		
 		usageDataRecorder = new UsageDataRecorder();
 		usageDataRecorder.start();
@@ -102,6 +102,7 @@ public class UsageDataRecordingActivator extends AbstractUIPlugin implements ISt
 		settings.dispose();
 		
 		plugin = null;
+		converter.dispose();
 		super.stop(context);
 	}
 	

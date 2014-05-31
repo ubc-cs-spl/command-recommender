@@ -18,6 +18,9 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.AbstractUsageD
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtilsTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.PreferencesBasedFilterTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettingsTests;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverterTests;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.H2EventStorageConverter;
+import ca.ubc.cs.commandrecommender.usagedata.recording.storage.H2EventStorageConverterTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.CsvHttpEntityHandlerTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploaderTests;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.JsonHttpEntityHandlerTests;
@@ -34,7 +37,9 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UsageDataFileR
 	EventUploaderTests.class, 
 	UsageDataFileReaderTests.class,
 	CsvHttpEntityHandlerTests.class,
-	JsonHttpEntityHandlerTests.class
+	JsonHttpEntityHandlerTests.class,
+	CsvEventStorageConverterTests.class,
+	H2EventStorageConverterTests.class
 })
 public class AllTests {
 

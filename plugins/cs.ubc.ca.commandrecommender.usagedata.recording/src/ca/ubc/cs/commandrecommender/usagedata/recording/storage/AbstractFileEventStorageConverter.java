@@ -81,4 +81,12 @@ public abstract class AbstractFileEventStorageConverter implements IEventStorage
 		return UsageDataRecordingActivator.getDefault().getSettings().getStorageDirectory();
 	}
 	
+	public void handleStorageLocationChange() {
+		//Nothing to do
+	}
+	
+	public void dispose() {
+		//Nothing to do
+	}
+	
 }

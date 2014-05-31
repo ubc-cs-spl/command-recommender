@@ -3,6 +3,7 @@ package ca.ubc.cs.commandrecommender.recommender.core.model;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class RecommendationStorage {
 	private final static String RECOMMENDATION_TABLE_NAME = "RECOMMENDATION";
 	private final static String IS_NEW_COLUMN = "ISNEW";
 	private final static String COMMAND_ID_COLUMN = "COMMANDID";
+	private final static String INSERT_STATEMENT = "INSERT INTO " + RECOMMENDATION_TABLE_NAME + " VALUES (?, TRUE)";
 
 	public static void storeNewRecommendations(List<CommandRecommendation> recommendations) 
 			throws SQLException {
@@ -92,7 +94,7 @@ public class RecommendationStorage {
 	public static void setUpTable() throws SQLException {
 		connection.createStatement().executeUpdate("CREATE TABLE IF NOT EXISTS " 
 				+ RECOMMENDATION_TABLE_NAME + "("
-				+"COMMANDID VARCHAR(255) PRIMARY KEY, " + IS_NEW_COLUMN + " BOOLEAN)");
+				+"COMMANDID VARCHAR(255), " + IS_NEW_COLUMN + " BOOLEAN)");
 	}
 
 	public static void closeConnectionToDb() throws SQLException {
@@ -101,8 +103,8 @@ public class RecommendationStorage {
 
 	private static void insertNewRecommendation(CommandRecommendation recommendation) 
 			throws SQLException {
-		String sql = "INSERT INTO " + RECOMMENDATION_TABLE_NAME 
-				+ " VALUES (\'" + recommendation.getCommandId() + "\', TRUE)";
-		connection.createStatement().execute(sql);
+		PreparedStatement statement = connection.prepareStatement(INSERT_STATEMENT);
+		statement.setString(1, recommendation.getCommandId());
+		statement.execute();
 	}
 }

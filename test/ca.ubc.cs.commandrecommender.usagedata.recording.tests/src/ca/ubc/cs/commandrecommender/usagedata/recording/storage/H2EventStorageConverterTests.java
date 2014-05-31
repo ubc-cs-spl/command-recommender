@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +16,26 @@ import org.junit.Test;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.filtering.FilterUtils;
 
-public class CsvEventStorageConverterTests {
+public class H2EventStorageConverterTests {
 	private static final String DATA_STORAGE_DIR = "storage-test-dir";
-	private static CsvEventStorageConverter converter = new TestCsvEventStorageConverter();
+	private static H2EventStorageConverter converter;
 
-	private static class TestCsvEventStorageConverter extends CsvEventStorageConverter {
+	private static void initConverter() throws ClassNotFoundException, SQLException {
+		converter = new TestH2EventStorageConverter();
+	}
+	
+	private static class TestH2EventStorageConverter extends H2EventStorageConverter {
+
+		public TestH2EventStorageConverter() throws ClassNotFoundException,
+				SQLException {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
 		@Override 
-		protected File getStorageDirectory(){
-			return getTempStorageDir();
+		protected String getDatabaseUrl() {
+			String localDb = new File(getTempStorageDir(), DATABASE_NAME).getAbsolutePath();
+			return "jdbc:h2:file:" + localDb;
 		}
 	}
 	
@@ -39,7 +52,9 @@ public class CsvEventStorageConverterTests {
 	}
 	
 	@Before
-	public void initialize() {
+	public void initialize() throws ClassNotFoundException, SQLException {
+		if (converter != null) 
+			converter.closeConnectionToDb();
 		File temp = getTempStorageDir();
 		if (temp.exists()) {
 			for (File file : temp.listFiles())
@@ -47,6 +62,7 @@ public class CsvEventStorageConverterTests {
 		} else {
 			temp.mkdir();
 		}
+		initConverter();
 	}
 	
 	@Test
@@ -70,38 +86,23 @@ public class CsvEventStorageConverterTests {
 	
 	@Test
 	public void testArchive() throws StorageConverterException, IOException {
-		File rootDir = getTempStorageDir();
 		List<UsageDataEvent> eventsWrote = generateEvents(5);
 		converter.writeEvents(eventsWrote);
+		assertEquals(5, converter.readEvents().size());
 		converter.archive();
-		assertTrue(usageDataFileIsDeleted());
-		assertTrue(rootDir.listFiles().length == 1);
-		converter.writeEvents(eventsWrote);
-		converter.archive();
-		assertTrue(usageDataFileIsDeleted());
-		assertTrue(rootDir.listFiles().length == 2);
-	}
-	
-	private boolean usageDataFileIsDeleted() {
-		File rootDir = getTempStorageDir();
-		for (File file : rootDir.listFiles()) {
-			if (file.getName().startsWith(AbstractFileEventStorageConverter.STORAGE_FILE_NAME))
-				return false;
-		}
-		return true;
+		assertEquals(0, converter.readEvents().size());
+		assertEquals(5, converter.readArchievedEvents().size());
 	}
 	
 	@Test
 	public void testClearArchive() throws StorageConverterException, IOException {
-		File rootDir = getTempStorageDir();
 		List<UsageDataEvent> eventsWrote = generateEvents(5);
 		converter.writeEvents(eventsWrote);
 		converter.archive();
-		converter.writeEvents(eventsWrote);
-		converter.archive();
-		assertTrue(rootDir.listFiles().length == 2);
+		assertEquals(5, converter.readArchievedEvents().size());
 		converter.clearArchive();
-		assertTrue(rootDir.listFiles().length == 0);
+		assertEquals(0,	converter.readArchievedEvents().size());
+		assertEquals(0, converter.readEvents().size());
 	}
 	
 	@AfterClass

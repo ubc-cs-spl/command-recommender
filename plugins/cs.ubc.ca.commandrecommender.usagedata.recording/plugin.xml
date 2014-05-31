@@ -20,5 +20,8 @@
       <converter
             class="ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvEventStorageConverter">
       </converter>
+      <converter
+            class="ca.ubc.cs.commandrecommender.usagedata.recording.storage.H2EventStorageConverter">
+      </converter>
    </extension>
 </plugin>
