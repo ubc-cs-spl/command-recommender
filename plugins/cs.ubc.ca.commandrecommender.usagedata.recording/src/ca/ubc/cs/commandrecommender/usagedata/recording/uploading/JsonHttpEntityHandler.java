@@ -11,14 +11,13 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
-import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverterException;
 
 import com.google.gson.Gson;
 
 
 public class JsonHttpEntityHandler implements IHttpEntityHandler {
 	private static Header CONTENTTYPE = new BasicHeader(HTTP.CONTENT_TYPE, "application/json");
-
+	private static Header ACCEPT = new BasicHeader("Accept", "application/json");
 	protected Gson parser;
 	protected class UsageData implements Serializable{
 		private static final long serialVersionUID = 1L;
@@ -52,7 +51,7 @@ public class JsonHttpEntityHandler implements IHttpEntityHandler {
 
 	
 	public Header[] getHeaders() {
-		return new Header[]{CONTENTTYPE};
+		return new Header[]{CONTENTTYPE, ACCEPT};
 	}
 
 }
