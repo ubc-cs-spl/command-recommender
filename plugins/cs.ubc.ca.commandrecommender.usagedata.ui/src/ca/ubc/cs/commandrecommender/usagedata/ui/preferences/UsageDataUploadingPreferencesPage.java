@@ -53,6 +53,7 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecord
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEnityHandler;
+import ca.ubc.cs.commandrecommender.usagedata.ui.RecommendationRetrievalService;
 
 import com.ibm.icu.text.MessageFormat;
 
@@ -75,6 +76,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	private Button clearStorageButton;
 	private ComboFieldEditor uploadServerType;
 	private Text storageLocationText;
+	private Button getRecommendationButton;
 	
 	IPropertyChangeListener capturePropertyChangeListener = new IPropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent event) {
@@ -109,6 +111,14 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 				getControl().getDisplay().syncExec(new Runnable() {
 					public void run() {
 						updateLastUploadText();
+					}
+				});
+				return;
+			}
+			if (UsageDataRecordingSettings.UPLOAD_URL_KEY.equals(event.getProperty())) {
+				getControl().getDisplay().syncExec(new Runnable() {
+					public void run() {
+						updateUploadUrl();
 					}
 				});
 				return;
@@ -191,7 +201,10 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 	}
 	
 	private void updateUploadUrl(){
-		uploadUrlText.setText(getSettings().getUploadUrl());
+		if(!getRecordingPreferences().getString(UsageDataRecordingSettings.UPLOAD_URL_KEY).equals(""))
+			uploadUrlText.setText(getRecordingPreferences().getString(UsageDataRecordingSettings.UPLOAD_URL_KEY));
+		else
+			uploadUrlText.setText(getRecordingSettings().getUploadUrl());
 	}
 	
 	/*
@@ -218,6 +231,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		uploadServerType.store();
 		storageFormat.store();
 		System.setProperty(UsageDataRecordingSettings.UPLOAD_URL_KEY, uploadUrlText.getText());
+		getRecordingPreferences().setValue(UsageDataRecordingSettings.UPLOAD_URL_KEY, uploadUrlText.getText());
 		return super.performOk();
 	}
 	
@@ -476,6 +490,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		composite.setLayout(new RowLayout());
 
 		createUploadNowButton(composite);
+		createGetRecommendationButton(composite);
 	}
 
 	/*
@@ -501,6 +516,18 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				UsageDataRecordingActivator.getDefault().getUploadManager().startUpload();
+			}
+		});
+	}
+	
+	private void createGetRecommendationButton(Composite composite){
+		getRecommendationButton = new Button(composite, SWT.PUSH);
+		getRecommendationButton.setText(Messages.UsageDataUploadingPreferencesPage_14);
+		getRecommendationButton.addSelectionListener(new SelectionAdapter(){
+			@Override
+			public void widgetSelected(SelectionEvent e){
+				RecommendationRetrievalService recommendationService = new RecommendationRetrievalService();
+				recommendationService.getRecommendation();
 			}
 		});
 	}
