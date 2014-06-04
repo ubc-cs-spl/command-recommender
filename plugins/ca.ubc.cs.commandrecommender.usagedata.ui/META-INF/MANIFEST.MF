@@ -9,7 +9,10 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.3.0,4.0.0)",
  ca.ubc.cs.commandrecommender.usagedata.recording;bundle-version="[1.0.0,2.0.0)",
  ca.ubc.cs.commandrecommender.usagedata.gathering;bundle-version="[1.0.0,2.0.0)",
  org.eclipse.ui.forms;bundle-version="[3.3.0,4.0.0)",
- com.ibm.icu;bundle-version="[3.8.1,50.1.2)"
+ com.ibm.icu;bundle-version="[3.8.1,50.1.2)",
+ org.apache.httpcomponents.httpclient,
+ org.apache.httpcomponents.httpcore,
+ ca.ubc.cs.commandrecommender.usagedata.recording.json;bundle-version="1.0.0"
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: ca.ubc.cs.commandrecommender.usagedata.ui;x-internal:=true,
