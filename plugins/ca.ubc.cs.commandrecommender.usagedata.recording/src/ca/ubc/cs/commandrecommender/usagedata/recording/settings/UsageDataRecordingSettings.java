@@ -352,6 +352,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	public String getUploadUrl() {
 		if (System.getProperties().containsKey(UPLOAD_URL_KEY)) {
 			return System.getProperty(UPLOAD_URL_KEY);
+		}else if(getPreferencesStore().contains(UPLOAD_URL_KEY)){
+			return getPreferencesStore().getString(UPLOAD_URL_KEY);
 		}
 		return UPLOAD_URL_DEFAULT;
 	}
