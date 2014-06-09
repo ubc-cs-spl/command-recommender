@@ -54,8 +54,8 @@ public class UsageDataRecordingSettings implements UploadSettings {
 	
 	public static final int PERIOD_REASONABLE_MINIMUM = 15 * 60 * 1000; // 15 minutes
 	static final int UPLOAD_PERIOD_DEFAULT = 5 * 24 * 60 * 60 * 1000; // five days
-	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_files"; //$NON-NLS-1$
-	static final String UPLOAD_TYPE_DEFAULT = "basic";
+	static final String UPLOAD_URL_DEFAULT = "http://localhost:3000/upload_data"; //$NON-NLS-1$ //TODO: update this to the real address
+	static final String UPLOAD_TYPE_DEFAULT = "json";
 	static final String LOCAL_STORAGE_FORMAT_DEFAULT = "csv";
 	static final boolean ASK_TO_UPLOAD_DEFAULT = true;
 	static final String STORAGE_LOCATION_DEFAULT = "Default";

@@ -35,6 +35,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -53,7 +54,6 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecord
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.IEventStorageConverter;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEnityHandler;
-import ca.ubc.cs.commandrecommender.usagedata.ui.RecommendationRetrievalService;
 
 import com.ibm.icu.text.MessageFormat;
 
@@ -526,8 +526,7 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 		getRecommendationButton.addSelectionListener(new SelectionAdapter(){
 			@Override
 			public void widgetSelected(SelectionEvent e){
-				RecommendationRetrievalService recommendationService = new RecommendationRetrievalService();
-				recommendationService.getRecommendation();
+				Program.launch(getRecommendationUrl());
 			}
 		});
 	}
@@ -555,5 +554,10 @@ public class UsageDataUploadingPreferencesPage extends PreferencePage
 
 	private UsageDataRecordingSettings getRecordingSettings() {
 		return UsageDataRecordingActivator.getDefault().getSettings();
+	}
+	
+	private String getRecommendationUrl() {
+		// TODO: replace with the real one
+		return "http://www.google.ca"; 
 	}
 }

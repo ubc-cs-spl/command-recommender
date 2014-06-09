@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/cs.ubc.ca.commandrecommender.recommender.feature_1.0.0.qualifier.jar" id="cs.ubc.ca.commandrecommender.recommender.feature" version="1.0.0.qualifier">
-      <category name="ca.ubc.cs.commandrecommender.category"/>
-   </feature>
    <feature url="features/ca.ubc.cs.commandrecommender.usagedata.feature_1.4.0.qualifier.jar" id="ca.ubc.cs.commandrecommender.usagedata.feature" version="1.4.0.qualifier">
       <category name="ca.ubc.cs.commandrecommender.category"/>
    </feature>

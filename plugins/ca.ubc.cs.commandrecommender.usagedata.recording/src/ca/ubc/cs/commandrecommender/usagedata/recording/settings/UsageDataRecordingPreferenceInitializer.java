@@ -24,7 +24,7 @@ public class UsageDataRecordingPreferenceInitializer extends AbstractPreferenceI
 		preferenceStore.setDefault(UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_KEY, UsageDataRecordingSettings.LOCAL_STORAGE_FORMAT_DEFAULT);
 		preferenceStore.setDefault(UsageDataRecordingSettings.STORAGE_LOCATION_KEY, UsageDataRecordingSettings.STORAGE_LOCATION_DEFAULT);
 		preferenceStore.setDefault(UsageDataRecordingSettings.FILTER_ECLIPSE_BUNDLES_ONLY_KEY, false);
+		preferenceStore.setDefault(UsageDataRecordingSettings.UPLOAD_TYPE_KEY, UsageDataRecordingSettings.UPLOAD_TYPE_DEFAULT);
 	}
 
 }
-
