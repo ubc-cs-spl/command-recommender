@@ -17,8 +17,10 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
+import org.eclipse.ui.keys.IBindingService;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 
@@ -73,7 +75,8 @@ public class CommandUsageMonitor implements UsageMonitor {
 		
 		private void recordEvent(String what, String commandId) {
 			usageDataService.recordEvent(what, EVENT_KIND, commandId, getBundleId(commandId), 
-					getHotkeyUsageMarkerForCommand(commandId));
+					getHotkeyUsageMarkerForCommand(commandId), getCommandName(commandId),
+					getCommandDescription(commandId));
 		}
 		
 		//Note: this modifies commandsTriggeredThroughHotkey by removing the commandId 
@@ -94,8 +97,34 @@ public class CommandUsageMonitor implements UsageMonitor {
 		getCommandService().addExecutionListener(executionListener);
 	}
 
-	private ICommandService getCommandService() {
+	private static ICommandService getCommandService() {
 		return (ICommandService) PlatformUI.getWorkbench().getAdapter(ICommandService.class);
+	}
+	
+	private static String getCommandDescription(String commandId) {
+		ICommandService commandService = getCommandService();
+		try {
+			return commandService.getCommand(commandId).getDescription();
+		} catch (NotDefinedException e) {
+			return null;
+		}
+	}
+	
+	public static String getCommandName(String commandId) {
+		ICommandService commandService = getCommandService();
+		try {
+			return commandService.getCommand(commandId).getName();
+		} catch (NotDefinedException e) {
+			return commandService.getCommand(commandId).getId();
+		}
+	}
+	
+	private static String getKeyBindingFor(String commandId) {
+		IBindingService bindingService = (IBindingService) 
+				PlatformUI.getWorkbench().getAdapter(IBindingService.class);
+		if (bindingService == null)
+			return null;
+		return bindingService.getBestActiveBindingFormattedFor(commandId);
 	}
 	
 	public void stopMonitoring() {

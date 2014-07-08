@@ -70,9 +70,19 @@ public class UsageDataEvent implements Serializable{
 	 * Where "1" is a binding was used and "0" is a binding was not used.
 	 */
 	public final String bindingUsed;
+	
+	/**
+	 * The {@link #name} field contains a string indicating the Name of the command or bundle a user has used.
+	 */
+	public final String name;
+	
+	/**
+	 * The {@link #info} field contain additional info associated with a command or bundle. (ie. it's default description
+	 */
+	public final String info;
 
 	public UsageDataEvent(String what, String kind, String description, String bundleId,
-			String bundleVersion, String bindingUsed, long when) {
+			String bundleVersion, String bindingUsed, long when, String name, String info) {
 				this.what = what;
 				this.kind = kind;
 				this.description = description;
@@ -80,7 +90,8 @@ public class UsageDataEvent implements Serializable{
 				this.bundleVersion = bundleVersion;
 				this.when = when;
 				this.bindingUsed = bindingUsed;
-				
+				this.name = name;
+				this.info = info;
 	}
 
 	@Override
@@ -95,6 +106,9 @@ public class UsageDataEvent implements Serializable{
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((kind == null) ? 0 : kind.hashCode());
 		result = prime * result + ((what == null) ? 0 : what.hashCode());
+		result = prime * result + ((info == null) ? 0 : info.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((bindingUsed == null) ? 0 : bindingUsed.hashCode());
 		result = prime * result + (int) (when ^ (when >>> 32));
 		return result;
 	}
@@ -132,6 +146,22 @@ public class UsageDataEvent implements Serializable{
 			if (other.what != null)
 				return false;
 		} else if (!what.equals(other.what))
+			return false;
+
+		if (bindingUsed == null) {
+			if (other.bindingUsed != null)
+				return false;
+		} else if (!bindingUsed.equals(other.bindingUsed))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (info == null) {
+			if (other.info != null)
+				return false;
+		} else if (!info.equals(other.info))
 			return false;
 		if (when != other.when)
 			return false;

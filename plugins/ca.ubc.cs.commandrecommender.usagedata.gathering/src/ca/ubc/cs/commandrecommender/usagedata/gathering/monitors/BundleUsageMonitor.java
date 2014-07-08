@@ -10,6 +10,8 @@
  *******************************************************************************/
 package ca.ubc.cs.commandrecommender.usagedata.gathering.monitors;
 
+import java.util.Dictionary;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
@@ -32,6 +34,8 @@ public class BundleUsageMonitor implements UsageMonitor {
 	public static final String STARTED = "started"; //$NON-NLS-1$
 
 	private static final String BUNDLE_VERSION = "Bundle-Version"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "Bundle-Name"; //$NON-NLS-1$
+	private static final String BUNDLE_DESCRIPTION = "Bundle-Description"; //$NON-NLS-1$
 	private static final String UNKNOWN = "unknown"; //$NON-NLS-1$
 	private static final String UPDATED = "updated"; //$NON-NLS-1$
 	private static final String UNRESOLVED = "unresolved"; //$NON-NLS-1$
@@ -51,7 +55,11 @@ public class BundleUsageMonitor implements UsageMonitor {
 		// Create an install a listener on the bundle context.
 		bundleUsageListener = new BundleListener() {
 			public void bundleChanged(BundleEvent event) {
-				usageDataService.recordEvent(getWhatHappenedString(event), EVENT_KIND, event.getBundle().getSymbolicName(), event.getBundle().getSymbolicName(), getBundleVersion(event), "0");
+				Bundle bundle = event.getBundle();
+				usageDataService.recordEvent(getWhatHappenedString(event), EVENT_KIND, 
+						bundle.getSymbolicName(), bundle.getSymbolicName(), 
+						getBundleVersion(bundle), "0", getBundleName(bundle), 
+						getBundleDescription(bundle));
 			}			
 		};
 		getBundleContext().addBundleListener(bundleUsageListener);
@@ -62,7 +70,9 @@ public class BundleUsageMonitor implements UsageMonitor {
 		for (Bundle bundle : getBundleContext().getBundles()) {
 			if (bundle.getState() != Bundle.ACTIVE) continue;
 			String bundleId = bundle.getSymbolicName();
-			usageDataService.recordEvent(STARTED, EVENT_KIND, bundleId, bundleId, getBundleVersion(bundle), "0");
+			usageDataService.recordEvent(STARTED, EVENT_KIND, bundleId, bundleId, 
+					getBundleVersion(bundle), "0", getBundleName(bundle), 
+					getBundleDescription(bundle));
 		}
 	}
 
@@ -90,21 +100,29 @@ public class BundleUsageMonitor implements UsageMonitor {
 		}
 	}
 
+	private static BundleContext getBundleContext() {
+		return UsageDataCaptureActivator.getDefault().getBundle().getBundleContext();
+	}
+
+	private static String getBundleName(Bundle bundle) {
+		Dictionary<String, String> dic = bundle.getHeaders();
+		return dic.get(BUNDLE_NAME);
+	}
+
 	protected String getBundleVersion(BundleEvent event) {
 		return getBundleVersion(event.getBundle());
 	}
 
-	private String getBundleVersion(Bundle bundle) {
+	private static String getBundleVersion(Bundle bundle) {
 		return (String)bundle.getHeaders().get(BUNDLE_VERSION);
 	}
 
-
+	private static String getBundleDescription(Bundle bundle) {
+		return bundle.getHeaders().get(BUNDLE_DESCRIPTION);
+	}
+	
 	public void stopMonitoring() {
 		getBundleContext().removeBundleListener(bundleUsageListener);
-	}	
-
-	private BundleContext getBundleContext() {
-		return UsageDataCaptureActivator.getDefault().getBundle().getBundleContext();
 	}
 
 }

@@ -75,14 +75,14 @@ public class CsvFileReader {
 	private UsageDataEvent createUsageDataEvent(String line) {
 		String[] tokens = CsvStorageUtils.splitLine(line);
 		if (tokens == null) return null;
-		if (tokens.length != 7) return null;
+		if (tokens.length != 9) return null;
 		Long when;
 		try {
 			when = Long.valueOf(tokens[6].trim());
 		} catch (NumberFormatException e) {
 			return null; // How's that for error recovery?
 		}
-		UsageDataEvent usageDataEvent = new UsageDataEvent(tokens[0], tokens[1], tokens[4], tokens[2], tokens[3], tokens[5], when);
+		UsageDataEvent usageDataEvent = new UsageDataEvent(tokens[0], tokens[1], tokens[4], tokens[2], tokens[3], tokens[5], when, tokens[7], tokens[8]);
 		return usageDataEvent;
 	}
 

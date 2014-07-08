@@ -46,7 +46,7 @@ public class H2EventStorageConverterTests {
 	private static List<UsageDataEvent> generateEvents(int count) throws IOException  {
 		List<UsageDataEvent> events = new ArrayList<UsageDataEvent>(count);
 		for(int index = 0; index < count; index++) {
-			events.add(new UsageDataEvent(String.valueOf(index), "a", "b", "c","d","e", System.currentTimeMillis()));
+			events.add(new UsageDataEvent(String.valueOf(index), "a", "b", "c","d","e", System.currentTimeMillis(),  "", ""));
 		}
 		return events;
 	}
@@ -77,7 +77,7 @@ public class H2EventStorageConverterTests {
 	@Test 
 	public void testReadWithFilter() throws IOException, StorageConverterException {
 		List<UsageDataEvent> eventsWrote = generateEvents(5);
-		eventsWrote.add(new UsageDataEvent("", "command", "", "", "", "", 0));
+		eventsWrote.add(new UsageDataEvent("", "command", "", "", "", "", 0, "", ""));
 		converter.writeEvents(eventsWrote);
 		assertEquals(0, converter.readEvents(FilterUtils.acceptNoneEventFilter()).size());
 		assertEquals(6, converter.readEvents(FilterUtils.acceptAllEventFilter()).size());

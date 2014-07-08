@@ -27,8 +27,10 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 	private final static String BUNDLE_VERSION_COLUMN_NAME = "BUNDLEVER";
 	private final static String WHEN_COLUMN_NAME = "WHEN";
 	private final static String BINDING_USED_COLUMN_NAME = "BINDINGUSED";
+	private final static String NAME_COLUMN_NAME = "NAME";
+	private final static String INFO_COLUMN_NAME = "INFO";
 	private final static String UPLOADED_COLUMN_NAME = "UPLOADED";
-	private final static String INSERT_STATEMENT = "INSERT INTO " + EVENT_TABLE_NAME + " VALUES (?,?,?,?,?,?,?,FALSE)";
+	private final static String INSERT_STATEMENT = "INSERT INTO " + EVENT_TABLE_NAME + " VALUES (?,?,?,?,?,?,?,?,?,FALSE)";
 	private final static String SELECT_ACCORDING_TO_UPLOADED_FIELD = "SELECT * FROM " + EVENT_TABLE_NAME + " WHERE " + UPLOADED_COLUMN_NAME + "=?";
 	
 
@@ -72,6 +74,8 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 			statement.setString(5, event.bundleVersion);
 			statement.setLong(6, event.when);
 			statement.setString(7, event.bindingUsed);
+			statement.setString(8, event.name);
+			statement.setString(9, event.info);
 			statement.execute();
 		} catch (SQLException e) {
 			throw new StorageConverterException(e);
@@ -115,7 +119,10 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 		String bundleVersion = rs.getString(BUNDLE_VERSION_COLUMN_NAME);
 		long when = rs.getLong(WHEN_COLUMN_NAME);
 		String bindingUsed = rs.getString(BINDING_USED_COLUMN_NAME);
-		return new UsageDataEvent(what, kind, description, bundleId, bundleVersion, bindingUsed, when);
+		String name = rs.getString(NAME_COLUMN_NAME);
+		String info = rs.getString(INFO_COLUMN_NAME);
+		return new UsageDataEvent(what, kind, description, bundleId, 
+				bundleVersion, bindingUsed, when, name, info);
 	}
 
 	public List<UsageDataEvent> readEvents(EventFilter filter)
@@ -161,11 +168,13 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 				+ EVENT_TABLE_NAME + "("
 				+ WHAT_COLUMN_NAME + " VARCHAR(255), " 
 				+ KIND_COLUMN_NAME + " VARCHAR(255), "
-				+ DESCRIPTION_COLUMN_NAME + " VARCHAR(255),"
-				+ BUNDLE_ID_COLUMN_NAME + " VARCHAR(255),"
-				+ BUNDLE_VERSION_COLUMN_NAME + " VARCHAR(255),"
-				+ WHEN_COLUMN_NAME + " BIGINT,"
-				+ BINDING_USED_COLUMN_NAME + " VARCHAR(5),"
+				+ DESCRIPTION_COLUMN_NAME + " VARCHAR(255), "
+				+ BUNDLE_ID_COLUMN_NAME + " VARCHAR(255), "
+				+ BUNDLE_VERSION_COLUMN_NAME + " VARCHAR(255), "
+				+ WHEN_COLUMN_NAME + " BIGINT, "
+				+ BINDING_USED_COLUMN_NAME + " VARCHAR(5), "
+				+ NAME_COLUMN_NAME + " VARCHAR(255), "
+				+ INFO_COLUMN_NAME + " VARCHAR(255), "
 				+ UPLOADED_COLUMN_NAME + " BOOLEAN)");
 	}
 	

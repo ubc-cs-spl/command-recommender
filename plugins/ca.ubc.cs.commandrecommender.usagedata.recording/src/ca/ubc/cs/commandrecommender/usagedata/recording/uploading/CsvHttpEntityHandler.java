@@ -25,10 +25,10 @@ public class CsvHttpEntityHandler implements IHttpEntityHandler {
 		BufferedWriter writer = null;
 		try {
 		temp = File.createTempFile("temp_upload", ".csv");
-		String content = "what,kind,bundleId,bundleVersion,description,time\n";
+		String content = "what,kind,bundleId,bundleVersion,description,time,bindingUsed,name,info\n";
 		for(UsageDataEvent event : events){
 			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" 
-					+ event.description + "\"," + event.when + "," + event.bindingUsed  + "\n";
+					+ event.description + "\"," + event.when + "," + event.bindingUsed + ",\"" + event.name + "\",\"" + event.info + "\"\n";
 		}
 		writer = new BufferedWriter(new FileWriter(temp));
 		writer.write(content);

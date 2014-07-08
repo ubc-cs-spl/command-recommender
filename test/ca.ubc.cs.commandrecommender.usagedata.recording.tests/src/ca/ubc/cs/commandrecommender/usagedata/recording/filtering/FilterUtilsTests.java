@@ -23,10 +23,10 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
 public class FilterUtilsTests {
 	
-	private UsageDataEvent bundleStartedEvent = new UsageDataEvent("started","bundle","org.eclipse.osgi","3.4.0.v20071207","org.eclipse.osgi", "0", 1);
-	private UsageDataEvent bundleStoppedEvent = new UsageDataEvent("stopped","bundle","org.eclipse.equinox.common","3.4.0.v20071207","org.eclipse.equinox.common", "0", 1);
-	private UsageDataEvent commandEvent = new UsageDataEvent("started","command","org.eclipse.update.configurator","3.2.200.v20071113","org.eclipse.update.configurator", "0", 1);
-	private UsageDataEvent randomEvent = new UsageDataEvent("a", "b", "c", "d", "e", "f", 0);
+	private UsageDataEvent bundleStartedEvent = new UsageDataEvent("started","bundle","org.eclipse.osgi","3.4.0.v20071207","org.eclipse.osgi", "0", 1, "", "");
+	private UsageDataEvent bundleStoppedEvent = new UsageDataEvent("stopped","bundle","org.eclipse.equinox.common","3.4.0.v20071207","org.eclipse.equinox.common", "0", 1, "", "");
+	private UsageDataEvent commandEvent = new UsageDataEvent("started","command","org.eclipse.update.configurator","3.2.200.v20071113","org.eclipse.update.configurator", "0", 1, "", "");
+	private UsageDataEvent randomEvent = new UsageDataEvent("a", "b", "c", "d", "e", "f", 0, "", "");
 	
 	@Test
 	public void testGetFilterSuggestionBasedOnBundleIds1() {

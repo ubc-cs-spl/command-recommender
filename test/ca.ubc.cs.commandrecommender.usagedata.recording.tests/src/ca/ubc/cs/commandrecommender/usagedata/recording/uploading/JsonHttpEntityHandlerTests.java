@@ -44,9 +44,9 @@ public class JsonHttpEntityHandlerTests {
 	@Test
 	public void testHeader(){
 		Header[] headers = handler.getHeaders();
-		assertEquals(headers.length, 1);
-		assertEquals(headers[0].getName(), HTTP.CONTENT_TYPE);
-		assertEquals(headers[0].getValue(), "application/json");
+		assertEquals(2, headers.length);
+		assertEquals(HTTP.CONTENT_TYPE, headers[0].getName());
+		assertEquals("application/json", headers[0].getValue());
 	}
 	
 	@Test

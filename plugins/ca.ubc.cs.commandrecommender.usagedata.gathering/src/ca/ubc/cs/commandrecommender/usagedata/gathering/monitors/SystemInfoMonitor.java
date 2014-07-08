@@ -72,19 +72,23 @@ public class SystemInfoMonitor implements UsageMonitor {
 		 * runtime exception. We'll catch and log that potential exception.
 		 */
 		try {
-			usageDataService.recordEvent(INFO_OS, EVENT_KIND, Platform.getOS(), null, "0");
-			usageDataService.recordEvent(INFO_ARCH, EVENT_KIND, Platform.getOSArch(), null, "0");
-			usageDataService.recordEvent(INFO_WS, EVENT_KIND, Platform.getWS(), null, "0");
-			usageDataService.recordEvent(INFO_LOCALE, EVENT_KIND, Platform.getNL(), null, "0");
+			recordEvent(usageDataService, INFO_OS, EVENT_KIND, Platform.getOS());
+			recordEvent(usageDataService, INFO_ARCH, EVENT_KIND, Platform.getOSArch());
+			recordEvent(usageDataService, INFO_WS, EVENT_KIND, Platform.getWS());
+			recordEvent(usageDataService, INFO_LOCALE, EVENT_KIND, Platform.getNL());
 		} catch (Exception e) {
 			UsageDataCaptureActivator.getDefault().logException("Exception occurred while obtaining platform properties.", e); //$NON-NLS-1$
 		}
 		
-		usageDataService.recordEvent(INFO_PROCESSORS, EVENT_KIND, String.valueOf(Runtime.getRuntime().availableProcessors()), null, "0");
+		recordEvent(usageDataService, INFO_PROCESSORS, EVENT_KIND, String.valueOf(Runtime.getRuntime().availableProcessors()));
 		
 		for (String property : SYSTEM_PROPERTIES) {
-			usageDataService.recordEvent(property, EVENT_KIND, System.getProperty(property), null, null);
+			recordEvent(usageDataService, property, EVENT_KIND, System.getProperty(property));
 		}
+	}
+	
+	private void recordEvent(UsageDataService service, String what, String kind, String description) {
+		service.recordEvent(what, kind, description, null, null, null, null);
 	}
 
 	public void stopMonitoring() {

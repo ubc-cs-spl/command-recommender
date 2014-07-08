@@ -38,10 +38,14 @@ public class CsvStorageUtils {
 		writer.write("bundleVersion"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
 		writer.write("description"); //$NON-NLS-1$
-		writer.write(",");
+		writer.write(","); //$NON-NLS-1$
 		writer.write("bindingUsed");
 		writer.write(","); //$NON-NLS-1$
 		writer.write("time"); //$NON-NLS-1$
+		writer.write(","); //$NON-NLS-1$
+		writer.write("name"); //$NON-NLS-1$
+		writer.write(","); //$NON-NLS-1$
+		writer.write("info"); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
 	}
 	
@@ -69,9 +73,13 @@ public class CsvStorageUtils {
 		writer.write(","); //$NON-NLS-1$
 		writer.write(event.description != null ? encode(event.description) : ""); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
-		writer.write(event.bindingUsed != null ? event.bindingUsed : "0");
-		writer.write(",");
+		writer.write(event.bindingUsed != null ? event.bindingUsed : "0"); //$NON-NLS-1$
+		writer.write(","); //$NON-NLS-1$
 		writer.write(String.valueOf(event.when));
+		writer.write(","); //$NON-NLS-1$
+		writer.write(event.name != null ? encode(event.name) : ""); //$NON-NLS-1$
+		writer.write(",");  //$NON-NLS-1$
+		writer.write(event.info != null ? encode(event.info) : ""); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
 	}
 
@@ -169,6 +177,9 @@ public class CsvStorageUtils {
 		 * the string \"\"\"value\"\"\" will be read as escaped-quote, followed
 		 * by quote rather than as quote followed by escaped-quote as is
 		 * intended. The net result is the same (evidenced in the test cases).
+		 * 
+		 * In the case that a field was null and got encoded, the decoded string will be "/"/""
+		 * as opposed to "". This is not a big deal for our usage
 		 */
 		Reader reader = new StringReader(line);
 		int next = 0;
