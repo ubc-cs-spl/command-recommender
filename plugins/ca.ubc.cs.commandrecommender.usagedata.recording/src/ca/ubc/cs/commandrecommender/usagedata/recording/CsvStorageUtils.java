@@ -46,6 +46,8 @@ public class CsvStorageUtils {
 		writer.write("name"); //$NON-NLS-1$
 		writer.write(","); //$NON-NLS-1$
 		writer.write("info"); //$NON-NLS-1$
+		writer.write(","); //$NON-NLS-1$
+		writer.write("shortcut"); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
 	}
 	
@@ -80,6 +82,8 @@ public class CsvStorageUtils {
 		writer.write(event.name != null ? encode(event.name) : ""); //$NON-NLS-1$
 		writer.write(",");  //$NON-NLS-1$
 		writer.write(event.info != null ? encode(event.info) : ""); //$NON-NLS-1$
+		writer.write(",");  //$NON-NLS-1$
+		writer.write(event.shortcut != null ? encode(event.shortcut) : ""); //$NON-NLS-1$
 		writer.write("\n"); //$NON-NLS-1$
 	}
 

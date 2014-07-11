@@ -20,8 +20,8 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 import ca.ubc.cs.commandrecommender.usagedata.recording.storage.CsvFileReader;
 
 public class UsageDataFileReaderTests {
-	private String header = "what,kind,bundleId,bundleVersion,description,bindingUsed,time,name,info\n";
-	private String valid =  "what,kind,bundleId,bundleVersion,description,0,123456,name,info\n";
+	private String header = "what,kind,bundleId,bundleVersion,description,bindingUsed,time,name,info,shortcut\n";
+	private String valid =  "what,kind,bundleId,bundleVersion,description,0,123456,name,info,shortcut\n";
 	private String invalidStart = "what,kind,bundleId,bundleVersion,description";
 	
 	@Test

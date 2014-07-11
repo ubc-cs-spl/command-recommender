@@ -29,8 +29,9 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 	private final static String BINDING_USED_COLUMN_NAME = "BINDINGUSED";
 	private final static String NAME_COLUMN_NAME = "NAME";
 	private final static String INFO_COLUMN_NAME = "INFO";
+	private final static String SHORTCUT_COLUMN_NAME = "SHORTCUT";
 	private final static String UPLOADED_COLUMN_NAME = "UPLOADED";
-	private final static String INSERT_STATEMENT = "INSERT INTO " + EVENT_TABLE_NAME + " VALUES (?,?,?,?,?,?,?,?,?,FALSE)";
+	private final static String INSERT_STATEMENT = "INSERT INTO " + EVENT_TABLE_NAME + " VALUES (?,?,?,?,?,?,?,?,?,?,FALSE)";
 	private final static String SELECT_ACCORDING_TO_UPLOADED_FIELD = "SELECT * FROM " + EVENT_TABLE_NAME + " WHERE " + UPLOADED_COLUMN_NAME + "=?";
 	
 
@@ -76,6 +77,7 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 			statement.setString(7, event.bindingUsed);
 			statement.setString(8, event.name);
 			statement.setString(9, event.info);
+			statement.setString(10, event.shortcut);
 			statement.execute();
 		} catch (SQLException e) {
 			throw new StorageConverterException(e);
@@ -121,8 +123,9 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 		String bindingUsed = rs.getString(BINDING_USED_COLUMN_NAME);
 		String name = rs.getString(NAME_COLUMN_NAME);
 		String info = rs.getString(INFO_COLUMN_NAME);
+		String shortcut = rs.getString(SHORTCUT_COLUMN_NAME);
 		return new UsageDataEvent(what, kind, description, bundleId, 
-				bundleVersion, bindingUsed, when, name, info);
+				bundleVersion, bindingUsed, when, name, info, shortcut);
 	}
 
 	public List<UsageDataEvent> readEvents(EventFilter filter)
@@ -175,6 +178,7 @@ public class H2EventStorageConverter implements IEventStorageConverter {
 				+ BINDING_USED_COLUMN_NAME + " VARCHAR(5), "
 				+ NAME_COLUMN_NAME + " VARCHAR(255), "
 				+ INFO_COLUMN_NAME + " VARCHAR(255), "
+				+ SHORTCUT_COLUMN_NAME + " VARCHAR(255), "
 				+ UPLOADED_COLUMN_NAME + " BOOLEAN)");
 	}
 	

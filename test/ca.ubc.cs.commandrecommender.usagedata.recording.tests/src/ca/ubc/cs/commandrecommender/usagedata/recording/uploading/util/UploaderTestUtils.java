@@ -32,7 +32,7 @@ public class UploaderTestUtils {
 		CsvStorageUtils.writeHeader(writer);
 		for(int index=0;index<days*NUMBER_OF_ENTRIES_PER_DAY;index++) {
 			CsvStorageUtils.writeEvent(writer, new UsageDataEvent("bogusWhat", "bogusKind", "bogusBundleId", 
-					"bogusBundleVersion","bogusDescription","bogusBindingUsed", System.currentTimeMillis(), "", ""));
+					"bogusBundleVersion","bogusDescription","bogusBindingUsed", System.currentTimeMillis(), "", "", ""));
 		}
 
 		writer.close();
@@ -45,7 +45,7 @@ public class UploaderTestUtils {
 		String bogusEvent = "bogus";
 		for(int i=0; i < numEvents; i++){
 			String bogusEventLoop = bogusEvent + i;
-			events.add(new UsageDataEvent(bogusEventLoop, bogusEventLoop, bogusEventLoop, bogusEventLoop,bogusEventLoop,bogusEventLoop, System.currentTimeMillis(), "", ""));
+			events.add(new UsageDataEvent(bogusEventLoop, bogusEventLoop, bogusEventLoop, bogusEventLoop,bogusEventLoop,bogusEventLoop, System.currentTimeMillis(), "", "", ""));
 		}
 		return events;
 	}

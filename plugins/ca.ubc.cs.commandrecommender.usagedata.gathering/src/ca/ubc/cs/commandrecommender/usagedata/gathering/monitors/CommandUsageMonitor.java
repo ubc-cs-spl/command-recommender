@@ -18,6 +18,8 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.commands.common.NotDefinedException;
+import org.eclipse.jface.bindings.Binding;
+import org.eclipse.jface.bindings.TriggerSequence;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.keys.IBindingService;
@@ -37,6 +39,8 @@ public class CommandUsageMonitor implements UsageMonitor {
 	private static final String EXECUTED = "executed"; //$NON-NLS-1$
 	private static final String FAILED = "failed"; //$NON-NLS-1$
 	private static final String NO_HANDLER = "no handler"; //$NON-NLS-1$
+
+	private static Object String;
 
 	/**
 	 * The {@link #executionListener} is installed into the {@link ICommandService}
@@ -74,9 +78,9 @@ public class CommandUsageMonitor implements UsageMonitor {
 		}
 		
 		private void recordEvent(String what, String commandId) {
-			usageDataService.recordEvent(what, EVENT_KIND, commandId, getBundleId(commandId), 
+			usageDataService.recordEvent(what, EVENT_KIND, commandId, getBundleId(commandId), null,
 					getHotkeyUsageMarkerForCommand(commandId), getCommandName(commandId),
-					getCommandDescription(commandId));
+					getCommandDescription(commandId), getDefaultKeyBindingFor(commandId));
 		}
 		
 		//Note: this modifies commandsTriggeredThroughHotkey by removing the commandId 
@@ -119,12 +123,22 @@ public class CommandUsageMonitor implements UsageMonitor {
 		}
 	}
 	
-	private static String getKeyBindingFor(String commandId) {
+	private static String getDefaultKeyBindingFor(String commandId) {
 		IBindingService bindingService = (IBindingService) 
 				PlatformUI.getWorkbench().getAdapter(IBindingService.class);
 		if (bindingService == null)
 			return null;
-		return bindingService.getBestActiveBindingFormattedFor(commandId);
+		String defaultSchemeId = bindingService.getDefaultSchemeId();
+		for (TriggerSequence sequence : bindingService.getActiveBindingsFor(commandId)) {
+			if (sequence == null) 
+				continue;
+			Binding binding = bindingService.getPerfectMatch(sequence);
+			if (binding == null)
+				continue;
+			if ((binding.getType() == Binding.SYSTEM) && (defaultSchemeId.equals(binding.getSchemeId())))
+				return sequence.format();
+		}
+		return null;
 	}
 	
 	public void stopMonitoring() {

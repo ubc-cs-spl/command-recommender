@@ -80,9 +80,14 @@ public class UsageDataEvent implements Serializable{
 	 * The {@link #info} field contain additional info associated with a command or bundle. (ie. it's default description
 	 */
 	public final String info;
+	
+	/**
+	 * The {@link #shortcut} field contain the default short-cut for a given command on the system. 
+	 */
+	public final String shortcut;
 
 	public UsageDataEvent(String what, String kind, String description, String bundleId,
-			String bundleVersion, String bindingUsed, long when, String name, String info) {
+			String bundleVersion, String bindingUsed, long when, String name, String info, String shortcut) {
 				this.what = what;
 				this.kind = kind;
 				this.description = description;
@@ -92,8 +97,9 @@ public class UsageDataEvent implements Serializable{
 				this.bindingUsed = bindingUsed;
 				this.name = name;
 				this.info = info;
+				this.shortcut = shortcut;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

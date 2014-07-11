@@ -88,7 +88,7 @@ public class SystemInfoMonitor implements UsageMonitor {
 	}
 	
 	private void recordEvent(UsageDataService service, String what, String kind, String description) {
-		service.recordEvent(what, kind, description, null, null, null, null);
+		service.recordEvent(what, kind, description, null);
 	}
 
 	public void stopMonitoring() {

@@ -57,7 +57,7 @@ public class UsageDataServiceTests {
 		};
 		service.addUsageDataEventListener(listener);
 		long time = System.currentTimeMillis();
-		service.recordEvent("bogus", "bogus", "bogus", "bogus", "0", "bogus", "bogus");
+		service.recordEvent("bogus", "bogus", "bogus", "bogus", "bogus", "0", "bogus", "bogus", "bogus");
 		
 		while (events.isEmpty()) Thread.sleep(100);
 		
@@ -65,7 +65,6 @@ public class UsageDataServiceTests {
 		UsageDataEvent event = events.get(0);
 		
 		assertEquals("bogus", event.bundleId);
-		assertNull(event.bundleVersion);
 		assertTrue(Math.abs(time - event.when) < 2000);
 	}
 
@@ -78,8 +77,8 @@ public class UsageDataServiceTests {
 			}			
 		};
 		service.addUsageDataEventListener(listener);
-		service.recordEvent("started", "bundle", "bogus", "bogus_bundle", "bogus_version", "0", "bogus_name", "bogus_info");
-		service.recordEvent("bogus", "bogus", "bogus", "bogus_bundle", "0", "bogus_name", "bogus_info");
+		service.recordEvent("started", "bundle", "bogus", "bogus_bundle", "bogus_version", "0", "bogus_name", "bogus_info", "bogus_shortcut");
+		service.recordEvent("bogus", "bogus", "bogus", "bogus");
 		
 		while (events.isEmpty()) Thread.sleep(100);
 		
@@ -87,11 +86,10 @@ public class UsageDataServiceTests {
 		
 		assertEquals("bogus_bundle", bundleEvent.bundleId);
 		assertEquals("bogus_version", bundleEvent.bundleVersion);
-		
-		// The first event is the bundle start, the second one is the one we're interested in.
+
 		UsageDataEvent event = events.get(1);
 		
-		assertEquals("bogus_bundle", event.bundleId);
-		assertEquals("bogus_version", event.bundleVersion);
+		assertEquals("bogus", event.bundleId);
+		assertEquals(null, event.bundleVersion);
 	}
 }

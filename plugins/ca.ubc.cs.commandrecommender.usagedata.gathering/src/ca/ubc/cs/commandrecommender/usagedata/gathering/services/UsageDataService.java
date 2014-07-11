@@ -240,12 +240,9 @@ public class UsageDataService {
 	 * @param bundleId
 	 *            symbolic name of the bundle that owns the thing that caused
 	 *            the event.
-	 * @param bindingUsed
-	 *            whether a hot-key triggered the event. "1" for yes. "0" for no.
 	 */
-	public void recordEvent(String what, String kind, String description,
-			String bundleId, String bindingUsed, String name, String info) {
-		recordEvent(what, kind, description, bundleId, null, bindingUsed, name, info);
+	public void recordEvent(String what, String kind, String description, String bundleId) {
+		recordEvent(what, kind, description, bundleId, null, null, null, null, null);
 	}
 	
 	/**
@@ -271,9 +268,9 @@ public class UsageDataService {
 	 *				whether a user used a key-binding to trigger the event
 	 */
 	public void recordEvent(String what, String kind, String description, String bundleId, 
-			String bundleVersion, String bindingUsed, String name, String info) {
+			String bundleVersion, String bindingUsed, String name, String info, String shortcut) {
 		UsageDataEvent event = new UsageDataEvent(what, kind, description, bundleId,
-				bundleVersion, bindingUsed, System.currentTimeMillis(), name, info);
+				bundleVersion, bindingUsed, System.currentTimeMillis(), name, info, shortcut);
 		recordEvent(event);
 	}
 

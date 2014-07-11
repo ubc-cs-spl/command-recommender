@@ -59,7 +59,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 				usageDataService.recordEvent(getWhatHappenedString(event), EVENT_KIND, 
 						bundle.getSymbolicName(), bundle.getSymbolicName(), 
 						getBundleVersion(bundle), "0", getBundleName(bundle), 
-						getBundleDescription(bundle));
+						getBundleDescription(bundle), null);
 			}			
 		};
 		getBundleContext().addBundleListener(bundleUsageListener);
@@ -72,7 +72,7 @@ public class BundleUsageMonitor implements UsageMonitor {
 			String bundleId = bundle.getSymbolicName();
 			usageDataService.recordEvent(STARTED, EVENT_KIND, bundleId, bundleId, 
 					getBundleVersion(bundle), "0", getBundleName(bundle), 
-					getBundleDescription(bundle));
+					getBundleDescription(bundle), null);
 		}
 	}
 

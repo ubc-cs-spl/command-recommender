@@ -33,7 +33,7 @@ public class LogMonitor implements UsageMonitor {
 	ILogListener listener = new ILogListener() {
 		public void logging(IStatus status, String plugin) {
 			if (status.getSeverity() != IStatus.ERROR) return;
-			usageDataService.recordEvent(WHAT_ERROR, KIND_LOG, status.getMessage(), null, null, null, null);
+			usageDataService.recordEvent(WHAT_ERROR, KIND_LOG, status.getMessage(), null);
 		}
 	};
 	

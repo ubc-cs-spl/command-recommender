@@ -182,6 +182,6 @@ public class PreferencesBasedFilterTests {
 	}
 	
 	private UsageDataEvent createUsageDataEvent(String bundleId) {
-		return new UsageDataEvent("what", "kind", "description", bundleId, "version", "0", System.currentTimeMillis(), "", "");
+		return new UsageDataEvent("what", "kind", "description", bundleId, "version", "0", System.currentTimeMillis(), "", "", "");
 	}
 }

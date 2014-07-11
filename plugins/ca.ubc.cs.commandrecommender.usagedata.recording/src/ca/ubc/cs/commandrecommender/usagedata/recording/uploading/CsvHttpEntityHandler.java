@@ -20,6 +20,7 @@ public class CsvHttpEntityHandler implements IHttpEntityHandler {
 		return entity;
 	}
 
+	//TODO: This is super vulnerable right now. Needs to be checked over if we want to use this
 	private FileBody getContentBody(List<UsageDataEvent> events) {
 		File temp = null;
 		BufferedWriter writer = null;
@@ -28,7 +29,8 @@ public class CsvHttpEntityHandler implements IHttpEntityHandler {
 		String content = "what,kind,bundleId,bundleVersion,description,time,bindingUsed,name,info\n";
 		for(UsageDataEvent event : events){
 			content += event.what +","+ event.kind + "," + event.bundleId + "," + event.bundleVersion + ",\"" 
-					+ event.description + "\"," + event.when + "," + event.bindingUsed + ",\"" + event.name + "\",\"" + event.info + "\"\n";
+					+ event.description + "\"," + event.when + "," + event.bindingUsed + ",\"" + event.name + "\",\""
+					+ event.info + "\",\"" + event.shortcut + "\"\n";
 		}
 		writer = new BufferedWriter(new FileWriter(temp));
 		writer.write(content);

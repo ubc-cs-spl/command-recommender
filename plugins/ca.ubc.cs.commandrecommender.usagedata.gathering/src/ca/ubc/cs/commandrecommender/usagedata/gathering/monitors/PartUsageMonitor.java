@@ -229,17 +229,17 @@ public class PartUsageMonitor implements UsageMonitor {
 	protected void recordEvent(String event, IWorkbenchWindow window) {
 		// TODO Hardcoding bundle id for now.
 		// TODO Does an IWorkbenchWindow have an id?
-		usageDataService.recordEvent(event, WORKBENCH, EMPTY_STRING, WORKBENCH_BUNDLE_ID, "0", null, null);
+		usageDataService.recordEvent(event, WORKBENCH, EMPTY_STRING, WORKBENCH_BUNDLE_ID);
 	}
 
 	protected void recordEvent(String event, IPerspectiveDescriptor perspective) {
 		String id = perspective.getId();
-		usageDataService.recordEvent(event, PERSPECTIVE, id, perspectiveToBundleIdMapper.getBundleId(id), "0", null, null);
+		usageDataService.recordEvent(event, PERSPECTIVE, id, perspectiveToBundleIdMapper.getBundleId(id));
 	}
 	
 	private void recordEvent(String event, IWorkbenchPart part) {
 		IWorkbenchPartSite site = part.getSite();
-		usageDataService.recordEvent(event, getKind(site), site.getId(), site.getPluginId(), "0", null, null);
+		usageDataService.recordEvent(event, getKind(site), site.getId(), site.getPluginId());
 	}
 
 	/**

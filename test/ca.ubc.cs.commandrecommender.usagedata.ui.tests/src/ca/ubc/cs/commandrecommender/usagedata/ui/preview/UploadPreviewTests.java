@@ -124,10 +124,10 @@ public class UploadPreviewTests {
 	
 	private List<UsageDataEvent> generateEvents() {
 		List<UsageDataEvent> events = new ArrayList<UsageDataEvent>();
-		events.add(new UsageDataEvent("started","bundle","org.eclipse.osgi","3.4.0.v20071207","org.eclipse.osgi", "0", 1, "", ""));
-		events.add(new UsageDataEvent("started","bundle","org.eclipse.equinox.common","3.4.0.v20071207","org.eclipse.equinox.common", "0", 1, "", ""));
-		events.add(new UsageDataEvent("started","bundle","org.eclipse.update.configurator","3.2.200.v20071113","org.eclipse.update.configurator", "0", 1, "", ""));
-		events.add(new UsageDataEvent("started","bundle","org.eclipse.core.runtime","3.4.0.v20071207","org.eclipse.core.runtime", "0", 1, "", ""));
+		events.add(new UsageDataEvent("started","command","org.eclipse.osgi","3.4.0.v20071207","org.eclipse.osgi", "0", 1, "", "", "F3"));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.equinox.common","3.4.0.v20071207","org.eclipse.equinox.common", "0", 1, "", "", ""));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.update.configurator","3.2.200.v20071113","org.eclipse.update.configurator", "0", 1, "", "", ""));
+		events.add(new UsageDataEvent("started","bundle","org.eclipse.core.runtime","3.4.0.v20071207","org.eclipse.core.runtime", "0", 1, "", "", ""));
 		return events;
 	}
 

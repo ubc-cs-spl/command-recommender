@@ -24,15 +24,15 @@ public class CsvStorageUtilsTests {
 	public void testWriteHeader() throws Exception {
 		StringWriter writer = new StringWriter();
 		CsvStorageUtils.writeHeader(writer);
-		assertEquals("what,kind,bundleId,bundleVersion,description,bindingUsed,time,name,info\n", writer.toString());
+		assertEquals("what,kind,bundleId,bundleVersion,description,bindingUsed,time,name,info,shortcut\n", writer.toString());
 	}
 
 	@Test
 	public void testWriteEvent() throws Exception {
-		UsageDataEvent event = new UsageDataEvent("activate", "view", "myview", "mybundle", "1.0", "0", 1000, "name", "description");
+		UsageDataEvent event = new UsageDataEvent("activate", "view", "myview", "mybundle", "1.0", "0", 1000, "name", "description", "shortcut");
 		StringWriter writer = new StringWriter();
 		CsvStorageUtils.writeEvent(writer, event);
-		assertEquals("activate,view,mybundle,1.0,\"myview\",0,1000,\"name\",\"description\"\n", writer.toString());
+		assertEquals("activate,view,mybundle,1.0,\"myview\",0,1000,\"name\",\"description\",\"shortcut\"\n", writer.toString());
 	}
 
 	@Test

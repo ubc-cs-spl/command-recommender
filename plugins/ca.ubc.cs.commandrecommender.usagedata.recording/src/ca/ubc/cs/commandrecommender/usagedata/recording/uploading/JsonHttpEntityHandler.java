@@ -9,6 +9,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.eclipse.swt.SWT;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.events.UsageDataEvent;
 
@@ -22,10 +23,12 @@ public class JsonHttpEntityHandler implements IHttpEntityHandler {
 	protected class UsageData implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public String user_id;
+		public String os;
 		public UsageDataEvent[] commands;
 		
 		public UsageData(String user_id, List<UsageDataEvent> events){
 			this.user_id = user_id;
+			this.os = SWT.getPlatform();
 			this.commands = new UsageDataEvent[events.size()];
 			this.commands = events.toArray(this.commands);
 		}
