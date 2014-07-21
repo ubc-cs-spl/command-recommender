@@ -88,7 +88,7 @@ public class FilterUtils {
 	public static EventFilter acceptCommandEventFilter() {
 		return new EventFilter() {
 			public boolean accepts(UsageDataEvent event) {
-				return event.kind.equals(CommandUsageMonitor.EVENT_KIND);
+				return isCommandEvent(event);
 			}
 		};
 	}
@@ -96,11 +96,19 @@ public class FilterUtils {
 	public static EventFilter defaultEventFilter() {
 		return new EventFilter() {
 			public boolean accepts(UsageDataEvent event) {
-				return event.kind.equals(CommandUsageMonitor.EVENT_KIND) || 
-						(event.kind.equals(BundleUsageMonitor.EVENT_KIND) &&
-								event.what.equals(BundleUsageMonitor.STARTED));
+				return event.isValid() && (isCommandEvent(event) || isBundleStartedEvent(event));
 			}
 		};
+	}
+	
+	private static boolean isCommandEvent(UsageDataEvent event) {
+		return event.kind != null && event.kind.equals(CommandUsageMonitor.EVENT_KIND);
+	}
+	
+	private static boolean isBundleStartedEvent(UsageDataEvent event) {
+		return event.kind != null 
+				&& event.kind.equals(BundleUsageMonitor.EVENT_KIND) 
+				&& event.what.equals(BundleUsageMonitor.STARTED);
 	}
 	
 	public static List<UsageDataEvent> filterEvents(List<UsageDataEvent> events, EventFilter filter) {
