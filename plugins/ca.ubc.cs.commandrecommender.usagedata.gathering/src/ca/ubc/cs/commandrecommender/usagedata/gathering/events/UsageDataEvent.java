@@ -98,6 +98,11 @@ public class UsageDataEvent implements Serializable{
 				this.name = name;
 				this.info = info;
 				this.shortcut = shortcut;
+				if (kind.equals("command")) {
+					System.out.println("A new UsageDataEvent: " + what + " " + kind + ": " + description + "\n bundleId: " + bundleId +
+							" bundleVersion: " + bundleVersion + " bindingUsed: " + bindingUsed + " when: " + when + " name: " + name +
+							" info: " + info + " shortcut: " + shortcut);
+				}
 	}
 	
 	public boolean isValid() {

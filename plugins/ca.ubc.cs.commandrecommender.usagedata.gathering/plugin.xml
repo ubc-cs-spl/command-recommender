@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors" name="Usage Data Monitors" schema="schema/ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.exsd"/>
-   <extension-point id="ca.ubc.cs.commandrecommender.usagedata.listeners.event" name="Event Listener" schema="schema/ca.ubc.cs.commandrecommender.usagedata.listeners.event.exsd"/>
+   <extension-point 
+       id="ca.ubc.cs.commandrecommender.usagedata.gathering.monitors" 
+       name="Usage Data Monitors" 
+       schema="schema/ca.ubc.cs.commandrecommender.usagedata.gathering.monitors.exsd"/>
+   <extension-point 
+       id="ca.ubc.cs.commandrecommender.usagedata.listeners.event" 
+       name="Event Listener"
+       schema="schema/ca.ubc.cs.commandrecommender.usagedata.listeners.event.exsd"/>
    <extension
          point="org.eclipse.ui.startup">
       <startup
