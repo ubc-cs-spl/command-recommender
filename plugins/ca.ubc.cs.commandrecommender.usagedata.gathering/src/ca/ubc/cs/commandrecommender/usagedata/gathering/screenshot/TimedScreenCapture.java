@@ -26,6 +26,7 @@ public class TimedScreenCapture implements ActionListener{
 		// TODO consider if this is the best exception handling
 		this.robot = new Robot();
 		this.timer = new Timer(DELAY, this);
+		timer.start();
 		imgCounter = 0;
 	}
 	
@@ -42,7 +43,8 @@ public class TimedScreenCapture implements ActionListener{
 		try {
 			String filename = IMG_NAME + imgCounter + ".png";
 			imgCounter++;
-			ImageIO.write(screenshot, "png", new File(filename));
+			boolean writeImg = ImageIO.write(screenshot, "png", new File(filename));
+			System.out.println(filename);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
