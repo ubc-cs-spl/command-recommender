@@ -22,6 +22,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 
+import ca.ubc.cs.commandrecommender.usagedata.gathering.screenshot.TimedScreenCapture;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
@@ -44,6 +45,8 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 
 	private BundleContext context;
 	
+	private TimedScreenCapture screenCapture;
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
@@ -56,6 +59,8 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 		settings = new UsageDataCaptureSettings();
 		
 		final UsageDataService service = new UsageDataService();
+		
+		screenCapture = new TimedScreenCapture();
 				
 		getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 
