@@ -13,43 +13,61 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
+
+import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
+
 public class TimedScreenCapture implements ActionListener{
 	
 	private static final int DELAY = 10000; // ten seconds in milliseconds
 	private static final String IMG_NAME = "screenshot";
 	private static final String IMG_FORMAT = ".png";
 	
-	private Robot robot;
+	//private Robot robot;
 	private Timer timer;
 	private int imgCounter;
+	private UsageDataCaptureActivator udca;
 	
-	public TimedScreenCapture() throws AWTException {
-		this.robot = new Robot();
+	public TimedScreenCapture(UsageDataCaptureActivator udca) throws AWTException {
+		//this.robot = new Robot();
 		this.timer = new Timer(DELAY, this);
 		timer.start();
 		imgCounter = 0;
+		this.udca = udca;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// get the dimensions of the main screen
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Rectangle screenRect = new Rectangle(toolkit.getScreenSize());
-		
-		// have robot take a screencap of the main screen
-		// TODO this captures the primary screen only; what about dual monitors?
-		BufferedImage screenshot = robot.createScreenCapture(screenRect);
-		
-		// write image to file on desktop
-		try {
-			String filename = IMG_NAME + imgCounter + IMG_FORMAT;
-			imgCounter++;
-			ImageIO.write(screenshot, "png", new File("/Users/Laura/Desktop/cmd-rec-screenshots/" + filename));
-			System.out.println(filename);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				Display display = PlatformUI.getWorkbench().getDisplay().getDefault();
+				Shell shell = display.getActiveShell();
+
+				GC gc = new GC(display);
+				final Image screenshot = new Image(display, shell.getBounds());
+				gc.copyArea(screenshot, screenshot.getBounds().x, screenshot.getBounds().y);
+				gc.dispose();
+
+				ImageLoader imgLoader = new ImageLoader();
+				imgLoader.data = new ImageData[] {screenshot.getImageData()};
+				String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
+				imgCounter++;
+				
+				// TODO printing file path for testing only
+				String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
+				System.out.println(imgFilePath);
+				imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
+
+				screenshot.dispose();
+			}
+		});
 	}
 
 }

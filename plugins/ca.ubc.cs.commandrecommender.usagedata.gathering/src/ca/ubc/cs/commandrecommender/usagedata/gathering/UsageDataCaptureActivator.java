@@ -60,7 +60,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 		
 		final UsageDataService service = new UsageDataService();
 		
-		screenCapture = new TimedScreenCapture();
+		screenCapture = new TimedScreenCapture(this);
 				
 		getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 

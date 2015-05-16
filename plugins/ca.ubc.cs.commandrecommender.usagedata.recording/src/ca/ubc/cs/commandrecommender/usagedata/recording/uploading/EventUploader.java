@@ -22,7 +22,7 @@ import ca.ubc.cs.commandrecommender.usagedata.recording.storage.StorageConverter
 
 public class EventUploader extends AbstractUploader {
 
-	public enum HttpEnityHandler {
+	public enum HttpEntityHandler {
 		CSV("csv", "CSVUploader", new CsvHttpEntityHandler()),
 		JSON("json", "JSONUploader", new JsonHttpEntityHandler());
 		
@@ -30,7 +30,7 @@ public class EventUploader extends AbstractUploader {
 		private final String type;
 		private final IHttpEntityHandler entityHandler;
 		
-		HttpEnityHandler(String type, String displayName, IHttpEntityHandler entityHandler){
+		HttpEntityHandler(String type, String displayName, IHttpEntityHandler entityHandler){
 			this.type = type;
 			this.displayName = displayName;
 			this.entityHandler = entityHandler;
@@ -45,7 +45,7 @@ public class EventUploader extends AbstractUploader {
 		}
 		
 		public static IHttpEntityHandler getEntityHanlderByType(String entityType){
-			for(HttpEnityHandler entity : HttpEnityHandler.values()){
+			for(HttpEntityHandler entity : HttpEntityHandler.values()){
 				if(entity.type.equals(entityType)){
 					return entity.entityHandler;
 				}
