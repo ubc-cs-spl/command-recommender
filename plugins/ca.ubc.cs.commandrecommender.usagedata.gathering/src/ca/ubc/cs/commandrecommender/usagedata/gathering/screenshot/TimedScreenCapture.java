@@ -1,16 +1,10 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.screenshot;
 
 import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 import org.eclipse.swt.SWT;
@@ -20,7 +14,6 @@ import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
@@ -36,7 +29,6 @@ public class TimedScreenCapture implements ActionListener{
 	private UsageDataCaptureActivator udca;
 	
 	public TimedScreenCapture(UsageDataCaptureActivator udca) throws AWTException {
-		//this.robot = new Robot();
 		this.timer = new Timer(DELAY, this);
 		timer.start();
 		imgCounter = 0;
@@ -47,7 +39,7 @@ public class TimedScreenCapture implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				final Display display = PlatformUI.getWorkbench().getDisplay();
+				Display display = PlatformUI.getWorkbench().getDisplay();
 				Composite shell = display.getActiveShell();
 				if (shell == null) {
 					return;
