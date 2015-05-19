@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -30,7 +31,6 @@ public class TimedScreenCapture implements ActionListener{
 	private static final String IMG_NAME = "screenshot";
 	private static final String IMG_FORMAT = ".png";
 	
-	//private Robot robot;
 	private Timer timer;
 	private int imgCounter;
 	private UsageDataCaptureActivator udca;
@@ -45,29 +45,38 @@ public class TimedScreenCapture implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
-				Display display = PlatformUI.getWorkbench().getDisplay().getDefault();
-				Shell shell = display.getActiveShell();
-
-				GC gc = new GC(display);
-				final Image screenshot = new Image(display, shell.getBounds());
-				gc.copyArea(screenshot, screenshot.getBounds().x, screenshot.getBounds().y);
-				gc.dispose();
-
-				ImageLoader imgLoader = new ImageLoader();
-				imgLoader.data = new ImageData[] {screenshot.getImageData()};
-				String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
-				imgCounter++;
-				
-				// TODO printing file path for testing only
-				String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
-				System.out.println(imgFilePath);
-				imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
-
-				screenshot.dispose();
+				final Display display = PlatformUI.getWorkbench().getDisplay();
+				Composite shell = display.getActiveShell();
+				if (shell == null) {
+					return;
+				} else {
+					takeScreenshot(display, shell);
+				}
 			}
-		});
-	}
 
+			public void takeScreenshot(Display display, Composite shell) {
+				if (shell.getParent() == null) {
+					GC gc = new GC(display);
+					final Image screenshot = new Image(display, shell.getBounds());
+					gc.copyArea(screenshot, shell.getBounds().x, shell.getBounds().y);
+					gc.dispose();
+					
+					String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
+					imgCounter++;
+					String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
+					// TODO printing file path for testing only
+					System.out.println(imgFilePath);
+					ImageLoader imgLoader = new ImageLoader();
+					imgLoader.data = new ImageData[] {screenshot.getImageData()};
+					imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
+
+					screenshot.dispose();
+				} else {
+					takeScreenshot(display, shell.getParent());
+				}
+			}
+		});	
+	}
 }
