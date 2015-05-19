@@ -41,6 +41,7 @@ public class TimedScreenCapture implements ActionListener{
 			public void run() {
 				Display display = PlatformUI.getWorkbench().getDisplay();
 				Composite shell = display.getActiveShell();
+				// if the Eclipse window is not active, skip the screenshot
 				if (shell == null) {
 					return;
 				} else {
@@ -49,23 +50,27 @@ public class TimedScreenCapture implements ActionListener{
 			}
 
 			public void takeScreenshot(Display display, Composite shell) {
+				// if this is the main Eclipse workbench (i.e., not a child of the Eclipse window,
+				// so parent == the display which is null), then take the screenshot using the shell coordinates
 				if (shell.getParent() == null) {
+					// take the screenshot
 					GC gc = new GC(display);
 					final Image screenshot = new Image(display, shell.getBounds());
 					gc.copyArea(screenshot, shell.getBounds().x, shell.getBounds().y);
 					gc.dispose();
 					
+					// save the screenshot
 					String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
 					imgCounter++;
 					String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
-					// TODO printing file path for testing only
-					System.out.println(imgFilePath);
 					ImageLoader imgLoader = new ImageLoader();
 					imgLoader.data = new ImageData[] {screenshot.getImageData()};
 					imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
 
 					screenshot.dispose();
 				} else {
+					// if this is a child of the main Eclipse shell, pass its parent shell back to takeScreenshot
+					// recursion should be minimal as there will only ever be a small number of Eclipse windows open
 					takeScreenshot(display, shell.getParent());
 				}
 			}
