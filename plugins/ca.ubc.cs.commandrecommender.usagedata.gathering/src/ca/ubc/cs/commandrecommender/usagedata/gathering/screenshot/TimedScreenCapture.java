@@ -1,7 +1,6 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.screenshot;
 
 import java.awt.AWTException;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -55,17 +55,20 @@ public class TimedScreenCapture implements ActionListener{
 				if (shell.getParent() == null) {
 					// take the screenshot
 					GC gc = new GC(display);
-					final Image screenshot = new Image(display, shell.getBounds());
-					gc.copyArea(screenshot, shell.getBounds().x, shell.getBounds().y);
+					Rectangle winRect = shell.getBounds();
+					Image screenshot = new Image(display, winRect);
+					gc.copyArea(screenshot, winRect.x, winRect.y);
 					gc.dispose();
 					
 					// save the screenshot
 					String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
+					System.out.println(fileName);
 					imgCounter++;
 					String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
 					ImageLoader imgLoader = new ImageLoader();
 					imgLoader.data = new ImageData[] {screenshot.getImageData()};
 					imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
+					System.out.println(imgFilePath);
 
 					screenshot.dispose();
 				} else {
