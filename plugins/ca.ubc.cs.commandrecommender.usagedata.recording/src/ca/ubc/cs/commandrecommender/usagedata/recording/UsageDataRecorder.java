@@ -49,7 +49,7 @@ public class UsageDataRecorder implements UsageDataEventListener {
 	 * this list exceeds a threshold ({@link #EVENT_COUNT_THRESHOLD}), the
 	 * entire contents of the list is dumped to a file. This is intended to
 	 * reduce the impact of the receiver on the performance of the system by
-	 * minimising access to the file system.
+	 * minimizing access to the file system.
 	 */
 	private List<UsageDataEvent> events;
 

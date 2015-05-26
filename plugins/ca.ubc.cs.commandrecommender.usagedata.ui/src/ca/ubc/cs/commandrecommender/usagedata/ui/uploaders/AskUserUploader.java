@@ -18,7 +18,7 @@ import org.eclipse.ui.PlatformUI;
 import ca.ubc.cs.commandrecommender.usagedata.recording.UsageDataRecordingActivator;
 import ca.ubc.cs.commandrecommender.usagedata.recording.settings.UsageDataRecordingSettings;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader;
-import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEnityHandler;
+import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.EventUploader.HttpEntityHandler;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.AbstractUploader;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.IHttpEntityHandler;
 import ca.ubc.cs.commandrecommender.usagedata.recording.uploading.UploadListener;
@@ -129,7 +129,7 @@ public class AskUserUploader extends AbstractUploader {
 
 	private IHttpEntityHandler getUploaderType() {
 		String uploadEntityType = UsageDataRecordingActivator.getDefault().getPreferenceStore().getString(UsageDataRecordingSettings.UPLOAD_TYPE_KEY);
-		IHttpEntityHandler entityHandler = HttpEnityHandler.getEntityHanlderByType(uploadEntityType);
+		IHttpEntityHandler entityHandler = HttpEntityHandler.getEntityHanlderByType(uploadEntityType);
 		return entityHandler;
 	}
 

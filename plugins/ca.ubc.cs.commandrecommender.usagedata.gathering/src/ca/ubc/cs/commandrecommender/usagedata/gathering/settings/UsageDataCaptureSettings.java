@@ -53,4 +53,12 @@ public class UsageDataCaptureSettings {
 	public void setUserAcceptedTermsOfUse(boolean value) {
 		getPreferencesStore().setValue(USER_ACCEPTED_TERMS_OF_USE_KEY, value);
 	}
+	
+	public String getScreenCapFilePath(String filename) {
+		return getWorkingDirectory() + "-" +filename;
+	}
+
+	private String getWorkingDirectory() {
+		return UsageDataCaptureActivator.getDefault().getStateLocation().toString();
+	}
 }
