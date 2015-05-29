@@ -12,14 +12,22 @@ public class ContextCompareLoader {
 		// constructor
 
 		// get the directory where images are stored
-		File imgDir = new File("~/Desktop/testImageFiles");
+		File imgDir = new File("/Users/Laura/Desktop/testImageFiles/");
 
-		// iterate over all files and pass to ContextManager
+		System.out.println(imgDir.getName());
+
+		// iterate over all files in dir and pass to ContextManager
 		File[] files = imgDir.listFiles();
-		if (files != null) {
-			for (File file : files) {
-				manager.addContext(file);
-			}
+		for (File file : files) {
+			System.out.println(file.getName());
+			manager.addContext(file);
 		}
+
+		// for (Context context : manager) {
+		// Map<String, Integer> words = context.getWords();
+		// for (Map.Entry<String, Integer> pair : words.entrySet()) {
+		// System.out.println(pair.getKey() + " : " + pair.getValue());
+		// }
+		// }
 	}
 }

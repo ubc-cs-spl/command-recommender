@@ -17,15 +17,14 @@ public class OCRReader {
 	 * Returns a String of all text contained in the image
 	 */
 	public String readImage(BufferedImage img) {
-		String readOut;
+		String readOut = null;
 		try {
 			readOut = tesseract.doOCR(img);
-			return readOut;
 		} catch (TesseractException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return readOut;
 	}
 
 }
