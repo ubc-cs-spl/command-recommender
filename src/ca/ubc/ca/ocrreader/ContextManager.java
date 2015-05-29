@@ -15,10 +15,13 @@ public class ContextManager {
 		imgInput = new ImageInput();
 	}
 
-	public void addContext(File imgFile) {
-		String text = imgInput.readImage(imgFile);
-		Context context = new Context(text);
-		contexts.add(context);
+	// Read the text from the given file, if the file is an image.
+	public void addContext(File file) {
+		String text = imgInput.readImage(file);
+		if (text != null) {
+			Context context = new Context(text);
+			contexts.add(context);
+		}
 	}
 
 	public Set<String> compareSharedWords(Context contextA, Context contextB) {

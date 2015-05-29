@@ -20,8 +20,7 @@ public class ImageInput {
 			String imgText = ocr.readImage(img);
 			return imgText;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// File is not an image, skip it
 			return null;
 		}
 	}
