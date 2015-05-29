@@ -26,7 +26,7 @@ public class ContextTest {
 	public void testParseTextLettersAndDigits() {
 		Context c = new Context("1 is the loneliest num3er");
 		Map<String, Integer> words = c.getWords();
-		assertTrue(words.containsKey("num3ber"));
+		assertTrue(words.containsKey("num3er"));
 		assertTrue(words.containsKey("1"));
 		assertEquals(words.size(), 5);
 	}

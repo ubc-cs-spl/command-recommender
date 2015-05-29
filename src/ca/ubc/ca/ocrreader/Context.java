@@ -13,14 +13,14 @@ public class Context {
 
 	public Context(String text) {
 		words = new HashMap<String, Integer>();
-		parseImgText(text);
+		parseText(text);
 	}
 
 	/*
 	 * Given a string, store all words and their frequency in the words field.
 	 * Omits punctuation, spaces, and the empty string, but includes digits.
 	 */
-	private void parseImgText(String text) {
+	private void parseText(String text) {
 		String word = "";
 		
 		for (int i = 0; i < text.length(); i++) {
@@ -28,10 +28,11 @@ public class Context {
 			if (Character.isLetterOrDigit(ch)) {
 				word += ch;
 			}
-			if (!Character.isLetterOrDigit(ch) || i >= text.length() - 1) {
+			if (!Character.isLetterOrDigit(ch) || i >= (text.length() - 1)) {
 				// skip empty string, otherwise add the word to words map
 				if (!word.equals("")) {
 					addWord(word);
+					word = "";
 				}
 			}
 		}
@@ -80,7 +81,7 @@ public class Context {
 		return uniqueWords;
 	}
 
-	private Map<String, Integer> getWords() {
+	public Map<String, Integer> getWords() {
 		return words;
 	}
 }
