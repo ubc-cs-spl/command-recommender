@@ -2,8 +2,43 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/OCRCompare/lib/jai_imageio.jar"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/OCRCompare/lib/jna.jar"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/OCRCompare/lib/tess4j.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar">
+		<accessrules>
+			<accessrule kind="accessible" pattern="junit/extensions/*"/>
+			<accessrule kind="accessible" pattern="junit/framework/*"/>
+			<accessrule kind="accessible" pattern="junit/runner/*"/>
+			<accessrule kind="accessible" pattern="junit/textui/*"/>
+			<accessrule kind="accessible" pattern="org/junit/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/categories/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/max/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/results/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/runners/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/theories/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/experimental/theories/internal/*"/>
+			<accessrule kind="accessible" pattern="org/junit/experimental/theories/suppliers/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/builders/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/matchers/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/requests/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/runners/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/runners/model/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/runners/rules/*"/>
+			<accessrule kind="discouraged" pattern="org/junit/internal/runners/statements/*"/>
+			<accessrule kind="accessible" pattern="org/junit/matchers/*"/>
+			<accessrule kind="accessible" pattern="org/junit/rules/*"/>
+			<accessrule kind="accessible" pattern="org/junit/runner/*"/>
+			<accessrule kind="accessible" pattern="org/junit/runner/manipulation/*"/>
+			<accessrule kind="accessible" pattern="org/junit/runner/notification/*"/>
+			<accessrule kind="accessible" pattern="org/junit/runners/*"/>
+			<accessrule kind="accessible" pattern="org/junit/runners/model/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/jna.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/tess4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
