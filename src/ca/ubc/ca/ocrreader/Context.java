@@ -7,11 +7,20 @@ import java.util.Set;
 
 public class Context {
 
+	private String name;
+	private long timestamp;
 	private Map<String, Integer> words;
 
-	// private long timestamp;
-
 	public Context(String text) {
+		this.name = null;
+		this.timestamp = 0;
+		words = new HashMap<String, Integer>();
+		parseText(text);
+	}
+
+	public Context(String name, long timestamp, String text) {
+		this.name = name;
+		this.timestamp = timestamp;
 		words = new HashMap<String, Integer>();
 		parseText(text);
 	}
