@@ -21,6 +21,7 @@ public class OCRReader {
 			String readOut = tesseract.doOCR(img);
 			return readOut;
 		} catch (TesseractException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -1,7 +1,8 @@
 package ca.ubc.ca.ocrreader;
 
 import java.io.File;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 
 public class ContextCompareLoader {
 
@@ -24,11 +25,22 @@ public class ContextCompareLoader {
 			manager.addContext(file);
 		}
 
-		for (Context context : manager) {
-			Map<String, Integer> words = context.getWords();
-			for (Map.Entry<String, Integer> pair : words.entrySet()) {
-				System.out.println(pair.getKey() + " : " + pair.getValue());
+		Iterator<Context> iterator = manager.iterator();
+		while (iterator.hasNext()) {
+			Context c1 = iterator.next();
+			Context c2 = iterator.next();
+			Set<String> sharedWords = c1.getSharedWords(c2);
+			Set<String> uniqueWords = c2.getUniqueWords(c1);
+			for (String word : uniqueWords) {
+				System.out.println(word);
 			}
 		}
+
+// for (Context context : manager) {
+		// Map<String, Integer> words = context.getWords();
+		// for (Map.Entry<String, Integer> pair : words.entrySet()) {
+		// System.out.println(pair.getKey() + " : " + pair.getValue());
+		// }
+		// }
 	}
 }
