@@ -2,7 +2,7 @@ package ca.ubc.ca.ocrreader.tests;
 
 import org.junit.Before;
 
-import ca.ubc.ca.ocrreader.ImageInput;
+import ca.ubc.ca.contextcompare.ImageInput;
 
 public class ImageInputTest {
 

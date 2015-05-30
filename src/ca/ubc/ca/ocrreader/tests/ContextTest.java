@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import ca.ubc.ca.ocrreader.Context;
+import ca.ubc.ca.contextcompare.Context;
 
 public class ContextTest {
 

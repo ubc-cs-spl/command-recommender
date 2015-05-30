@@ -1,4 +1,4 @@
-package ca.ubc.ca.ocrreader;
+package ca.ubc.ca.contextcompare;
 
 import java.io.File;
 import java.util.Iterator;
