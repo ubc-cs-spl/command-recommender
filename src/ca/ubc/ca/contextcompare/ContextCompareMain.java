@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Set;
 
-public class ContextCompareLoader {
+public class ContextCompareMain {
 
 	public static void main(String[] args) {
 		ContextManager manager = new ContextManager();
