@@ -12,6 +12,7 @@ import net.sourceforge.tess4j.TesseractException;
 
 public class ScreenImage {
 
+	public static final Tesseract TESS = new Tesseract();
 	private BufferedImage img;
 
 	public ScreenImage(File imgFile) {
@@ -46,9 +47,8 @@ public class ScreenImage {
 	 */
 	public String doOCR() {
 		String readOut = "";
-		Tesseract tesseract = new Tesseract();
 		try {
-			readOut = tesseract.doOCR(img);
+			readOut = TESS.doOCR(img);
 		} catch (TesseractException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
