@@ -40,5 +40,8 @@
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/jai_imageio.jar"/>
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/jna.jar"/>
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ContextCompare/lib/tess4j.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jna.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/tess4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
