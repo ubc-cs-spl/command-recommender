@@ -1,4 +1,4 @@
-package ca.ubc.ca.contextcompare;
+package ca.ubc.cs.contextcompare;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

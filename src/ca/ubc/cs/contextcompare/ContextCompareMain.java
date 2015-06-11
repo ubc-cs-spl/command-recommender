@@ -1,24 +1,15 @@
-package ca.ubc.ca.contextcompare;
+package ca.ubc.cs.contextcompare;
 
 import java.io.File;
+import java.util.Set;
 
 public class ContextCompareMain {
-
-	private ContextRange allContext;
-
-	public ContextCompareMain() {
-		allContext = new ContextRange();
-	}
-
-	public void addContext(Context c) {
-		allContext.addContext(c);
-	}
 
 	public static void main(String[] args) {
 		// TODO the folder where images are stored should be passed as the
 		// param; currently hard coded for testing purposes
 
-		ContextCompareMain ccm = new ContextCompareMain();
+		ContextRange cr = new ContextRange();
 
 		// get the directory where images are stored
 		File imgDir = new File("/Users/Laura/Desktop/testImageFiles/");
@@ -31,9 +22,22 @@ public class ContextCompareMain {
 			String filename = file.getName();
 			int i = filename.lastIndexOf(".");
 			if (filename.substring(i).equals(".png")) {
-				ccm.addContext(new ContextPoint(file));
+				cr.addContext(new ContextPoint(file));
+				System.out.println("file name: " + filename);
+				System.out.println("last modified: " + file.lastModified());
 			}
-
 		}
+
+		Set<Context> contexts = cr.getContexts();
+		int count = 0;
+		for (Context c : contexts) {
+			System.out.println("Context " + count);
+			count++;
+			Set<String> words = c.getWords();
+			for (String word : words) {
+				System.out.println(word);
+			}
+		}
+
 	}
 }

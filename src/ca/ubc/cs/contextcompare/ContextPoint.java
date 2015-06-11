@@ -1,4 +1,4 @@
-package ca.ubc.ca.contextcompare;
+package ca.ubc.cs.contextcompare;
 
 import java.io.File;
 import java.util.HashMap;
@@ -6,13 +6,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ContextPoint extends Context implements Comparable<ContextPoint> {
+public class ContextPoint implements Context, Comparable<ContextPoint> {
 
-	protected String name;
+	// TODO do you need a name field? For what purpose?
+	private String name;
 	protected long timestamp;
 	private Map<String, Integer> words;
-
 	private ScreenImage imgOCR;
+
+	/*
+	 * Convenience constructor for testing
+	 */
+	public ContextPoint() {
+		name = "testWords";
+		timestamp = 0;
+		words = new HashMap<String, Integer>();
+		imgOCR = null;
+	}
 
 	public ContextPoint(File imgFile) {
 		name = imgFile.getName();
@@ -27,8 +37,7 @@ public class ContextPoint extends Context implements Comparable<ContextPoint> {
 
 	/*
 	 * Given a string, store all words and their frequency in the words field.
-	 * Omits punctuation, white space, and the empty string, but includes
-	 * digits.
+	 * Omits punctuation, white space, and the empty string; includes digits.
 	 */
 	private void parseText(String text) {
 		String word = "";
@@ -48,7 +57,7 @@ public class ContextPoint extends Context implements Comparable<ContextPoint> {
 	}
 
 	/*
-	 * Helper method for parseImgText
+	 * Helper method for parseImgText, adds word and updates frequency
 	 */
 	private void addWord(String word) {
 		int freq;
@@ -75,7 +84,7 @@ public class ContextPoint extends Context implements Comparable<ContextPoint> {
 		return freqWords;
 	}
 
-	// ***Getters***
+	// ***Getters & Setters***
 
 	public Set<String> getWords() {
 		return words.keySet();
@@ -83,6 +92,17 @@ public class ContextPoint extends Context implements Comparable<ContextPoint> {
 
 	public Map<String, Integer> getWordsWithFreq() {
 		return words;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	/*
+	 * Convenience method for testing
+	 */
+	public void setWords(String text) {
+		parseText(text);
 	}
 
 	/*
@@ -98,5 +118,9 @@ public class ContextPoint extends Context implements Comparable<ContextPoint> {
 		} else {
 			return -1;
 		}
+	}
+
+	public boolean isInRange(long timeFrom, long timeTo) {
+		return (timeFrom <= timestamp && timestamp <= timeTo);
 	}
 }

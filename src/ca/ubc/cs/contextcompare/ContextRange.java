@@ -1,4 +1,4 @@
-package ca.ubc.ca.contextcompare;
+package ca.ubc.cs.contextcompare;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,19 +7,20 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class ContextRange extends Context {
+public class ContextRange implements Context {
 
-	private SortedSet<Context> children;
+	// TODO should there be some sort of timestamp recorded here?
+	private SortedSet<Context> contexts;
 
 	public ContextRange() {
-		children = new TreeSet<Context>();
+		contexts = new TreeSet<Context>();
 	}
 
 	/*
 	 * Add new context to this range
 	 */
 	public void addContext(Context c) {
-		children.add(c);
+		contexts.add(c);
 	}
 
 	/*
@@ -28,7 +29,7 @@ public class ContextRange extends Context {
 	 */
 	public Set<String> getWords() {
 		Set<String> allWords = new HashSet<String>();
-		for (Context c : children) {
+		for (Context c : contexts) {
 			allWords.addAll(c.getWords());
 		}
 		return allWords;
@@ -39,7 +40,7 @@ public class ContextRange extends Context {
 	 */
 	public Map<String, Integer> getWordsWithFreq() {
 		Map<String, Integer> wordsWithFreq = new HashMap<String, Integer>();
-		for (Context c : children) {
+		for (Context c : contexts) {
 			Map<String, Integer> words = c.getWordsWithFreq();
 
 			for (Map.Entry<String, Integer> wordFreq : words.entrySet()) {
@@ -62,15 +63,40 @@ public class ContextRange extends Context {
 	 */
 	public Set<String> getFrequentWords(int n) {
 		Set<String> freqWords = new HashSet<String>();
-		for (Context c : children) {
+		for (Context c : contexts) {
 			freqWords.addAll(c.getFrequentWords(n));
 		}
 		return freqWords;
 	}
 
-	public Set<ContextPoint> contextsInRange(long timeFrom, long timeTo) {
-		// TODO complete this method
-		return null;
+	/*
+	 * returns all contexts that fall within the given range (inclusive). This
+	 * method could potentially double up particular contexts if some are stored
+	 * as ContextPoints and others are ContextRanges that cover the same points.
+	 */
+	public Set<Context> getContextsInRange(long timeFrom, long timeTo) {
+		Set<Context> contextsInRange = new TreeSet<Context>();
+		for (Context c : contextsInRange) {
+			if (c.isInRange(timeFrom, timeTo)) {
+				contextsInRange.add(c);
+			}
+		}
+		return contextsInRange;
+	}
+
+	@Override
+	public boolean isInRange(long timeFrom, long timeTo) {
+		boolean inRange = true;
+		for (Context c : contexts) {
+			if (!c.isInRange(timeFrom, timeTo)) {
+				inRange = false;
+			}
+		}
+		return inRange;
+	}
+
+	public Set<Context> getContexts() {
+		return contexts;
 	}
 
 }
