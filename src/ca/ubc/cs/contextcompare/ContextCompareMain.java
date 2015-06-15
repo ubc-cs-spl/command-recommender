@@ -28,7 +28,7 @@ public class ContextCompareMain {
 			}
 		}
 
-		Set<Context> contexts = cr.getContexts();
+		Set<ContextPoint> contexts = cr.getContexts();
 		int count = 0;
 		for (Context c : contexts) {
 			System.out.println("Context " + count);

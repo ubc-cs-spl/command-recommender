@@ -6,34 +6,37 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ContextPoint implements Context, Comparable<ContextPoint> {
+public class ContextPoint implements Context {
 
-	// TODO do you need a name field? For what purpose?
-	private String name;
 	protected long timestamp;
 	private Map<String, Integer> words;
-	private ScreenImage imgOCR;
+	private ScreenImageReader imgOCR;
 
 	/*
 	 * Convenience constructor for testing
 	 */
-	public ContextPoint() {
-		name = "testWords";
-		timestamp = 0;
+	public ContextPoint(long timestamp) {
+		this.timestamp = timestamp;
 		words = new HashMap<String, Integer>();
 		imgOCR = null;
 	}
 
+	/*
+	 * Create context from a screencapture image
+	 */
 	public ContextPoint(File imgFile) {
-		name = imgFile.getName();
 		timestamp = imgFile.lastModified();
 		words = new HashMap<String, Integer>();
 
 		// get text from the image file
-		imgOCR = new ScreenImage(imgFile);
+		imgOCR = new ScreenImageReader(imgFile);
 		String text = imgOCR.doOCR();
 		parseText(text);
 	}
+
+	/*
+	 * Create context from string output from editor contents
+	 */
 
 	/*
 	 * Given a string, store all words and their frequency in the words field.
@@ -84,7 +87,22 @@ public class ContextPoint implements Context, Comparable<ContextPoint> {
 		return freqWords;
 	}
 
+	public boolean isInRange(long timeFrom, long timeTo) {
+		return (timeFrom <= timestamp && timestamp <= timeTo);
+	}
+
+	/*
+	 * Convenience method for testing
+	 */
+	public void setWords(String text) {
+		parseText(text);
+	}
+
 	// ***Getters & Setters***
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 
 	public Set<String> getWords() {
 		return words.keySet();
@@ -98,29 +116,27 @@ public class ContextPoint implements Context, Comparable<ContextPoint> {
 		return timestamp;
 	}
 
-	/*
-	 * Convenience method for testing
-	 */
-	public void setWords(String text) {
-		parseText(text);
-	}
-
-	/*
-	 * compareTo method to implement Comparable. ContextPoints are sorted by
-	 * timestamp.
-	 */
+	// *** hashCode and equals ***
 	@Override
-	public int compareTo(ContextPoint other) {
-		if (timestamp > other.timestamp) {
-			return 1;
-		} else if (timestamp == other.timestamp) {
-			return 0;
-		} else {
-			return -1;
-		}
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (timestamp ^ (timestamp >>> 32));
+		return result;
 	}
 
-	public boolean isInRange(long timeFrom, long timeTo) {
-		return (timeFrom <= timestamp && timestamp <= timeTo);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ContextPoint other = (ContextPoint) obj;
+		if (timestamp != other.timestamp)
+			return false;
+		return true;
 	}
+
 }

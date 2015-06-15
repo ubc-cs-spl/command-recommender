@@ -4,22 +4,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class ContextRange implements Context {
 
 	// TODO should there be some sort of timestamp recorded here?
-	private SortedSet<Context> contexts;
+	private Set<ContextPoint> contexts;
 
 	public ContextRange() {
-		contexts = new TreeSet<Context>();
+		contexts = new HashSet<ContextPoint>();
 	}
 
 	/*
 	 * Add new context to this range
 	 */
-	public void addContext(Context c) {
+	public void addContext(ContextPoint c) {
 		contexts.add(c);
 	}
 
@@ -29,7 +27,7 @@ public class ContextRange implements Context {
 	 */
 	public Set<String> getWords() {
 		Set<String> allWords = new HashSet<String>();
-		for (Context c : contexts) {
+		for (ContextPoint c : contexts) {
 			allWords.addAll(c.getWords());
 		}
 		return allWords;
@@ -40,7 +38,7 @@ public class ContextRange implements Context {
 	 */
 	public Map<String, Integer> getWordsWithFreq() {
 		Map<String, Integer> wordsWithFreq = new HashMap<String, Integer>();
-		for (Context c : contexts) {
+		for (ContextPoint c : contexts) {
 			Map<String, Integer> words = c.getWordsWithFreq();
 
 			for (Map.Entry<String, Integer> wordFreq : words.entrySet()) {
@@ -51,7 +49,7 @@ public class ContextRange implements Context {
 				if (wordsWithFreq.containsKey(word)) {
 					freq = freq + wordsWithFreq.get(word);
 				}
-
+				// add word and frequency to the map to be returned
 				wordsWithFreq.put(word, freq);
 			}
 		}
@@ -63,20 +61,18 @@ public class ContextRange implements Context {
 	 */
 	public Set<String> getFrequentWords(int n) {
 		Set<String> freqWords = new HashSet<String>();
-		for (Context c : contexts) {
+		for (ContextPoint c : contexts) {
 			freqWords.addAll(c.getFrequentWords(n));
 		}
 		return freqWords;
 	}
 
 	/*
-	 * returns all contexts that fall within the given range (inclusive). This
-	 * method could potentially double up particular contexts if some are stored
-	 * as ContextPoints and others are ContextRanges that cover the same points.
+	 * returns all contexts that fall within the given range (inclusive).
 	 */
-	public Set<Context> getContextsInRange(long timeFrom, long timeTo) {
-		Set<Context> contextsInRange = new TreeSet<Context>();
-		for (Context c : contextsInRange) {
+	public Set<ContextPoint> getContextsInRange(long timeFrom, long timeTo) {
+		Set<ContextPoint> contextsInRange = new HashSet<ContextPoint>();
+		for (ContextPoint c : contexts) {
 			if (c.isInRange(timeFrom, timeTo)) {
 				contextsInRange.add(c);
 			}
@@ -84,18 +80,8 @@ public class ContextRange implements Context {
 		return contextsInRange;
 	}
 
-	@Override
-	public boolean isInRange(long timeFrom, long timeTo) {
-		boolean inRange = true;
-		for (Context c : contexts) {
-			if (!c.isInRange(timeFrom, timeTo)) {
-				inRange = false;
-			}
-		}
-		return inRange;
-	}
-
-	public Set<Context> getContexts() {
+	// *** Getters & Setters ***
+	public Set<ContextPoint> getContexts() {
 		return contexts;
 	}
 

@@ -11,6 +11,4 @@ public interface Context {
 
 	public abstract Set<String> getFrequentWords(int n);
 
-	public abstract boolean isInRange(long timeFrom, long timeTo);
-
 }
