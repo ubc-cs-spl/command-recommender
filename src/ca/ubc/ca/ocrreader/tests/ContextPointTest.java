@@ -17,7 +17,7 @@ public class ContextPointTest {
 
 	@Before
 	public void setUp() {
-		cp = new ContextPoint();
+		cp = new ContextPoint(0);
 	}
 
 	@Test
@@ -77,5 +77,14 @@ public class ContextPointTest {
 		cp.setWords("one two two three three three");
 		Set<String> theseWords = cp.getFrequentWords(4);
 		assertTrue(theseWords.size() == 0);
+	}
+
+	@Test
+	public void testIsInRange() {
+		cp.setTimestamp(5000);
+		assertTrue(cp.isInRange(3000, 6000));
+		assertTrue(cp.isInRange(3000, 5000));
+		assertTrue(cp.isInRange(5000, 6000));
+		assertFalse(cp.isInRange(3000, 4000));
 	}
 }

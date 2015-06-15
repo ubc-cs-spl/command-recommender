@@ -40,5 +40,15 @@
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jai_imageio.jar"/>
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jna.jar"/>
 	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/tess4j.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.eclipse.core.resources_3.9.1.v20140825-1431.jar"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar" sourcepath="/Applications/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar">
+		<accessrules>
+			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/boot/*"/>
+			<accessrule kind="discouraged" pattern="org/eclipse/core/internal/runtime/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/core/runtime/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/equinox/events/*"/>
+			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
