@@ -10,8 +10,11 @@ import javax.swing.Timer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
@@ -35,19 +38,24 @@ public class ActiveEditorCapture implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		final IEditorPart activeEditor = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		if (activeEditor.equals(null)) {
-			System.out.println("active editor is null");
-			return;
-		} // needs to handle this
-		final IEditorInput input = activeEditor.getEditorInput();
-		if (!(input instanceof FileEditorInput)) {
-			System.out.println("editor is of wrong type");
-			return;
-		} // need to handle this
-		writeFile(((FileEditorInput) input).getFile());
-
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				IWorkbenchWindow window = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow();
+				IWorkbenchPage page = window.getActivePage();
+				IEditorPart activeEditor = page.getActiveEditor();
+				if (activeEditor == null) {
+					System.out.println("active editor is null");
+					return;
+				} // needs to handle this
+				final IEditorInput input = activeEditor.getEditorInput();
+				if (!(input instanceof FileEditorInput)) {
+					System.out.println("editor is of wrong type");
+					return;
+				} // need to handle this
+				writeFile(((FileEditorInput) input).getFile());
+			}
+		});
 	}
 
 	private void writeFile(IFile file) {

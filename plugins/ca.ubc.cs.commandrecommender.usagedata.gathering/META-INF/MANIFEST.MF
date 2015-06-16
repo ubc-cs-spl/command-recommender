@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.ui;bundle-version="[3.3.0,4.0.0)",
  org.eclipse.swt,
  org.eclipse.ui.forms;bundle-version="3.6.100",
- org.eclipse.ui.ide;bundle-version="3.10.2"
+ org.eclipse.ui.ide;bundle-version="3.10.2",
+ org.eclipse.core.resources;bundle-version="3.9.1"
 Eclipse-LazyStart: true
 Export-Package: ca.ubc.cs.commandrecommender.usagedata.gathering;x-friends:="ca.ubc.cs.commandrecommender.usagedata.gathering,ca.ubc.cs.commandrecommender.usagedata.recording,ca.ubc.cs.commandrecommender.usagedata.ui",
  ca.ubc.cs.commandrecommender.usagedata.gathering.events;x-friends:="ca.ubc.cs.commandrecommender.usagedata.gathering,ca.ubc.cs.commandrecommender.usagedata.ui,ca.ubc.cs.commandrecommender.usagedata.recording,ca.ubc.cs.commandrecommender.usagedata.ui.tests,ca.ubc.cs.commandrecommender.usagedata.recording.tests",

@@ -22,14 +22,15 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.TimedScreenCapture;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.ActiveEditorCapture;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStartup {
+public class UsageDataCaptureActivator extends AbstractUIPlugin implements
+		IStartup {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "ca.ubc.cs.commandrecommender.usagedata.gathering"; //$NON-NLS-1$
@@ -44,52 +45,63 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 	private UsageDataCaptureSettings settings;
 
 	private BundleContext context;
-	
-	private TimedScreenCapture screenCapture;
-	
+
+	private ActiveEditorCapture screenCapture;
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 		this.context = context;
-		
+
 		settings = new UsageDataCaptureSettings();
-		
+
 		final UsageDataService service = new UsageDataService();
-		
-		screenCapture = new TimedScreenCapture(this);
-				
-		getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
 
-			public void propertyChange(PropertyChangeEvent event) {
-				if (UsageDataCaptureSettings.CAPTURE_ENABLED_KEY.equals(event.getProperty())) {
-					if (isTrue(event.getNewValue())) {
-						service.startMonitoring();
-					} else {
-						service.stopMonitoring();
+		screenCapture = new ActiveEditorCapture(this);
+
+		getPreferenceStore().addPropertyChangeListener(
+				new IPropertyChangeListener() {
+
+					public void propertyChange(PropertyChangeEvent event) {
+						if (UsageDataCaptureSettings.CAPTURE_ENABLED_KEY
+								.equals(event.getProperty())) {
+							if (isTrue(event.getNewValue())) {
+								service.startMonitoring();
+							} else {
+								service.stopMonitoring();
+							}
+						}
 					}
-				}
-			}
 
-			private boolean isTrue(Object newValue) {
-				if (newValue instanceof Boolean) return ((Boolean)newValue).booleanValue();
-				if (newValue instanceof String) return Boolean.valueOf((String)newValue);
-				return false;
-			}
-			
-		});
-		
-		// TODO There is basically no value to having this as a service at this point.
-		// In fact, there is potential for some weirdness with this as a service. For
-		// example, if the service is shut down it will just keep running anyway.
-		registration = context.registerService(UsageDataService.class.getName(), service, null);
-		
-		usageDataServiceTracker = new ServiceTracker(context, UsageDataService.class.getName(), null);
+					private boolean isTrue(Object newValue) {
+						if (newValue instanceof Boolean)
+							return ((Boolean) newValue).booleanValue();
+						if (newValue instanceof String)
+							return Boolean.valueOf((String) newValue);
+						return false;
+					}
+
+				});
+
+		// TODO There is basically no value to having this as a service at this
+		// point.
+		// In fact, there is potential for some weirdness with this as a
+		// service. For
+		// example, if the service is shut down it will just keep running
+		// anyway.
+		registration = context.registerService(
+				UsageDataService.class.getName(), service, null);
+
+		usageDataServiceTracker = new ServiceTracker(context,
+				UsageDataService.class.getName(), null);
 		usageDataServiceTracker.open();
-		
+
 		/*
 		 * Create a job that starts the UsageDataService in the UI Thread. This
 		 * should happen well after this method has exited and the bundle is
@@ -109,29 +121,32 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 				}
 				return Status.OK_STATUS;
 			}
-			
+
 		};
 		job.schedule(1000);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop(BundleContext context) throws Exception {		
+	public void stop(BundleContext context) throws Exception {
 		this.context = context;
 		UsageDataService service = getUsageDataCaptureService();
-		if (service != null) service.stopMonitoring();
-		
+		if (service != null)
+			service.stopMonitoring();
+
 		usageDataServiceTracker.close();
 		registration.unregister();
-		
+
 		plugin = null;
 		super.stop(context);
 	}
 
 	private UsageDataService getUsageDataCaptureService() {
-		return (UsageDataService)usageDataServiceTracker.getService();
+		return (UsageDataService) usageDataServiceTracker.getService();
 	}
 
 	/**
@@ -146,7 +161,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements IStar
 	public void earlyStartup() {
 		// Do nothing.
 	}
-	
+
 	/**
 	 * <p>
 	 * This is a convenience method for logging an exception.
