@@ -4,8 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FilenameFilter;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,33 +28,33 @@ public class ContextRangeTest {
 		cp2 = new ContextPoint(1);
 	}
 
-	@Test
-	public void testWordAccuracy() {
-		File[] imgFiles = TEST_IMG_DIR.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".png");
-			}
-		});
-		for (File file : imgFiles) {
-			cr.addContext(new ContextPoint(file));
-		}
-
-		File[] txtFiles = TEST_IMG_DIR.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(".txt");
-			}
-		});
-
-		// TODO extract string(s) from text files
-		Set<String> expectedText = new HashSet<String>();
-
-		Set<String> words = cr.getWords();
-		for (String word : words) {
-			if (expectedText.contains(word)) {
-
-			}
-		}
-	}
+	// @Test
+	// public void testWordAccuracy() {
+	// File[] imgFiles = TEST_IMG_DIR.listFiles(new FilenameFilter() {
+	// public boolean accept(File dir, String name) {
+	// return name.toLowerCase().endsWith(".png");
+	// }
+	// });
+	// for (File file : imgFiles) {
+	// cr.addContext(new ContextPoint(file));
+	// }
+	//
+	// File[] txtFiles = TEST_IMG_DIR.listFiles(new FilenameFilter() {
+	// public boolean accept(File dir, String name) {
+	// return name.toLowerCase().endsWith(".txt");
+	// }
+	// });
+	//
+	// // TODO extract string(s) from text files
+	// Set<String> expectedText = new HashSet<String>();
+	//
+	// Set<String> words = cr.getWords();
+	// for (String word : words) {
+	// if (expectedText.contains(word)) {
+	//
+	// }
+	// }
+	// }
 
 	@Test
 	public void testGetWords() {
@@ -64,7 +62,7 @@ public class ContextRangeTest {
 		cp2.setWords("thou breath of autumn's being");
 		cr.addContext(cp);
 		cr.addContext(cp2);
-		assertTrue(cr.getContexts().size() == 2);
+		assertTrue(cr.getAllContexts().size() == 2);
 
 		Set<String> words = cr.getWords();
 		for (String word : words) {

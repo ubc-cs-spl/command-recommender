@@ -1,6 +1,7 @@
 package ca.ubc.cs.contextcompare;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -10,7 +11,7 @@ public class ContextPoint implements Context {
 
 	protected long timestamp;
 	private Map<String, Integer> words;
-	private ScreenImageReader imgOCR;
+	private ContextFileReader contextReader;
 
 	/*
 	 * Convenience constructor for testing
@@ -18,25 +19,32 @@ public class ContextPoint implements Context {
 	public ContextPoint(long timestamp) {
 		this.timestamp = timestamp;
 		words = new HashMap<String, Integer>();
-		imgOCR = null;
+		contextReader = null;
 	}
 
 	/*
-	 * Create context from a screencapture image
+	 * Create context from a file
 	 */
-	public ContextPoint(File imgFile) {
-		timestamp = imgFile.lastModified();
+	public ContextPoint(File file) {
+		timestamp = file.lastModified();
 		words = new HashMap<String, Integer>();
 
-		// get text from the image file
-		imgOCR = new ScreenImageReader(imgFile);
-		String text = imgOCR.doOCR();
-		parseText(text);
+		String fileName = file.getName();
+		String text = "";
+		try {
+			if (fileName.endsWith(".png")) {
+				contextReader = new ScreenCaptureReader(file);
+			} else if (fileName.endsWith(".txt")) {
+				contextReader = new ActiveEditorReader(file);
+			} else {
+				// TODO what if the file is neither of these formats?
+			}
+			text = contextReader.processContextFile();
+			parseText(text);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
-	/*
-	 * Create context from string output from editor contents
-	 */
 
 	/*
 	 * Given a string, store all words and their frequency in the words field.

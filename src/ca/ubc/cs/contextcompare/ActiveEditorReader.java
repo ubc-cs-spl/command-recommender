@@ -1,38 +1,30 @@
 package ca.ubc.cs.contextcompare;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
+public class ActiveEditorReader extends ContextFileReader {
 
-public class ActiveEditorReader {
+	private File file;
 
-	/*
-	 * from Giovanni
-	 */
-	private String getFileContent(IFile file) {
-		BufferedReader br = null;
-		String line;
+	public ActiveEditorReader(File file) {
+		super(file);
+	}
+
+	@Override
+	public String processContextFile() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(super.file));
 		StringBuilder sb = new StringBuilder();
-		try {
-			InputStream stream = file.getContents();
-			br = new BufferedReader(new InputStreamReader(stream));
-			while ((line = br.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (CoreException | IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)
-					br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		String line = br.readLine();
+		while (line != null) {
+			sb.append(line);
+			// no reason to append newline char as it will be omitted when
+			// the string is parsed by the client
+			line = br.readLine();
 		}
+		br.close();
 		return sb.toString();
 	}
 

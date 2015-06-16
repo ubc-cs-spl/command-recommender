@@ -10,28 +10,26 @@ import javax.imageio.ImageIO;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
-public class ScreenImageReader {
-
+public class ScreenCaptureReader extends ContextFileReader {
 	public static final Tesseract TESS = new Tesseract();
 	private BufferedImage img;
 
-	public ScreenImageReader(File imgFile) {
-		this.img = null;
-		BufferedImage img;
-		try {
-			img = ImageIO.read(imgFile);
-			img = convertToGreyscale(img);
-			this.img = img;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public ScreenCaptureReader(File file) {
+		super(file);
+	}
+
+	@Override
+	public String processContextFile() throws IOException {
+		BufferedImage img = ImageIO.read(super.file);
+		img = convertToGreyscale(img);
+		this.img = img;
+		return doOCR();
 	}
 
 	/*
 	 * Converts given image to grey scale to improve OCR accuracy
 	 */
-	private BufferedImage convertToGreyscale(BufferedImage colourImg) {
+	public BufferedImage convertToGreyscale(BufferedImage colourImg) {
 		int width = colourImg.getWidth();
 		int height = colourImg.getHeight();
 		BufferedImage greyImg = new BufferedImage(width, height,

@@ -81,7 +81,7 @@ public class ContextRange implements Context {
 	}
 
 	// *** Getters & Setters ***
-	public Set<ContextPoint> getContexts() {
+	public Set<ContextPoint> getAllContexts() {
 		return contexts;
 	}
 
