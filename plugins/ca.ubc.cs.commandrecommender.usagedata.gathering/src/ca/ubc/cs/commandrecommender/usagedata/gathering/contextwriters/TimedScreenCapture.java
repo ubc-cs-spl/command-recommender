@@ -1,4 +1,4 @@
-package ca.ubc.cs.commandrecommender.usagedata.gathering.screenshot;
+package ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters;
 
 import java.awt.AWTException;
 import java.awt.event.ActionEvent;
@@ -25,14 +25,14 @@ public class TimedScreenCapture implements ActionListener {
 	private static final String IMG_FORMAT = ".png";
 
 	private Timer timer;
-	private int imgCounter;
+	private int counter;
 	private UsageDataCaptureActivator udca;
 
 	public TimedScreenCapture(UsageDataCaptureActivator udca)
 			throws AWTException {
 		this.timer = new Timer(DELAY, this);
 		timer.start();
-		imgCounter = 0;
+		counter = 0;
 		this.udca = udca;
 	}
 
@@ -66,14 +66,19 @@ public class TimedScreenCapture implements ActionListener {
 					gc.dispose();
 
 					// save the screenshot
-					String fileName = IMG_NAME + imgCounter + IMG_FORMAT;
+					String fileName = IMG_NAME + counter + IMG_FORMAT;
+
 					// Print to console for testing purposes
 					System.out.println(fileName);
-					imgCounter++;
-					String imgFilePath = udca.getSettings().getScreenCapFilePath(fileName);
+
+					counter++;
+					String imgFilePath = udca.getSettings()
+							.getScreenCapFilePath(fileName);
 					ImageLoader imgLoader = new ImageLoader();
-					imgLoader.data = new ImageData[] { screenshot.getImageData() };
+					imgLoader.data = new ImageData[] { screenshot
+							.getImageData() };
 					imgLoader.save(imgFilePath, SWT.IMAGE_PNG);
+
 					// Print to console for testing purposes
 					System.out.println(imgFilePath);
 

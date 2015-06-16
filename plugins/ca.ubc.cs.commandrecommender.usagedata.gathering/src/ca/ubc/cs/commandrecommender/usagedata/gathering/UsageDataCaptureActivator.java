@@ -22,7 +22,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.screenshot.TimedScreenCapture;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.TimedScreenCapture;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
