@@ -65,6 +65,7 @@ public class ActiveEditorCapture implements ActionListener {
 			iStream = file.getContents();
 			String filename = FILENAME + counter + FORMAT;
 			String filePath = udca.getSettings().getScreenCapFilePath(filename);
+			System.out.println(filePath);
 			oStream = new FileOutputStream(filePath);
 
 			int read = 0;
