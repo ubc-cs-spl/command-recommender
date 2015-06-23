@@ -16,8 +16,12 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivato
 
 public class UsageDataCaptureSettings {
 
-	public static final String CAPTURE_ENABLED_KEY = UsageDataCaptureActivator.PLUGIN_ID + ".enabled"; //$NON-NLS-1$
-	public static final String USER_ACCEPTED_TERMS_OF_USE_KEY = UsageDataCaptureActivator.PLUGIN_ID + ".terms_accepted"; //$NON-NLS-1$
+	public static final String CAPTURE_ENABLED_KEY = UsageDataCaptureActivator.PLUGIN_ID
+			+ ".enabled"; //$NON-NLS-1$
+	public static final String USER_ACCEPTED_TERMS_OF_USE_KEY = UsageDataCaptureActivator.PLUGIN_ID
+			+ ".terms_accepted"; //$NON-NLS-1$
+	public static final String SCREENSHOT_ACTIVATED_KEY = UsageDataCaptureActivator.PLUGIN_ID
+			+ ".screencap_enabled"; //$NON-NLS-1$
 
 	public boolean isEnabled() {
 		if (System.getProperties().containsKey(CAPTURE_ENABLED_KEY)) {
@@ -31,17 +35,18 @@ public class UsageDataCaptureSettings {
 
 	public void setEnabled(boolean value) {
 		// The preferences store actually does this for us. However, for
-		// completeness, we're checking the value to potentially avoid 
+		// completeness, we're checking the value to potentially avoid
 		// messing with the service.
-		if (getPreferencesStore().getBoolean(CAPTURE_ENABLED_KEY) == value) return;
-		
+		if (getPreferencesStore().getBoolean(CAPTURE_ENABLED_KEY) == value)
+			return;
+
 		getPreferencesStore().setValue(CAPTURE_ENABLED_KEY, value);
-		
+
 		// The activator should be listening to changes in the preferences store
 		// and will change the state of the service as a result of us setting
 		// the value here.
 	}
-	
+
 	private IPreferenceStore getPreferencesStore() {
 		return UsageDataCaptureActivator.getDefault().getPreferenceStore();
 	}
@@ -53,12 +58,13 @@ public class UsageDataCaptureSettings {
 	public void setUserAcceptedTermsOfUse(boolean value) {
 		getPreferencesStore().setValue(USER_ACCEPTED_TERMS_OF_USE_KEY, value);
 	}
-	
-	public String getScreenCapFilePath(String filename) {
-		return getWorkingDirectory() + "-" +filename;
+
+	public boolean isScreencapEnabled() {
+		return getPreferencesStore().getBoolean(SCREENSHOT_ACTIVATED_KEY);
 	}
 
-	private String getWorkingDirectory() {
-		return UsageDataCaptureActivator.getDefault().getStateLocation().toString();
+	public void setScreencapEnabled(boolean value) {
+		getPreferencesStore().setValue(SCREENSHOT_ACTIVATED_KEY, value);
 	}
+
 }
