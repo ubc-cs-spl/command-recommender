@@ -1,11 +1,5 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters;
 
-import java.awt.AWTException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
@@ -18,26 +12,17 @@ import org.eclipse.ui.PlatformUI;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 
-public class TimedScreenCapture implements ActionListener {
+public class TimedScreenCapture {
 
-	private static final int DELAY = 10000; // ten seconds in milliseconds
-	private static final String IMG_NAME = "screenshot";
+	private static final String FILENAME = "screenshot";
 	private static final String IMG_FORMAT = ".png";
-
-	private Timer timer;
 	private int counter;
-	private UsageDataCaptureActivator udca;
 
-	public TimedScreenCapture(UsageDataCaptureActivator udca)
-			throws AWTException {
-		this.timer = new Timer(DELAY, this);
-		timer.start();
+	public TimedScreenCapture() {
 		counter = 0;
-		this.udca = udca;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void captureScreenContext() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				Display display = PlatformUI.getWorkbench().getDisplay();
@@ -66,14 +51,16 @@ public class TimedScreenCapture implements ActionListener {
 					gc.dispose();
 
 					// save the screenshot
-					String fileName = IMG_NAME + counter + IMG_FORMAT;
+					String fileName = FILENAME + counter + IMG_FORMAT;
 
 					// Print to console for testing purposes
-					System.out.println(fileName);
+					System.out.println(fileName
+							+ " saved by TimedScreenCapture");
 
 					counter++;
-					String imgFilePath = udca.getSettings()
-							.getScreenCapFilePath(fileName);
+					String imgFilePath = UsageDataCaptureActivator.getDefault()
+							.getStateLocation().toString()
+							+ fileName;
 					ImageLoader imgLoader = new ImageLoader();
 					imgLoader.data = new ImageData[] { screenshot
 							.getImageData() };

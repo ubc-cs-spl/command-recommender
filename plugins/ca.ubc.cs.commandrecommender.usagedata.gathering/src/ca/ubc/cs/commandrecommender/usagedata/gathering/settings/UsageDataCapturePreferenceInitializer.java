@@ -15,13 +15,19 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 
-public class UsageDataCapturePreferenceInitializer extends AbstractPreferenceInitializer {
+public class UsageDataCapturePreferenceInitializer extends
+		AbstractPreferenceInitializer {
 
 	@Override
 	public void initializeDefaultPreferences() {
-		IPreferenceStore preferenceStore = UsageDataCaptureActivator.getDefault().getPreferenceStore();
-		preferenceStore.setDefault(UsageDataCaptureSettings.CAPTURE_ENABLED_KEY, true);
-		preferenceStore.setDefault(UsageDataCaptureSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, false);
+		IPreferenceStore preferenceStore = UsageDataCaptureActivator
+				.getDefault().getPreferenceStore();
+		preferenceStore.setDefault(
+				UsageDataCaptureSettings.CAPTURE_ENABLED_KEY, true);
+		preferenceStore.setDefault(
+				UsageDataCaptureSettings.USER_ACCEPTED_TERMS_OF_USE_KEY, false);
+		preferenceStore.setDefault(
+				UsageDataCaptureSettings.SCREENSHOT_ACTIVATED_KEY, false);
 	}
 
 }

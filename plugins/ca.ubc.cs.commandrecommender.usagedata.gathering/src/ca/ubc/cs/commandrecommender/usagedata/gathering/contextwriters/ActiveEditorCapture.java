@@ -1,12 +1,8 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.swing.Timer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -20,24 +16,17 @@ import org.eclipse.ui.part.FileEditorInput;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 
-public class ActiveEditorCapture implements ActionListener {
+public class ActiveEditorCapture {
 
-	private static final int DELAY = 10000; // ten seconds in milliseconds
-	private static final String FILENAME = "editorContents";
 	private static final String FORMAT = ".txt";
+	protected static final String FILENAME = "editorContents";
+	protected int counter;
 
-	private Timer timer;
-	private int counter;
-	private UsageDataCaptureActivator udca;
-
-	public ActiveEditorCapture(UsageDataCaptureActivator udca) {
-		timer = new Timer(DELAY, this);
-		timer.start();
+	public ActiveEditorCapture() {
 		counter = 0;
-		this.udca = udca;
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void captureEditorContext() {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				IWorkbenchWindow window = PlatformUI.getWorkbench()
@@ -62,12 +51,17 @@ public class ActiveEditorCapture implements ActionListener {
 		InputStream iStream = null;
 		FileOutputStream oStream = null;
 		try {
-			iStream = file.getContents();
-			String filename = FILENAME + counter + FORMAT;
-			String filePath = udca.getSettings().getScreenCapFilePath(filename);
+			// create file name
+			String fileName = FILENAME + counter + FORMAT;
+			String filePath = UsageDataCaptureActivator.getDefault()
+					.getStateLocation().toString()
+					+ fileName;
 			System.out.println(filePath);
-			oStream = new FileOutputStream(filePath);
+			counter++;
 
+			// create i/o streams and read the bytes into the new file
+			iStream = file.getContents();
+			oStream = new FileOutputStream(filePath);
 			int read = 0;
 			byte[] bytes = new byte[1024];
 			while ((read = iStream.read(bytes)) != -1) {
@@ -92,4 +86,5 @@ public class ActiveEditorCapture implements ActionListener {
 			}
 		}
 	}
+
 }

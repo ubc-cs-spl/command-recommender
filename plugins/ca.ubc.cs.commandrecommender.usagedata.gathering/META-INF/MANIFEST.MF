@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %Bundle-Name.0
+Bundle-Name: Command Recommender Plugin
 Bundle-SymbolicName: ca.ubc.cs.commandrecommender.usagedata.gathering;singleton:=true
 Bundle-Version: 1.3.1.qualifier
 Bundle-Activator: ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator

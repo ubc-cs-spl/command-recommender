@@ -22,7 +22,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 
-import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.ActiveEditorCapture;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.ContextWriter;
+import ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters.IContextWriter;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.services.UsageDataService;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
@@ -46,7 +47,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 
 	private BundleContext context;
 
-	private ActiveEditorCapture screenCapture;
+	private IContextWriter contextCapture;
 
 	/*
 	 * (non-Javadoc)
@@ -63,7 +64,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 
 		final UsageDataService service = new UsageDataService();
 
-		screenCapture = new ActiveEditorCapture(this);
+		contextCapture = ContextWriter.getInstance();
 
 		getPreferenceStore().addPropertyChangeListener(
 				new IPropertyChangeListener() {
@@ -76,6 +77,12 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 							} else {
 								service.stopMonitoring();
 							}
+						} else if (UsageDataCaptureSettings.SCREENSHOT_ACTIVATED_KEY
+								.equals(event.getProperty())) {
+							System.out
+									.println("PropertyChangeListener received change event");
+							boolean newVal = isTrue(event.getNewValue());
+							contextCapture.switchCaptureMode(newVal);
 						}
 					}
 
@@ -86,14 +93,12 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 							return Boolean.valueOf((String) newValue);
 						return false;
 					}
-
 				});
 
 		// TODO There is basically no value to having this as a service at this
-		// point.
-		// In fact, there is potential for some weirdness with this as a
-		// service. For
-		// example, if the service is shut down it will just keep running
+		// point. In fact, there is potential for some weirdness with this as a
+		// service. For example, if the service is shut down it will just keep
+		// running
 		// anyway.
 		registration = context.registerService(
 				UsageDataService.class.getName(), service, null);
