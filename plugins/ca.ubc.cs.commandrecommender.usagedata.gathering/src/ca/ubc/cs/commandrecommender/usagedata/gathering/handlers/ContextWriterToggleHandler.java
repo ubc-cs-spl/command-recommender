@@ -17,7 +17,6 @@ public class ContextWriterToggleHandler extends AbstractHandler {
 		UsageDataCaptureSettings settings = UsageDataCaptureActivator
 				.getDefault().getSettings();
 		settings.setScreencapEnabled(!settings.isScreencapEnabled());
-		System.out.println("Settings have been updated");
 		return null;
 	}
 }

@@ -34,7 +34,6 @@ public class ContextWriter implements ActionListener, IContextWriter {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Timed event triggered");
 		if (captureToggle) {
 			tsc.captureScreenContext();
 		} else {

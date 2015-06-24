@@ -79,8 +79,6 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 							}
 						} else if (UsageDataCaptureSettings.SCREENSHOT_ACTIVATED_KEY
 								.equals(event.getProperty())) {
-							System.out
-									.println("PropertyChangeListener received change event");
 							boolean newVal = isTrue(event.getNewValue());
 							contextCapture.switchCaptureMode(newVal);
 						}

@@ -50,10 +50,11 @@
          	locationURI="toolbar:org.eclipse.ui.main.toolbar">
          	<toolbar
          		id="ca.ubc.cs.commandrecommender.usagedata.gathering.toolbar"
-         		icon="icons/sample.gif">
+         		>
          		<command
          			commandId="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
-         			id="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggletoolbar">
+         			id="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggletoolbar"
+         			icon="icons/sample.gif">
          		</command>
          	</toolbar>
          </menuContribution>
