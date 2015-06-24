@@ -11,7 +11,7 @@ public class ContextWriter implements ActionListener, IContextWriter {
 	protected Timer timer;
 
 	private ActiveEditorCapture aec = new ActiveEditorCapture();
-	private static final TimedScreenCapture tsc = new TimedScreenCapture();
+	private static final ScreenCapture tsc = new ScreenCapture();
 	private boolean captureToggle;
 
 	private static ContextWriter instance;
