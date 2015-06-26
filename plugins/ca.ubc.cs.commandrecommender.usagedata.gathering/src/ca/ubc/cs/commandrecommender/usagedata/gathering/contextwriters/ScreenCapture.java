@@ -40,7 +40,8 @@ public class ScreenCapture {
 				} else {
 					// if shell's parent is null, that means it is the main
 					// workbench window; use this to get the bounds for the
-					// screenshot. If shell's parent is not null, recurse until
+					// screensbuthot. If shell's parent is not null, recurse
+					// until
 					// the main workbench window is found
 					if (shell.getParent() == null) {
 						// create the file name for the new screencap
