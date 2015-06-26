@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar">
 		<accessrules>
 			<accessrule kind="accessible" pattern="junit/extensions/*"/>
@@ -35,11 +36,7 @@
 			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Applications/eclipse/plugins/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jai_imageio.jar"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jna.jar"/>
-	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/tess4j.jar"/>
 	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.eclipse.core.resources_3.9.1.v20140825-1431.jar"/>
 	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar" sourcepath="/Applications/eclipse/plugins/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar">
 		<accessrules>
@@ -50,5 +47,8 @@
 			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/command-recommender/plugins/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/command-recommender/plugins/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/jna.jar"/>
+	<classpathentry kind="lib" path="/Users/Laura/CS and Programming/UAA/UAA Eclipse Workspace/command-recommender/plugins/ca.ubc.cs.commandrecommender.usagedata.contextcompare/lib/tess4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

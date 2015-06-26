@@ -15,6 +15,7 @@ public abstract class ContextFileReader {
 		}
 	}
 
+	// get the string representing the context available
 	public abstract String processContextFile() throws IOException;
 
 }

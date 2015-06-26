@@ -146,5 +146,4 @@ public class ContextPoint implements Context {
 			return false;
 		return true;
 	}
-
 }

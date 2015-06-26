@@ -5,30 +5,31 @@ import java.util.Set;
 
 public class ContextCompareMain {
 
+	/*
+	 * @param args is the full path name where the context files to be processed
+	 * are stored
+	 */
 	public static void main(String[] args) {
-		// TODO the folder where images are stored should be passed as the
-		// param; currently hard coded for testing purposes
+		// create File object of the directory where images are stored
+		System.out.println(args[0]);
+		File contextDir = new File(args[0]);
 
-		ContextRange cr = new ContextRange();
+		// where all contexts will be stored
+		ContextRange allContexts = new ContextRange();
 
-		// get the directory where images are stored
-		File contextDir = new File("/Users/Laura/Desktop/testContextFiles/");
-
-		System.out.println(contextDir.getName());
-
-		// iterate over all files in dir and pass to ContextManager
+		// iterate over all files in dir; process those that are screenshots or
+		// text dump from editor.
 		File[] files = contextDir.listFiles();
 		for (File file : files) {
 			String filename = file.getName();
 			if (filename.endsWith(".png") || filename.endsWith(".txt")) {
-				cr.addContext(new ContextPoint(file));
-				// print to console for testing purposes
-				System.out.println("file name: " + filename);
-				System.out.println("last modified: " + file.lastModified());
+				allContexts.addContext(new ContextPoint(file));
+				// TODO print to console for testing purposes
 			}
 		}
 
-		Set<ContextPoint> contexts = cr.getAllContexts();
+		// TODO this is here just for testing
+		Set<ContextPoint> contexts = allContexts.getAllContexts();
 		int count = 0;
 		for (Context c : contexts) {
 			System.out.println("Context " + count);

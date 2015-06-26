@@ -87,4 +87,5 @@ public class ContextPointTest {
 		assertTrue(cp.isInRange(5000, 6000));
 		assertFalse(cp.isInRange(3000, 4000));
 	}
+
 }
