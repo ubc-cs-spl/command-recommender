@@ -31,7 +31,7 @@ public class ContextCompareMain {
 		// TODO this is here just for testing
 		Set<ContextPoint> contexts = allContexts.getAllContexts();
 		int count = 0;
-		for (Context c : contexts) {
+		for (IContext c : contexts) {
 			System.out.println("Context " + count);
 			count++;
 			Set<String> words = c.getWords();

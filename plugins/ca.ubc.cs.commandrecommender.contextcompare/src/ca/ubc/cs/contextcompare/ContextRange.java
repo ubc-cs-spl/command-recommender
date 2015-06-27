@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ContextRange implements Context {
+public class ContextRange implements IContext {
 
 	// TODO should there be some sort of timestamp recorded here?
 	private Set<ContextPoint> contexts;

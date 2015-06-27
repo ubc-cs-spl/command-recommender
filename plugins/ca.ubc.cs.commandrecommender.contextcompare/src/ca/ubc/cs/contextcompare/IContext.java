@@ -3,7 +3,7 @@ package ca.ubc.cs.contextcompare;
 import java.util.Map;
 import java.util.Set;
 
-public interface Context {
+public interface IContext {
 
 	public abstract Set<String> getWords();
 

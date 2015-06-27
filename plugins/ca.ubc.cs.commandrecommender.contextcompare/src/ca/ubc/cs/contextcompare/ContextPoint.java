@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class ContextPoint implements Context {
+public class ContextPoint implements IContext {
 
 	protected long timestamp;
 	private Map<String, Integer> words;
