@@ -106,7 +106,7 @@ public class ContextPoint implements IContext {
 		parseText(text);
 	}
 
-	// ***Getters & Setters***
+	// *****Getters & Setters*****
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
@@ -124,7 +124,7 @@ public class ContextPoint implements IContext {
 		return timestamp;
 	}
 
-	// *** hashCode and equals ***
+	// ***** hashCode and equals *****
 	@Override
 	public int hashCode() {
 		final int prime = 31;

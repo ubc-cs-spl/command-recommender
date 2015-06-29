@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class ContextRange implements IContext {
 
-	// TODO should there be some sort of timestamp recorded here?
+	// TODO should there be some sort of timestamp recorded here? e.g. from/to
 	private Set<ContextPoint> contexts;
 
 	public ContextRange() {
@@ -65,19 +65,6 @@ public class ContextRange implements IContext {
 			freqWords.addAll(c.getFrequentWords(n));
 		}
 		return freqWords;
-	}
-
-	/*
-	 * returns all contexts that fall within the given range (inclusive).
-	 */
-	public Set<ContextPoint> getContextsInRange(long timeFrom, long timeTo) {
-		Set<ContextPoint> contextsInRange = new HashSet<ContextPoint>();
-		for (ContextPoint c : contexts) {
-			if (c.isInRange(timeFrom, timeTo)) {
-				contextsInRange.add(c);
-			}
-		}
-		return contextsInRange;
 	}
 
 	// *** Getters & Setters ***

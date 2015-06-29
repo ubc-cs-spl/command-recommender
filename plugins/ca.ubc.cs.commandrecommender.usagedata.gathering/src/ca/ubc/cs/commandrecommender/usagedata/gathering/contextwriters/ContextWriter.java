@@ -10,7 +10,7 @@ public class ContextWriter implements ActionListener, IContextWriter {
 	protected static final int DELAY = 10000; // ten seconds in milliseconds
 	protected Timer timer;
 
-	private ActiveEditorCapture aec = new ActiveEditorCapture();
+	private static final ActiveEditorCapture aec = new ActiveEditorCapture();
 	private static final ScreenCapture tsc = new ScreenCapture();
 	private boolean captureToggle;
 

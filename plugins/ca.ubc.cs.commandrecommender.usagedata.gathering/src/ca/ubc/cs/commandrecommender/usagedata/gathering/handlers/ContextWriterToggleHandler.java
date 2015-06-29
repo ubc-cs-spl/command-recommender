@@ -9,13 +9,15 @@ import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptur
 
 public class ContextWriterToggleHandler extends AbstractHandler {
 
-	public ContextWriterToggleHandler() {}
+	public ContextWriterToggleHandler() {
+	}
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		System.out.println("the context writer toggle was pressed");
 		UsageDataCaptureSettings settings = UsageDataCaptureActivator
 				.getDefault().getSettings();
+		// reverse boolean for this setting
 		settings.setScreencapEnabled(!settings.isScreencapEnabled());
 		return null;
 	}
