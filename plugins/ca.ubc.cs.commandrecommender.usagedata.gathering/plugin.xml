@@ -38,40 +38,32 @@
             class="ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCapturePreferenceInitializer">
       </initializer>
    </extension>
-   <extension
-         point="org.eclipse.ui.commands"
-         id="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
-         name="Context Writer Toggle"
-         defaultHandler="ca.ubc.cs.commandrecommender.usagedata.gathering.handlers.ContextWriterToggleHandler">
+<extension
+	point="org.eclipse.ui.commands">
+   		<command
+   				defaultHandler="ca.ubc.cs.commandrecommender.usagedata.gathering.handlers.ContextWriterToggleHandler"
+   				id="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
+         		name="Context Capture Mode">
+		   		<state
+		   				class="org.eclipse.ui.handlers.RegistryToggleState:false"
+		   				id="org.eclipse.ui.commands.toggleState">
+		  		</state>
+		   </command>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
          <menuContribution
          	locationURI="toolbar:org.eclipse.ui.main.toolbar">
          	<toolbar
-         		id="ca.ubc.cs.commandrecommender.usagedata.gathering.toolbar"
-         		>
+         		id="ca.ubc.cs.commandrecommender.usagedata.gathering.toolbar">
          		<command
          			commandId="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
          			id="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggletoolbar"
-         			icon="icons/sample.gif">
+         			icon="icons/screencap_on.png"
+         			style="toggle">
          		</command>
          	</toolbar>
          </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.ui.handlers">
-         <handler
-         class="ca.ubc.cs.commandrecommender.usagedata.gathering.handlers.ContextWriterToggleHandler"
-         commandId="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle">
-         </handler>
-   </extension>
-   <extension
-         point="org.eclipse.ui.commandImages">
-         <image
-         commandId="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
-         icon="icons/screencap_off.png">
-         </image>
    </extension>
   
 
