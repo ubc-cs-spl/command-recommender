@@ -1,6 +1,7 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -13,10 +14,8 @@ public class ScreenCapture {
 
 	private static final String FILENAME = "screenshot";
 	private static final String IMG_FORMAT = ".png";
-	private int counter;
 
 	public ScreenCapture() {
-		counter = 0;
 	}
 
 	public void captureScreenContext() {
@@ -40,14 +39,14 @@ public class ScreenCapture {
 				} else {
 					// if shell's parent is null, that means it is the main
 					// workbench window; use this to get the bounds for the
-					// screensbuthot. If shell's parent is not null, recurse
+					// screenshot. If shell's parent is not null, recurse
 					// until
 					// the main workbench window is found
 					if (shell.getParent() == null) {
 						// create the file name for the new screencap
-						String fileName = FILENAME + counter + IMG_FORMAT;
-						counter++; // increment counter so that file names are
-									// unique
+						Date date = new Date();
+						String fileName = FILENAME + date.toString()
+								+ IMG_FORMAT;
 						// TODO printing file name to console for testing only,
 						// to be deleted
 						System.out.println(fileName);

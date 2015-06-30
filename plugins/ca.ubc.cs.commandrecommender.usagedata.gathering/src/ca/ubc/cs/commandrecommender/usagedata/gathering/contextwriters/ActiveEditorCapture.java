@@ -3,6 +3,7 @@ package ca.ubc.cs.commandrecommender.usagedata.gathering.contextwriters;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -20,10 +21,8 @@ public class ActiveEditorCapture {
 
 	private static final String FORMAT = ".txt";
 	protected static final String FILENAME = "editorContents";
-	protected int counter;
 
 	public ActiveEditorCapture() {
-		counter = 0;
 	}
 
 	public void captureEditorContext() {
@@ -52,12 +51,12 @@ public class ActiveEditorCapture {
 		FileOutputStream oStream = null;
 		try {
 			// create file name
-			String fileName = FILENAME + counter + FORMAT;
+			Date date = new Date();
+			String fileName = FILENAME + date.toString() + FORMAT;
 			String filePath = UsageDataCaptureActivator.getDefault()
 					.getStateLocation().toString()
 					+ fileName;
 			System.out.println(filePath);
-			counter++;
 
 			// create i/o streams and read the bytes into the new file
 			iStream = file.getContents();
