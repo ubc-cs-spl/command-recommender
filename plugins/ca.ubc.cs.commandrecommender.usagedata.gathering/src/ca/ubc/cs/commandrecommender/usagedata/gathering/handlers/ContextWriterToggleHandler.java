@@ -1,13 +1,18 @@
 package ca.ubc.cs.commandrecommender.usagedata.gathering.handlers;
 
+import java.util.Map;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.ui.commands.IElementUpdater;
+import org.eclipse.ui.menus.UIElement;
 
 import ca.ubc.cs.commandrecommender.usagedata.gathering.UsageDataCaptureActivator;
 import ca.ubc.cs.commandrecommender.usagedata.gathering.settings.UsageDataCaptureSettings;
 
-public class ContextWriterToggleHandler extends AbstractHandler {
+public class ContextWriterToggleHandler extends AbstractHandler implements
+		IElementUpdater {
 
 	public ContextWriterToggleHandler() {
 	}
@@ -20,5 +25,10 @@ public class ContextWriterToggleHandler extends AbstractHandler {
 		// reverse boolean for this setting
 		settings.setScreencapEnabled(!settings.isScreencapEnabled());
 		return null;
+	}
+
+	@Override
+	public void updateElement(UIElement element, Map parameters) {
+		// TODO auto-generated method implementation
 	}
 }

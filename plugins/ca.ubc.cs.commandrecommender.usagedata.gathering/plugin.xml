@@ -70,7 +70,7 @@
          point="org.eclipse.ui.commandImages">
          <image
          commandId="ca.ubc.cs.commandrecommender.usagedata.gathering.contexttoggle"
-         icon="icons/sample.gif">
+         icon="icons/screencap_off.png">
          </image>
    </extension>
   

@@ -47,7 +47,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 
 	private BundleContext context;
 
-	private IContextWriter contextCapture;
+	private IContextWriter contextWriter;
 
 	/*
 	 * (non-Javadoc)
@@ -64,7 +64,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 
 		final UsageDataService service = new UsageDataService();
 
-		contextCapture = ContextWriter.getInstance();
+		contextWriter = ContextWriter.getInstance();
 
 		getPreferenceStore().addPropertyChangeListener(
 				new IPropertyChangeListener() {
@@ -80,7 +80,7 @@ public class UsageDataCaptureActivator extends AbstractUIPlugin implements
 						} else if (UsageDataCaptureSettings.SCREENSHOT_ACTIVATED_KEY
 								.equals(event.getProperty())) {
 							boolean newVal = isTrue(event.getNewValue());
-							contextCapture.switchCaptureMode(newVal);
+							contextWriter.switchCaptureMode(newVal);
 						}
 					}
 
