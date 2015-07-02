@@ -67,9 +67,26 @@ public class ContextRange implements IContext {
 		return freqWords;
 	}
 
+	/*
+	 * Return true if this contains the given context point
+	 */
+	public boolean hasContext(ContextPoint cp) {
+		return contexts.contains(cp);
+	}
+
 	// *** Getters & Setters ***
 	public Set<ContextPoint> getAllContexts() {
 		return contexts;
+	}
+
+	public ContextRange getContextsInRange(int from, int to) {
+		ContextRange contextsInRange = new ContextRange();
+		for (ContextPoint cp : contexts) {
+			if (cp.isInRange(from, to)) {
+				contextsInRange.addContext(cp);
+			}
+		}
+		return contextsInRange;
 	}
 
 }

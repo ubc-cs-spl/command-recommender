@@ -1,4 +1,4 @@
-package ca.ubc.ca.ocrreader.tests;
+package ca.ubc.cs.contextcompare.tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

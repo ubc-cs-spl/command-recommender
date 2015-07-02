@@ -1,4 +1,4 @@
-package ca.ubc.ca.ocrreader.tests;
+package ca.ubc.cs.contextcompare.tests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

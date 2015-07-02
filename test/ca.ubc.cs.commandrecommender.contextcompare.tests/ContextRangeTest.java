@@ -1,4 +1,4 @@
-package ca.ubc.ca.ocrreader.tests;
+package ca.ubc.cs.contextcompare.tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -110,9 +110,9 @@ public class ContextRangeTest {
 		cr.addContext(cp2);
 		cr.addContext(cp3);
 
-		Set<ContextPoint> contextsInRange = cr.getContextsInRange(0, 5000);
-		assertTrue(contextsInRange.contains(cp));
-		assertTrue(contextsInRange.contains(cp2));
-		assertFalse(contextsInRange.contains(cp3));
+		ContextRange contextsInRange = cr.getContextsInRange(0, 5000);
+		assertTrue(contextsInRange.hasContext(cp));
+		assertTrue(contextsInRange.hasContext(cp2));
+		assertFalse(contextsInRange.hasContext(cp3));
 	}
 }
